@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration
             $table->date('tgl_langganan_akhir')->nullable();
             $table->string('uuid')->nullable();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+            //$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             $table->index(['web_token','uuid']);
         });
     }
