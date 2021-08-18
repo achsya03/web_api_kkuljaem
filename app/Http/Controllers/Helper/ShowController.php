@@ -44,7 +44,7 @@ class ShowController extends Controller
         }
 
         $wor = [];
-        for($i = 0;$i < count($videos); $i++){
+        for($i = 0;$i < count($words); $i++){
             $wor[$i] = [
                 'hangeul' => $words[$i]->hangeul,
                 'pelafalan' => $words[$i]->pelafalan,
