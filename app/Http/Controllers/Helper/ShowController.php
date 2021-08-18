@@ -150,10 +150,10 @@ class ShowController extends Controller
 
     public function classroom(Request $request){
         $result = [];
-        if(!$uuidUser = $request->header('user_uuid')){
+        if(!$uuidUser = $request->header('user-uuid')){
             return response()->json([
                 'message' => 'Failed',
-                'error' => 'Token tidak sesuai'.$uuidUser
+                'error' => 'Token tidak sesuai'
             ]);
         }
         
