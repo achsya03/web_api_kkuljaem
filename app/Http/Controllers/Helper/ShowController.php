@@ -153,14 +153,14 @@ class ShowController extends Controller
         if(!$uuidUser = $request->header('user_uuid')){
             return response()->json([
                 'message' => 'Failed',
-                'error' => 'Token tidak sesuai'
+                'error' => 'Token tidak sesuai'.$uuidUser
             ]);
         }
         
         $usr = Models\User::where('uuid',$uuidUser)->first();
-        // $date = date_format(date_create($usr->tgl_langganan_akhir),"Y/m/d");
+        $date = date_format(date_create($usr->tgl_langganan_akhir),"Y/m/d");
        
-        // $result['stat_pengguna'] = $this->userCheck($uuidUser,$date);
+        $result['stat_pengguna'] = $this->userCheck($uuidUser,$date);
 
         $category = Models\ClassesCategory::all();
         $arr0 = [];
@@ -196,7 +196,7 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
-            'data'    => $uuidUser
+            'data'    => $result
         ]);
     }
 
