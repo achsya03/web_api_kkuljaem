@@ -153,7 +153,7 @@ class ShowController extends Controller
         if(!$uuidUser = $request->header('user-uuid')){
             return response()->json([
                 'message' => 'Failed',
-                'error' => 'Token tidak sesuai'
+                'error' => 'UUID tidak sesuai'
             ]);
         }
         
@@ -189,10 +189,10 @@ class ShowController extends Controller
             $arr['category'] = $category[$i]->nama;
             $arr['category_uuid'] = $category[$i]->uuid;
             $arr['classroom'] = $classes;
-            $arr0[$i] = $arr;
+            $result[$i] = $arr;
         }
-        $result['class_list'] = $arr0;
-        $result['class_terdaftar'] = $this->classroomRegistered($uuidUser);
+        #$result['class_list'] = $arr0;
+        #$result['class_terdaftar'] = $this->classroomRegistered($uuidUser);
 
         return response()->json([
             'message' => 'Success',
@@ -260,7 +260,12 @@ class ShowController extends Controller
                 'error' => 'Token tidak sesuai'
             ]);
         }
-        $uuidUser = $request->header('user_uuid');
+        if(!$uuidUser = $request->header('user-uuid')){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'UUID tidak sesuai'
+            ]);
+        }
         $usr = Models\User::where('uuid',$uuidUser)->first();
         $date = date_format(date_create($usr->tgl_langganan_akhir),"Y/m/d");
        
@@ -396,10 +401,15 @@ class ShowController extends Controller
         ]);
     }
 
-    public function classroomRegistered($token){
+    public function classroomRegistered(Request $request){
         $result = [];
-        $uuid = $token;
-        $uuidUser = $uuid;
+        if(!$uuidUser = $request->header('user-uuid')){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'UUID tidak sesuai'
+            ]);
+        }
+        #$uuidUser = $uuid;
 
         $user = Models\User::where('uuid',$uuid)->get();
         
