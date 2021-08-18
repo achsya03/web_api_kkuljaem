@@ -150,7 +150,13 @@ class ShowController extends Controller
 
     public function classroom(Request $request){
         $result = [];
-        $uuidUser = $request->header('user_uuid');
+        if(!$uuidUser = $request->header('user_uuid')){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+        
         $usr = Models\User::where('uuid',$uuidUser)->first();
         // $date = date_format(date_create($usr->tgl_langganan_akhir),"Y/m/d");
        
@@ -196,7 +202,13 @@ class ShowController extends Controller
 
     public function classroomByCategory(Request $request){
         $result = [];
-        $uuid = $request->token;
+        if(!$uuid = $request->token){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+        
         $category = Models\ClassesCategory::where('uuid',$uuid)->get();
         if(count($category)==0){
             return response()->json([
@@ -242,7 +254,12 @@ class ShowController extends Controller
     //Masih Plain belum ada validasi member
     public function classroomDetail(Request $request){
         $result = [];
-        $uuid = $request->token;
+        if(!$uuid = $request->token){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
         $uuidUser = $request->header('user_uuid');
         $usr = Models\User::where('uuid',$uuidUser)->first();
         $date = date_format(date_create($usr->tgl_langganan_akhir),"Y/m/d");
