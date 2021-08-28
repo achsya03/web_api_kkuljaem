@@ -33,7 +33,7 @@ class MailController extends Controller
             try{
                 $kirim_email=Mail::to($info_pengguna['email'])
                 ->send(new SendMail($judul,$info_pengguna,$stat));
-            }catch (Exception $e) {
+            }catch(\Exception $e) {
                 return response()->json(['message' => 'Send Again'],400);
             }
             if(empty($kirim_email)){
