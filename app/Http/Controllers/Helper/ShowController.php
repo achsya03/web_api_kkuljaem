@@ -120,6 +120,7 @@ class ShowController extends Controller
         ->where('jenis','forum')
         ->where('judul','like','%'.$key.'%')
         ->get();
+        return $post;
 
         $qna = Models\Post::where('stat_post',0)
         ->where('jenis','qna')
