@@ -18,8 +18,6 @@ class CreateDetailMentor extends Migration
             $table->BigInteger('id_users')->unsigned()->nullable();
             $table->text('bio')->nullable();
             $table->date('awal_mengajar')->nullable();
-            $table->string('url_foto')->nullable();
-            $table->string('foto_id')->nullable();
             $table->string('uuid');
             $table->index(['uuid']);
             $table->foreign('id_users')->references('id')->on('users')->onDelete('cascade');
