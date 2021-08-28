@@ -31,7 +31,7 @@ class ShowController extends Controller
                 'judul_banner' => $banner[$i]->judul_banner,
                 'url_web' => $banner[$i]->url_web,
                 'url_mobile' => $banner[$i]->url_mobile,
-                'uuid_banner' => $banner[$i]->uuid
+                'banner_uuid' => $banner[$i]->uuid
             ];
         }
 
@@ -39,7 +39,7 @@ class ShowController extends Controller
         for($i = 0;$i < count($videos); $i++){
             $vid[$i] = [
                 'url_video' => $videos[$i]->url_video,
-                'uuid_video' => $videos[$i]->uuid
+                'video_uuid' => $videos[$i]->uuid
             ];
         }
 
@@ -48,7 +48,7 @@ class ShowController extends Controller
             $wor[$i] = [
                 'hangeul' => $words[$i]->hangeul,
                 'pelafalan' => $words[$i]->pelafalan,
-                'uuid_kata' => $words[$i]->uuid
+                'kata_uuid' => $words[$i]->uuid
             ];
         }
 
@@ -61,7 +61,7 @@ class ShowController extends Controller
                 'url_web' => $class[$i]->url_web,
                 'url_mobile' => $class[$i]->url_mobile,
                 'jml_materi' => $class[$i]->jml_materi,
-                'uuid_kelas' => $class[$i]->uuid
+                'kelas_uuid' => $class[$i]->uuid
             ];
         }
 
@@ -69,7 +69,7 @@ class ShowController extends Controller
         for($i = 0;$i < count($theme); $i++){
             $th[$i] = [
                 'topik' => $theme[$i]->judul,
-                'uuid_topik' => $theme[$i]->uuid
+                'topik_uuid' => $theme[$i]->uuid
             ];
         }
 
@@ -304,7 +304,7 @@ class ShowController extends Controller
                     'type' => $content[$i]->type,
                     'jml_latihan' => $content_video[0]->jml_pertanyaan,
                     'jml_shadowing' => $content_video[0]->jml_shadowing,
-                    'content_uuid' => $content_video[0]->uuid
+                    'content_video_uuid' => $content_video[0]->uuid
                 ];
             }elseif($content[$i]->type == 'quiz'){
                 $count_quiz += 1;
@@ -314,7 +314,7 @@ class ShowController extends Controller
                     'judul' => $content_quiz[0]->judul,
                     'type' => $content[$i]->type,
                     'jml_soal' => $content_quiz[0]->jml_pertanyaan,
-                    'content_uuid' => $content_quiz[0]->uuid
+                    'content_quiz_uuid' => $content_quiz[0]->uuid
                 ];
             }
             $cont[$i] = $arr1;
@@ -409,7 +409,7 @@ class ShowController extends Controller
                 'error' => 'UUID tidak sesuai'
             ]);
         }
-        #$uuidUser = $uuid;
+        $uuid = $uuidUser;
 
         $user = Models\User::where('uuid',$uuid)->get();
         
@@ -435,6 +435,7 @@ class ShowController extends Controller
                 'class_url-mobile' => $class->url_mobile,
                 'mentor_nama' => $usr->nama,
                 'class_jml_materi' => $class->jml_materi,
+                'class_tersedia' => $class->status_tersedia,
                 'class_prosentase' => ($classes[$i]->jml_pengerjaan / $class->jml_materi) * 100,
                 'class_uuid' => $class->uuid
             ];
@@ -463,11 +464,14 @@ class ShowController extends Controller
         }
         $result['class_tidak_terdaftar'] = $arr;
 
-        return  $result;
+        return response()->json([
+            'message' => 'Success',
+            'data'    => $result
+        ]);
     }
     #=========================Classroom===========================
 
-    #=========================Video===========================
+    #=========================Classroom-Content===========================
     public function classroomVideoDetail(Request $request){
         #video token
         if(!$uuid = $request->token){
@@ -476,18 +480,675 @@ class ShowController extends Controller
                 'error' => 'Token tidak sesuai'
             ]);
         }
+
+        if(count($video = Models\Video::where('uuid',$uuid)->get())==0){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
         $result = [];
 
-        $class = Models\Classes::where('uuid',$uuid)->first();
+        $arr = [
+            'judul' => $video[0]->judul,
+            'keterangan' => $video[0]->keterangan,
+            'url_video' => $video[0]->url_video,
+            'video_uuid' => $video[0]->uuid,
+        ];
+
+        $content = Models\Content::where('id_class',$video[0]->content->id_class)->get();
+        #return $content;
+        $cont = [];
+        for($i = 0;$i < count($content);$i++){
+            $arr1 = [];
+            if($content[$i]->type == 'video'){
+                $content_video = Models\Video::where('id_content',$content[$i]->id)->get();
+                $arr1 = [
+                    'urutan' => $content[$i]->number,
+                    'judul' => $content_video[0]->judul,
+                    'type' => $content[$i]->type,
+                    'jml_latihan' => $content_video[0]->jml_pertanyaan,
+                    'jml_shadowing' => $content_video[0]->jml_shadowing,
+                    'content_video_uuid' => $content_video[0]->uuid
+                ];
+            }elseif($content[$i]->type == 'quiz'){
+                $content_quiz = Models\Quiz::where('id_content',$content[$i]->id)->get();
+                $arr1 = [
+                    'urutan' => $content[$i]->number,
+                    'judul' => $content_quiz[0]->judul,
+                    'type' => $content[$i]->type,
+                    'jml_soal' => $content_quiz[0]->jml_pertanyaan,
+                    'content_quiz_uuid' => $content_quiz[0]->uuid
+                ];
+            }
+            $cont[$i] = $arr1;
+        }
+
+        $arr['content'] = $cont;
+        $result = $arr;
 
         return response()->json([
             'message' => 'Success',
             'data'    => $result
         ]);
     }
-    #=========================Video===========================
 
-    #=========================Classroom===========================
+    public function classroomQuizDetail(Request $request){
+        #video token
+        if(!$uuid = $request->token){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+
+        if(count($quiz = Models\Quiz::where('uuid',$uuid)->get())==0){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+        $result = [];
+        //return $quiz[0]->id;
+        $exam = Models\Exam::where('id_quiz',$quiz[0]->id)
+        ->orderBy('number','ASC')->get();
+
+        
+        $arr = [];
+        for($i = 0;$i < count($exam);$i++){
+            $arr1 = [];
+            $question = Models\Question::where('id',$exam[$i]->id_question)
+                ->get();
+            $option = Models\Option::where('id_question',$question[0]->id)
+                ->get();
+
+            if($question[0]->pertanyaan_teks != null){$arr1['pertanyaan_teks'] = $question[0]->pertanyaan_teks;}
+            if($question[0]->url_gambar != null){$arr1['url_gambar'] = $question[0]->url_gambar;}
+            if($question[0]->url_file != null){$arr1['url_file'] = $question[0]->url_file;}
+            $arr1['jawaban'] = $question[0]->jawaban;
+            $arr1['question_uuid'] = $question[0]->uuid;
+            $arr0 = [];
+
+            for($j = 0;$j < count($option);$j++){
+                $arr2 = [];
+                if($option[$j]->jawaban_teks != null){$arr2['jawaban_teks'] = $option[$j]->jawaban_teks;}
+                if($option[$j]->url_gambar != null){$arr2['url_gambar'] = $option[$j]->url_gambar;}
+                if($option[$j]->url_file != null){$arr2['url_file'] = $option[$j]->url_file;}
+                $arr2['jawaban_id'] = $option[$j]->jawaban_id;
+                $arr2['option_uuid'] = $option[$j]->uuid;
+                $arr0[$j] = $arr2;
+            }
+            $arr1['option'] = $arr0;
+            $arr[$i] = $arr1;
+        }
+
+        //$arr['content'] = $cont;
+        $result = $arr;
+
+        return response()->json([
+            'message' => 'Success',
+            'data'    => $result
+        ]);
+    }
+    #=========================Classroom-Video-More===========================
+    public function classroomVideoMore(Request $request){
+        if(!$uuid = $request->token){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+
+        if(count($quiz = Models\Video::where('uuid',$uuid)->get())==0){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+
+        $result = [];
+
+        $task = Models\Task::where('id_video',$quiz[0]->id)->get();
+        $shadowing = Models\Shadowing::where('id_video',$quiz[0]->id)->get();
+
+        $result['jml_latihan'] = count($task);
+        $result['jml_shadowing'] = count($shadowing);
+        $result['video_uuid'] = $uuid;
+
+        return response()->json([
+            'message' => 'Success',
+            'data'    => $result
+        ]);
+    }
+
+    public function classroomVideoTask(Request $request){
+        if(!$uuid = $request->token){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+
+        if(count($quiz = Models\Video::where('uuid',$uuid)->get())==0){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+
+        $result = [];
+
+        $task = Models\Task::where('id_video',$quiz[0]->id)->get();
+
+        $arr = [];
+        for($i = 0;$i < count($task);$i++){
+            $arr1 = [];
+            $question = Models\Question::where('id',$task[$i]->id_question)
+                ->get();
+            $option = Models\Option::where('id_question',$question[0]->id)
+                ->get();
+
+            if($question[0]->pertanyaan_teks != null){$arr1['pertanyaan_teks'] = $question[0]->pertanyaan_teks;}
+            if($question[0]->url_gambar != null){$arr1['url_gambar'] = $question[0]->url_gambar;}
+            if($question[0]->url_file != null){$arr1['url_file'] = $question[0]->url_file;}
+            $arr1['jawaban'] = $question[0]->jawaban;
+            $arr1['question_uuid'] = $question[0]->uuid;
+            $arr0 = [];
+
+            for($j = 0;$j < count($option);$j++){
+                $arr2 = [];
+                if($option[$j]->jawaban_teks != null){$arr2['jawaban_teks'] = $option[$j]->jawaban_teks;}
+                if($option[$j]->url_gambar != null){$arr2['url_gambar'] = $option[$j]->url_gambar;}
+                if($option[$j]->url_file != null){$arr2['url_file'] = $option[$j]->url_file;}
+                $arr2['jawaban_id'] = $option[$j]->jawaban_id;
+                $arr2['option_uuid'] = $option[$j]->uuid;
+                $arr0[$j] = $arr2;
+            }
+            $arr1['option'] = $arr0;
+            $arr[$i] = $arr1;
+        }
+
+        $result = $arr;
+
+        return response()->json([
+            'message' => 'Success',
+            'data'    => $result
+        ]);
+    }
+
+    public function classroomVideoShadowing(Request $request){
+        if(!$uuid = $request->token){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+
+        if(count($quiz = Models\Video::where('uuid',$uuid)->get())==0){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+
+        $result = [];
+
+        $shadowing = Models\Shadowing::where('id_video',$quiz[0]->id)->get();
+        $arr = [];
+        for($i=0;$i<count($shadowing);$i++){
+            $arr1 = [];
+            $word = Models\Words::where('id',$shadowing[$i]->id_word)->first();
+            $arr1['hangeul'] =  $word->hangeul;
+            $arr1['pelafalan'] =  $word->pelafalan;
+            $arr1['url_pengucapan'] =  $word->url_pengucapan;
+            $arr1['uuid'] =  $word->uuid;
+            $arr[$i] = $arr1;
+        }
+
+        $result = $arr;
+
+        return response()->json([
+            'message' => 'Success',
+            'data'    => $result
+        ]);
+    }
+    #=========================Classroom-Video-More===========================
+    #=========================Classroom-Content===========================
+
+    #=========================QnA===========================
+    public function qna(Request $request){
+        $result = [];
+        #$forum = Models\Post::where('jenis','forum')->where('stat_post','0')->get();
+        
+        #$theme = Models\Theme::orderBy('jml_post','DESC')->limit(3)->get();
+
+        $post = Models\Post::where('stat_post',0)->where('jenis','qna')
+        ->orderBy('jml_like','DESC')->get();
+
+        $arr = [];
+
+        // $post = Controllers\Post\PostController::getPost($qna);
+        for($i=0;$i<count($post);$i++){
+            $arr1 = [];
+            $idTheme = $post[$i]->theme->id;
+            $videoTheme = Models\VideoTheme::where('id_theme',$idTheme)->first();
+            $video = $videoTheme->video;
+            $arr1 = [
+                'deskripsi' => $post[$i]->deskripsi,
+                'nama_pengirim' => $post[$i]->user->nama
+            ];
+                if($post[$i]->user->foto != null){
+                    $arr1 += [
+                        'foto_pengirim' => $post[$i]->user->foto,
+                    ];
+                }
+            $arr1 += [
+                'tgl_post' => $post[$i]->created_at,
+                'jml_like' => $post[$i]->jml_like,
+                'jml_komen' => $post[$i]->jml_komen,
+                'video_judul' => $video->judul,
+                'video_uuid' => $video->uuid,
+                'post_uuid' => $post[$i]->uuid
+            ];
+            $arr[$i] = $arr1;
+        }
+
+        #$result['theme'] = $arr;
+        $result = $arr;
+
+        return response()->json([
+            'message' => 'Success',
+            'data'    => $result
+        ]);
+    }
+
+    public function qnaByVideo(Request $request){
+        if(!$uuid = $request->token){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+
+        if(count($video = Models\Video::where('uuid',$uuid)->get())==0){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+        $result = [];
+
+        $arr = [];
+
+        $idTheme = $video[0]->videoTheme[0]->id_theme;
+        $post = Models\Post::where('id_theme',$idTheme)->where('jenis','qna')
+        ->orderBy('created_at','DESC')->get();
+
+        for($i=0;$i<count($post);$i++){
+            $arr1 = [];
+            $arr1 = [
+                'deskripsi' => $post[$i]->deskripsi,
+                'nama_pengirim' => $post[$i]->user->nama
+            ];
+                if($post[$i]->user->foto != null){
+                    $arr1 += [
+                        'foto_pengirim' => $post[$i]->user->foto,
+                    ];
+                }
+            $arr1 += [
+                'tgl_post' => $post[$i]->created_at,
+                'jml_like' => $post[$i]->jml_like,
+                'jml_komen' => $post[$i]->jml_komen,
+                'video_judul' => $video[0]->judul,
+                'video_uuid' => $video[0]->uuid,
+                'post_uuid' => $post[$i]->uuid
+            ];
+            $arr[$i] = $arr1;
+        }
+
+        #$result['theme'] = $arr;
+        $result = $arr;
+
+        return response()->json([
+            'message' => 'Success',
+            'data'    => $result
+        ]);
+    }
+    public function qnaByUser(Request $request){
+        $result = [];
+
+        if(!$uuid = $request->header('user-uuid')){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+
+        if(count($user = Models\User::where('uuid',$uuid)->get())==0){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+        #$forum = Models\Post::where('jenis','forum')->where('stat_post','0')->get();
+        
+        #$theme = Models\Theme::orderBy('jml_post','DESC')->limit(3)->get();
+
+        $post = Models\Post::where('stat_post',0)
+        ->where('id_user',$user[0]->id)
+        ->where('jenis','qna')
+        ->orderBy('created_at','DESC')->get();
+
+        $arr = [];
+
+        // $post = Controllers\Post\PostController::getPost($qna);
+        for($i=0;$i<count($post);$i++){
+            $arr1 = [];
+            $idTheme = $post[$i]->theme->id;
+            $videoTheme = Models\VideoTheme::where('id_theme',$idTheme)->first();
+            $video = $videoTheme->video;
+            $arr1 = [
+                'deskripsi' => $post[$i]->deskripsi,
+                'nama_pengirim' => $post[$i]->user->nama
+            ];
+                if($post[$i]->user->foto != null){
+                    $arr1 += [
+                        'foto_pengirim' => $post[$i]->user->foto,
+                    ];
+                }
+            $arr1 += [
+                'tgl_post' => $post[$i]->created_at,
+                'jml_like' => $post[$i]->jml_like,
+                'jml_komen' => $post[$i]->jml_komen,
+                'video_judul' => $video->judul,
+                'video_uuid' => $video->uuid,
+                'post_uuid' => $post[$i]->uuid
+            ];
+            $arr[$i] = $arr1;
+        }
+
+        #$result['theme'] = $arr;
+        $result = $arr;
+
+        return response()->json([
+            'message' => 'Success',
+            'data'    => $result
+        ]);
+    }
+    public function qnaDetail(Request $request){
+        $result = [];
+
+        if(!$uuid = $request->token){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+
+        if(count($post = Models\Post::where('stat_post',0)
+        ->where('uuid',$uuid)
+        ->where('jenis','qna')
+        ->orderBy('jml_like','DESC')->get())==0){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+        #$forum = Models\Post::where('jenis','forum')->where('stat_post','0')->get();
+        
+        #$theme = Models\Theme::orderBy('jml_post','DESC')->limit(3)->get();
+
+        $arr0 = [];
+
+        // $post = Controllers\Post\PostController::getPost($qna);
+        for($i=0;$i<count($post);$i++){
+            $arr1 = [];
+            $idTheme = $post[$i]->theme->id;
+            $videoTheme = Models\VideoTheme::where('id_theme',$idTheme)->first();
+            $video = $videoTheme->video;
+            $arr1 = [
+                'deskripsi' => $post[$i]->deskripsi,
+                'nama_pengirim' => $post[$i]->user->nama
+            ];
+                if($post[$i]->user->foto != null){
+                    $arr1 += [
+                        'foto_pengirim' => $post[$i]->user->foto,
+                    ];
+                }
+            $arr1 += [
+                'tgl_post' => $post[$i]->created_at,
+                'jml_like' => $post[$i]->jml_like,
+                'jml_komen' => $post[$i]->jml_komen,
+                'video_judul' => $video->judul,
+                'video_uuid' => $video->uuid,
+                'post_uuid' => $post[$i]->uuid
+            ];
+            $arr0[$i] = $arr1;
+        }
+
+        $comment = Models\Comment::where('id_post',$post[0]->id)
+            ->orderBy('created_at','DESC')->get();
+
+        $arr = [];        
+        for($j=0;$j<count($comment);$j++){
+            $arr1 = [];
+            $user = Models\User::where('id',$comment[$j]->id_user)
+                ->first();
+            #return $user;
+            $arr1['comment_nama'] = $user->nama;
+            $arr1['comment_foto'] = $user->url_foto;
+            $arr1['comment_isi'] = $comment[$j]->comment;
+            $arr1['comment_tgl'] = $comment[$j]->created_at;
+            $arr1['comment_uuid'] = $comment[$j]->uuid;
+            $arr[$j] = $arr1;
+        }
+
+        $result['posting'] = $arr0;
+        $result['comment'] = $arr;
+
+        #$result['theme'] = $arr;
+
+        return response()->json([
+            'message' => 'Success',
+            'data'    => $result
+        ]);
+    }
+
+    #=========================QnA===========================
+
+    #=========================Forum===========================
+    public function forum(Request $request){
+        $result = [];
+        #$forum = Models\Post::where('jenis','forum')->where('stat_post','0')->get();
+        
+        $theme = Models\Theme::orderBy('jml_post','DESC')->limit(3)->get();
+
+        $forum = Models\Post::where('stat_post',0)->where('jenis','forum')
+        ->orderBy('jml_like','DESC')->get();
+
+        $arr = [];
+        for($i=0;$i<count($theme);$i++){
+            $arr1=[];
+            $arr1 = [
+                'urutan' => $i+1,
+                'judul' => $theme[$i]->judul,
+                'jml_post' => $theme[$i]->jml_post,
+                'theme_uuid' => $theme[$i]->uuid
+            ];
+            $arr[$i] = $arr1;
+        }
+
+        $pos = Controllers\Post\PostController::getPost($forum);
+
+        $result['theme'] = $arr;
+        $result['forum'] = $pos;
+
+        return response()->json([
+            'message' => 'Success',
+            'data'    => $result
+        ]);
+
+    }
+
+    public function forumDetail(Request $request){
+        if(!$uuid = $request->token){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'UUID tidak sesuai'
+            ]);
+        }
+        $result = [];
+        if(!$forum = Models\Post::where('jenis','forum')->where('uuid',$uuid)
+        ->where('jenis','forum')
+        ->where('stat_post','0')->get()){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'UUID tidak sesuai'
+            ]);
+        }
+        if(count($forum)==0){
+            return response()->json([
+                'message' => 'Success',
+                'data'    => $result
+            ]);
+        }
+
+        $pos = Controllers\Post\PostController::getPost($forum);
+
+        $comment = Models\Comment::where('id_post',$forum[0]->id)
+            ->orderBy('created_at','DESC')->get();
+
+        $arr = [];        
+        for($j=0;$j<count($comment);$j++){
+            $arr1 = [];
+            $user = Models\User::where('id',$comment[$j]->id_user)
+                ->first();
+            #return $user;
+            $arr1['comment_nama'] = $user->nama;
+            $arr1['comment_foto'] = $user->url_foto;
+            $arr1['comment_isi'] = $comment[$j]->comment;
+            $arr1['comment_tgl'] = $comment[$j]->created_at;
+            $arr1['comment_uuid'] = $comment[$j]->uuid;
+            $arr[$j] = $arr1;
+        }
+
+        $result['posting'] = $pos;
+        $result['comment'] = $arr;
+
+        return response()->json([
+            'message' => 'Success',
+            'data'    => $result
+        ]);
+    }
+
+    public function forumByThemePop(Request $request){
+        if(!$uuid = $request->token){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'UUID tidak sesuai'
+            ]);
+        }
+        $result = [];
+        if(!$theme = Models\Theme::where('uuid',$uuid)->get()){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'UUID tidak sesuai'
+            ]);
+        }
+        $result = [];
+        #$forum = Models\Post::where('jenis','forum')->where('stat_post','0')->get();
+        
+        $forum = Models\Post::where('id_theme',$theme[0]->id)
+        ->where('jenis','forum')
+        ->orderBy('jml_like','DESC')->get();
+        $arr1 = [
+            'judul' => $theme[0]->judul,
+            'theme_uuid' => $theme[0]->uuid
+        ];
+        $result['theme'] = $arr1;
+
+        $pos = Controllers\Post\PostController::getPost($forum);
+
+        $result['forum'] = $pos;
+
+        return response()->json([
+            'message' => 'Success',
+            'data'    => $result
+        ]);
+    }
+
+    public function forumByThemeNew(Request $request){
+        if(!$uuid = $request->token){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'UUID tidak sesuai'
+            ]);
+        }
+        $result = [];
+        if(!$theme = Models\Theme::where('uuid',$uuid)->get()){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'UUID tidak sesuai'
+            ]);
+        }
+        $result = [];
+        #$forum = Models\Post::where('jenis','forum')->where('stat_post','0')->get();
+        
+        $forum = Models\Post::where('id_theme',$theme[0]->id)
+        ->where('jenis','forum')
+        ->where('stat_post',0)
+        ->orderBy('created_at','DESC')->get();
+        $arr1 = [
+            'judul' => $theme[0]->judul,
+            'theme_uuid' => $theme[0]->uuid
+        ];
+        $result['theme'] = $arr1;
+
+        $pos = Controllers\Post\PostController::getPost($forum);
+
+        $result['forum'] = $pos;
+
+        return response()->json([
+            'message' => 'Success',
+            'data'    => $result
+        ]);
+    }
+    public function forumByUser(Request $request){
+        $result = [];
+        if(!$uuidUser = $request->header('user-uuid')){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'UUID tidak sesuai'
+            ]);
+        }
+        $uuid = $uuidUser;
+
+        $user = Models\User::where('uuid',$uuid)->get();
+        
+        if(count($user)==0){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+
+        $forum = Models\Post::where('id_user',$user[0]->id)
+        ->where('jenis','forum')
+        ->where('stat_post',0)
+        ->orderBy('created_at','DESC')->get();
+
+        $pos = Controllers\Post\PostController::getPost($forum);
+
+        $result = $pos;
+        return response()->json([
+            'message' => 'Success',
+            'data'    => $result
+        ]);
+    }
+    #=========================Forum===========================
+    #=========================QnA===========================
+    #=========================QnA===========================
+    #=========================Testimoni===========================
     public function testimoni(Request $request){
         $result = [];
 
@@ -508,5 +1169,5 @@ class ShowController extends Controller
             'data'    => $result
         ]);
     }
-    #=========================Classroom===========================
+    #=========================Testimoni===========================
 }

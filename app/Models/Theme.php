@@ -21,4 +21,8 @@ class Theme extends Model
     {
         return $this->hasMany(Post::class,'id_theme','id');
     }
+    public function videoTheme()
+    {
+        return $this->hasMany(VideoTheme::class,'id_theme','id');
+    }
 }

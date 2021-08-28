@@ -17,7 +17,7 @@ class CreateOptionTable extends Migration
             $table->id();
             $table->BigInteger('id_question')->unsigned()->nullable();
             $table->string('jawaban_id')->nullable();
-            $table->string('jawaban_teks')->nullable();
+            $table->text('jawaban_teks')->nullable();
             $table->string('url_gambar')->nullable();
             $table->string('gambar_id')->nullable();
             $table->string('url_file')->nullable();

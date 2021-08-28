@@ -17,7 +17,7 @@ class CreateDetailStudent extends Migration
         Schema::create('detail_students', function (Blueprint $table) {
             $table->id();
             $table->BigInteger('id_users')->unsigned()->nullable();
-            $table->string('alamat')->nullable();
+            $table->text('alamat')->nullable();
             $table->char('jenis_kel')->nullable();
             $table->date('tgl_lahir')->nullable();
             $table->string('uuid');

@@ -57,7 +57,7 @@ class RegisterController extends Controller
 
         $input = new Helper\InputController('authUser',$data);
         
-        return response()->json(['message'=>'Failed',
+        return response()->json(['message'=>'Success',
         'info'=> 'Email Berhasil Dikirim. Mohon Untuk Mengecek Email Masuk.']);
     }
     /*public function apiRequest(Request $request){

@@ -18,7 +18,7 @@ class CreatePostTable extends Migration
             $table->BigInteger('id_user')->unsigned()->nullable();
             $table->BigInteger('id_theme')->unsigned()->nullable();
             // $table->BigInteger('id_quiz')->unsigned()->nullable();
-            $table->string('judul')->nullable();
+            $table->text('judul')->nullable();
             $table->string('jenis')->nullable();
             $table->text('deskripsi')->nullable();
             $table->integer('jml_like');

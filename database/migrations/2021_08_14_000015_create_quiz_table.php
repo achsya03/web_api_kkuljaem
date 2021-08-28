@@ -18,7 +18,7 @@ class CreateQuizTable extends Migration
             $table->BigInteger('id_content')->unsigned()->nullable();
             #$table->BigInteger('id_exan')->unsigned()->nullable();
             $table->string('judul')->nullable();
-            $table->string('keterangan')->nullable();
+            $table->text('keterangan')->nullable();
             $table->integer('jml_pertanyaan')->nullable();
             $table->string('uuid');
             $table->index(['uuid']);

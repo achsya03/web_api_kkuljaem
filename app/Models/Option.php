@@ -19,4 +19,8 @@ class Option extends Model
         'file_id',
         'uuid',
     ];
+    public function question()
+    {
+        return $this->belongsTo(Question::class,'id_question','id');
+    }
 }

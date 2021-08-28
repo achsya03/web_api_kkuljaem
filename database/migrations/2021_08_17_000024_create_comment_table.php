@@ -21,6 +21,7 @@ class CreateCommentTable extends Migration
             $table->text('comment')->nullable();
             $table->char('stat_comment',1)->nullable();
             $table->string('uuid');
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->index(['uuid']);
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('id_post')->references('id')->on('post')->onDelete('cascade');

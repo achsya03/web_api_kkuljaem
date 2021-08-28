@@ -11,6 +11,7 @@ class Video extends Model
     protected $table = 'video';
     public $timestamps=false;
     protected $fillable = [
+        'id_content',
         'judul',
         'keterangan',
         'jml_latihan',
@@ -19,4 +20,12 @@ class Video extends Model
         'url_video',
         'uuid'
     ];
+    public function content()
+    {
+        return $this->belongsTo(Content::class,'id_content','id');
+    }
+    public function videoTheme()
+    {
+        return $this->hasMany(VideoTheme::class,'id_video','id');
+    }
 }

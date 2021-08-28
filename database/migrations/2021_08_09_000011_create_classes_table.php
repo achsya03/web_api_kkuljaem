@@ -18,7 +18,7 @@ class CreateClassesTable extends Migration
             $table->BigInteger('id_class_category')->unsigned()->nullable();
             // $table->BigInteger('id_quiz')->unsigned()->nullable();
             $table->string('nama')->nullable();
-            $table->string('deskripsi')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->string('url_web')->nullable();
             $table->string('web_id')->nullable();
             $table->string('url_mobile')->nullable();

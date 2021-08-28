@@ -20,7 +20,7 @@ class CreateBannerTable extends Migration
             $table->string('web_id')->nullable();
             $table->string('url_mobile')->nullable();
             $table->string('mobile_id')->nullable();
-            $table->string('deskripsi')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->string('label')->nullable();
             $table->string('link')->nullable();
             $table->string('uuid');

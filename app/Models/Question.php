@@ -16,7 +16,14 @@ class Question extends Model
         'url_file',
         'file_id',
         'jawaban',
-        'jenis_jawaban',
         'uuid',
     ];
+    public function task()
+    {
+        return $this->hasMany(Task::class,'id_question','id');
+    }
+    public function exam()
+    {
+        return $this->hasMany(Exam::class,'id_question','id');
+    }
 }

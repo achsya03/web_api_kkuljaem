@@ -16,7 +16,7 @@ class CreatePacketTable extends Migration
         Schema::create('packet', function (Blueprint $table) {
             $table->id();
             $table->string('nama')->nullable();
-            $table->string('deskripsi')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->integer('harga')->nullable();
             #$table->string('jenis_jawaban')->nullable();
             $table->string('uuid');

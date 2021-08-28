@@ -15,4 +15,12 @@ class Task extends Model
         'id_video',
         'uuid'
     ];
+    public function question()
+    {
+        return $this->belongsTo(Question::class,'id_question','id');
+    }
+    public function video()
+    {
+        return $this->belongsTo(Video::class,'id_video','id');
+    }
 }

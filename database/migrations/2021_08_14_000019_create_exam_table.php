@@ -17,6 +17,7 @@ class CreateExamTable extends Migration
             $table->id();
             $table->BigInteger('id_question')->unsigned()->nullable();
             $table->BigInteger('id_quiz')->unsigned()->nullable();
+            $table->integer('number')->nullable();
             // $table->string('judul')->nullable();
             // $table->string('keterangan')->nullable();
             $table->string('uuid');

@@ -13,6 +13,15 @@ class Content extends Model
     protected $fillable = [
         'id_class',
         'number',
+        'type',
         'uuid'
     ];
+    public function quiz()
+    {
+        return $this->hasMany(Quiz::class,'id_content','id');
+    }
+    public function video()
+    {
+        return $this->hasMany(Video::class,'id_content','id');
+    }
 }

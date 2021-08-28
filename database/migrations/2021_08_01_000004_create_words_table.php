@@ -18,7 +18,7 @@ class CreateWordsTable extends Migration
             $table->date('jadwal')->nullable();
             $table->string('hangeul')->nullable();
             $table->string('pelafalan')->nullable();
-            $table->string('penjelasan')->nullable();
+            $table->text('penjelasan')->nullable();
             $table->string('url_pengucapan')->nullable();
             $table->string('pengucapan_id')->nullable();
             $table->string('uuid');

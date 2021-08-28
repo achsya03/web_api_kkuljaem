@@ -16,7 +16,7 @@ class CreatePaymentTable extends Migration
         Schema::create('payment', function (Blueprint $table) {
             $table->id();
             $table->BigInteger('id_subs')->unsigned()->nullable();
-            $table->string('stat_pembayaran');
+            $table->text('stat_pembayaran');
             $table->string('uuid');
             $table->index(['uuid']);
             $table->foreign('id_subs')->references('id')->on('subs')->onDelete('cascade');

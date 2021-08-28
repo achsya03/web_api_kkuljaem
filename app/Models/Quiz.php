@@ -17,4 +17,8 @@ class Quiz extends Model
         'jml_pertanyaan',
         'uuid'
     ];
+    public function content()
+    {
+        return $this->belongsTo(Content::class,'id_content','id');
+    }
 }

@@ -14,6 +14,8 @@ class DetailStudent extends Model
         'alamat',
         'jenis_kel',
         'tgl_lahir',
+        'url_foto',
+        'foto_id',
         'uuid',
     ];
 

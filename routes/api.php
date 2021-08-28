@@ -68,9 +68,28 @@ Route::group(['prefix' => 'api/classroom'], function () {
     Route::get('/registered', [Helper\ShowController::class,'classroomRegistered']);
     Route::get('/mentor', [Helper\ShowController::class,'classroomMentorDetail']);
     Route::get('/detail/video', [Helper\ShowController::class,'classroomVideoDetail']);
+    Route::get('/detail/quiz', [Helper\ShowController::class,'classroomQuizDetail']);
+    Route::get('/detail/more', [Helper\ShowController::class,'classroomVideoMore']);
+    Route::get('/detail/task', [Helper\ShowController::class,'classroomVideoTask']);
+    Route::get('/detail/shadowing', [Helper\ShowController::class,'classroomVideoShadowing']);
     #Route::get('/testimoni', [Helper\ShowController::class,'testimoni']);
 });
 
+
+Route::group(['prefix' => 'api/forum'], function () {
+    Route::get('/', [Helper\ShowController::class,'forum']);
+    Route::get('/detail', [Helper\ShowController::class,'forumDetail']);
+    Route::get('/popular', [Helper\ShowController::class,'forumByThemePop']);
+    Route::get('/latest', [Helper\ShowController::class,'forumByThemeNew']);
+    Route::get('/posting', [Helper\ShowController::class,'forumByUser']);
+});
+
+Route::group(['prefix' => 'api/qna'], function () {
+    Route::get('/', [Helper\ShowController::class,'qna']);
+    Route::get('/video', [Helper\ShowController::class,'qnaByVideo']);
+    Route::get('/posting', [Helper\ShowController::class,'qnaByUser']);
+    Route::get('/detail', [Helper\ShowController::class,'qnaDetail']);
+});
 #==========================Student================================
 
 

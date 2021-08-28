@@ -16,7 +16,7 @@ class CreateClassCategoryTable extends Migration
         Schema::create('class_category', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('deskripsi');
+            $table->text('deskripsi');
             // $table->string('url_foto');
             // $table->string('foto_id');
             // $table->integer('jml_kelas');
