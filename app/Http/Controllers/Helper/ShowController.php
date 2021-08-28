@@ -226,7 +226,9 @@ class ShowController extends Controller
         $arr = [];
         $class = Models\Classes::where('id_class_category',$category[0]->id)
             ->where('status_tersedia',1)->get();
+            
         $classes = [];
+        $arr0 = [];
         for($j = 0;$j < count($class);$j++){
             $arr1 = [];
             $arr1['class_nama'] = $class[$j]->nama;
@@ -238,18 +240,18 @@ class ShowController extends Controller
             if($teacher != null){
                 $tcr = Models\Teacher::find($teacher->id);
                 $usr = Models\User::find($teacher->id_user);
-                $arr['mentor_nama'] = $tcr->user->nama;
+                $arr1['mentor_nama'] = $tcr->user->nama;
                 #$arr['mentor-foto'] = $usr->detailMentor[0]->url_foto;
-                $arr['mentor_uuid'] = $tcr->user->uuid;
+                $arr1['mentor_uuid'] = $tcr->user->uuid;
             }
             $classes[$j] = $arr1;
         }    
 
-        $arr = $classes;
-        $arr['category'] = $category[0]->nama;
-        $arr['category_uuid'] = $category[0]->uuid;
+        // $arr['category'] = $category[0]->nama;
+        // $arr['category_uuid'] = $category[0]->uuid;
+        #$arr += $classes;
 
-        $result = $arr;
+        $result = $classes;
 
         return response()->json([
             'message' => 'Success',
