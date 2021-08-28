@@ -15,28 +15,32 @@ class MailController extends Controller
     {
     }
     public static function sendEmail($info_penggunas,$stat){
-        $judul="";
-        $path="";
-        if($stat=="verify"){
-            $judul="Thank you for signing up with Kkuljaem - Please verify your email address";
-            $path="verify-mail";
-        }elseif ($stat=="forgot-pass") {
-            $judul="Reset Password";
-            $path="change-password";
-        }
-        $info_pengguna=[
-            'nama' => "There",
-            'email' => $info_penggunas['email'],
-            'url' => env('APP_URL', "https://kkuljaem.xyz").env('APP_PORT', "").'/api/auth/'.$path.'?token='.$info_penggunas['web_token'],
-        ];
+            $judul="";
+            $path="";
+            if($stat=="verify"){
+                $judul="Thank you for signing up with Kkuljaem - Please verify your email address";
+                $path="verify-mail";
+            }elseif ($stat=="forgot-pass") {
+                $judul="Reset Password";
+                $path="change-password";
+            }
+            $info_pengguna=[
+                'nama' => "There",
+                'email' => $info_penggunas['email'],
+                'url' => env('APP_URL', "https://kkuljaem.xyz").env('APP_PORT', "").'/api/auth/'.$path.'?token='.$info_penggunas['web_token'],
+            ];
 
-        $kirim_email=Mail::to($info_pengguna['email'])
-        ->send(new SendMail($judul,$info_pengguna,$stat));
-        if(empty($kirim_email)){
-            return response()->json(['message'
-            => 'Mail Send Successfully'],200);
-        }else{
-            return response()->json(['message' => 'Mail Send Fail'],400);
-        }
+            try{
+                $kirim_email=Mail::to($info_pengguna['email'])
+                ->send(new SendMail($judul,$info_pengguna,$stat));
+            }catch (Exception $e) {
+                return response()->json(['message' => 'Send Again'],400);
+            }
+            if(empty($kirim_email)){
+                return response()->json(['message'
+                => 'Main Sended'],200);
+            }else{
+                return response()->json(['message' => 'Failed'],400);
+            }
     }
 }
