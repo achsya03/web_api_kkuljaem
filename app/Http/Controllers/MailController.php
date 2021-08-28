@@ -34,13 +34,12 @@ class MailController extends Controller
                 $kirim_email=Mail::to($info_pengguna['email'])
                 ->send(new SendMail($judul,$info_pengguna,$stat));
             }catch(\Exception $e) {
-                return ['message' => 'Send Again'];
+                return 'Send Again';
             }
             if(empty($kirim_email)){
-                return ['message'
-                => 'Mail Sended'];
+                return 'Mail Sended';
             }else{
-                return ['message' => 'Failed'];
+                return 'Send Again';
             }
     }
 }
