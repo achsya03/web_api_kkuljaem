@@ -92,6 +92,10 @@ Route::group(['prefix' => 'api/qna'], function () {
 });
 #==========================Student================================
 
+#==========================Admin/Mentor================================
+
+#==========================Admin/Mentor================================
+
 
 Route::group(['prefix' => 'api/banner'], function () {
     Route::post('/', [Banner\BannerController::class,'addData']);

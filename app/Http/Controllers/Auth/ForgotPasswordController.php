@@ -27,7 +27,8 @@ class ForgotPasswordController extends Controller
 
         $user = User::where('email',$request->email)->first();
         if($user==null){
-            return response("Email Salah", 401);
+            return response()->json(['message'=>'Failed','info'
+            => 'Email Tidak Terdaftar']);
         }
         $user_not_valid = User::where('email',$request->email)->where('email_verified_at',null)->get();
         if(count($user_not_valid)>0){
@@ -44,7 +45,7 @@ class ForgotPasswordController extends Controller
 
         #$this->test();
 
-        return response()->json(['message'=>'Failed','info'
+        return response()->json(['message'=>'Success','info'
         => 'Email Berhasil Dikirim']);
     }
 
