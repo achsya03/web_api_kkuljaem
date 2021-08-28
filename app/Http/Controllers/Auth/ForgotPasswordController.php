@@ -43,6 +43,11 @@ class ForgotPasswordController extends Controller
             return response()->json(['message'=>'Failed','info'=>"Email Gagal Dikirim"]);
         }
 
+        if($kirim_email != 'Mail Sended'){
+            return response()->json(['message'=>'Failed','info'
+            => 'Email Gagal Dikirim, Kirim Lagi']);
+        }
+
         #$this->test();
 
         return response()->json(['message'=>'Success','info'
