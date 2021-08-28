@@ -120,7 +120,6 @@ class ShowController extends Controller
         ->where('jenis','forum')
         ->where('judul','like','%'.$key.'%')
         ->get();
-        return $post;
 
         $qna = Models\Post::where('stat_post',0)
         ->where('jenis','qna')
@@ -196,9 +195,9 @@ class ShowController extends Controller
             $arr['category'] = $category[$i]->nama;
             $arr['category_uuid'] = $category[$i]->uuid;
             $arr['classroom'] = $classes;
-            $result[$i] = $arr;
+            $arr0[$i] = $arr;
         }
-        #$result['class_list'] = $arr0;
+        $result['class_list'] = $arr0;
         #$result['class_terdaftar'] = $this->classroomRegistered($uuidUser);
 
         return response()->json([
