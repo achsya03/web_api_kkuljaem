@@ -186,7 +186,7 @@ class ShowController extends Controller
                 if($teacher != null){
                     $test = Models\Teacher::find($teacher->id);
                     $arr1['mentor_nama'] = $test->user->nama;
-                    $arr1['mentor_uuid'] = $test->user->uuid;
+                    $arr1['mentor_uuid'] = $test->uuid;
                 }
                 $classes[$j] = $arr1;
             }
@@ -242,7 +242,7 @@ class ShowController extends Controller
                 $usr = Models\User::find($teacher->id_user);
                 $arr1['mentor_nama'] = $tcr->user->nama;
                 #$arr['mentor-foto'] = $usr->detailMentor[0]->url_foto;
-                $arr1['mentor_uuid'] = $tcr->user->uuid;
+                $arr1['mentor_uuid'] = $tcr->uuid;
             }
             $classes[$j] = $arr1;
         }    
@@ -342,7 +342,7 @@ class ShowController extends Controller
             $usr = Models\User::find($teacher->id_user);
             $arr['mentor_nama'] = $tcr->user->nama;
             $arr['mentor_foto'] = $usr->detailMentor[0]->url_foto;
-            $arr['mentor_uuid'] = $tcr->user->uuid;
+            $arr['mentor_uuid'] = $tcr->uuid;
         }
         $arr['content'] = $cont;
 
@@ -365,39 +365,42 @@ class ShowController extends Controller
         }
         $uuidUser = $request->user_uuid;
 
-        $user = Models\User::where('uuid',$uuid)->get();
+        $teacher = Models\Teacher::where('uuid',$uuid)->get();
         
-        if(count($user)==0){
+        if(count($teacher)==0){
             return response()->json([
                 'message' => 'Failed',
                 'error' => 'Token tidak sesuai'
             ]);
         }
 
-        $teacher = Models\Teacher::where('id_user',$user[0]->id)->get();
-        $usr = Models\User::find($user[0]->id);
-
-        $arr['mentor_nama'] = $user[0]->nama;
-        $arr['mentor_bio'] = $usr->detailMentor[0]->bio;
-        $arr['mentor_foto'] = $usr->detailMentor[0]->url_foto;
-        $arr['mentor_uuid'] = $user[0]->uuid;
+        //$teacher = Models\Teacher::where('id_user',$user[0]->id)->get();
+        $usr = Models\User::where('id',$teacher[0]->id_user)->first();
+        $teacher = Models\Teacher::where('id_user',$usr->id)->get();
         
-        $cls = [];
-        for($h=0;$h<count($teacher);$h++){
-            $classes = Models\Classes::where('id',$teacher[$h]->id_class)
-                ->where('status_tersedia',1)->get();
+        $arr['mentor_nama'] = $usr->nama;
+        $arr['mentor_bio'] = $usr->detailMentor[0]->bio;
+        if($usr->foto!=null){
+            $arr['mentor_foto'] = $usr->foto;
+        }
+        $arr['mentor_uuid'] = $uuid;
+        $cls = [];$co=0;
+        //$tc = Models\Teacher::where('id_user',$teacher[0]->id_user)->get();
+        for($i=0;$i<count($teacher);$i++){
+            if(count($classes = Models\Classes::where('id',$teacher[$i]->id_class)
+                ->where('status_tersedia',1)->get())==0){
+                    continue;
+                }
             $arr0 = [];
-            for($i=0;$i<count($classes);$i++){
-                $arr1 = [
-                    'class_nama' => $classes[$i]->nama,
-                    'class_url_web' => $classes[$i]->url_web,
-                    'class_url_mobile' => $classes[$i]->url_mobile,
-                    'class_jml_materi' => $classes[$i]->jml_materi,
-                    'class_uuid' => $classes[$i]->uuid
+            $arr0 = [
+                    'class_nama' => $classes[0]->nama,
+                    'class_url_web' => $classes[0]->url_web,
+                    'class_url_mobile' => $classes[0]->url_mobile,
+                    'class_jml_materi' => $classes[0]->jml_materi,
+                    'class_uuid' => $classes[0]->uuid
                 ];
-                $arr0[$i] = $arr1;
-            }
-            $cls[$h] = $arr0[0];
+            $cls[$co] = $arr0;
+            $co++;
         }
         $arr['classroom'] = $cls;
 
