@@ -44,6 +44,10 @@ class RegisterController extends Controller
             return response()->json(['message'=>'Failed','info'
             => 'Email Gagal Dikirim']);
         }
+        if($kirim_email != 'Mail Sended'){
+            return response()->json(['message'=>'Failed','info'
+            => 'Email Gagal Dikirim, Kirim Lagi']);
+        }
         $uuid = $validation->data['uuid'];
 
         $data = [

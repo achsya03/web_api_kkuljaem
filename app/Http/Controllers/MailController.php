@@ -38,7 +38,7 @@ class MailController extends Controller
             }
             if(empty($kirim_email)){
                 return response()->json(['message'
-                => 'Main Sended'],200);
+                => 'Mail Sended'],200);
             }else{
                 return response()->json(['message' => 'Failed'],400);
             }
