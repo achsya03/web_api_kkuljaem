@@ -18,13 +18,13 @@ class ShowController extends Controller
 
         $banner = Models\Banner::all();
         $videos = Models\Videos::where('jadwal',$tglSekarang)->get();
-        if(count($videos)==0{
+        if(count($videos)==0){
             $videos = Models\Videos::where('jadwal','2001-01-01')->get();
-        })
+        }
         $words = Models\Words::where('jadwal',$tglSekarang)->get();
-        if(count($words)==0{
+        if(count($words)==0){
             $words = Models\Words::where('jadwal','2001-01-01')->get();
-        })
+        }
         $class = Models\Classes::orderBy('created_at','DESC')
             ->where('status_tersedia',1)->limit(6)->get();
         $theme = Models\Theme::orderBy('jml_post','DESC')->limit(6)->get();
