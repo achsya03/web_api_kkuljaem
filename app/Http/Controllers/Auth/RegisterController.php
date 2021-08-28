@@ -44,7 +44,7 @@ class RegisterController extends Controller
             return response()->json(['message'=>'Failed','info'
             => 'Email Gagal Dikirim']);
         }
-        if($kirim_email != 'Mail Sended'){
+        if($kirim_email->message != 'Mail Sended'){
             return response()->json(['message'=>'Failed','info'
             => 'Email Gagal Dikirim, Kirim Lagi']);
         }
