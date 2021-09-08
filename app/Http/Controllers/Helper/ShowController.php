@@ -162,10 +162,10 @@ class ShowController extends Controller
     }
 
     public function classroom(Request $request){
-        if(!$uuidUser = $request->user()){
+        if(!$uuidUser = $request->user()->uuid){
             return response()->json([
                 'message' => 'Failed',
-                'data'    => 'Dimohon Untuk Login Terlebih Dahulu'
+                'info'    => 'Dimohon Untuk Login Terlebih Dahulu'
             ]);
         }
         $result = [];
@@ -284,10 +284,10 @@ class ShowController extends Controller
             ]);
         }
 
-        if(!$uuidUser = $request->user()){
+        if(!$uuidUser = $request->user()->uuid){
             return response()->json([
                 'message' => 'Failed',
-                'data'    => 'Dimohon Untuk Login Terlebih Dahulu'
+                'info'    => 'Dimohon Untuk Login Terlebih Dahulu'
             ]);
         }
         // if(!$uuidUser = $request->header('user-uuid')){
@@ -443,10 +443,10 @@ class ShowController extends Controller
         //     ]);
         // }
 
-        if(!$uuidUser = $request->user()){
+        if(!$uuidUser = $request->user()->uuid){
             return response()->json([
                 'message' => 'Failed',
-                'data'    => 'Dimohon Untuk Login Terlebih Dahulu'
+                'info'    => 'Dimohon Untuk Login Terlebih Dahulu'
             ]);
         }
         $uuid = $uuidUser;
@@ -858,10 +858,10 @@ class ShowController extends Controller
         $result = [];
 
         
-        if(!$uuidUser = $request->user()){
+        if(!$uuidUser = $request->user()->uuid){
             return response()->json([
                 'message' => 'Failed',
-                'data'    => 'Dimohon Untuk Login Terlebih Dahulu'
+                'info'    => 'Dimohon Untuk Login Terlebih Dahulu'
             ]);
         }
         
@@ -1165,10 +1165,10 @@ class ShowController extends Controller
         //     ]);
         // }
 
-        if(!$uuidUser = $request->user()){
+        if(!$uuidUser = $request->user()->uuid){
             return response()->json([
                 'message' => 'Failed',
-                'data'    => 'Dimohon Untuk Login Terlebih Dahulu'
+                'info'    => 'Dimohon Untuk Login Terlebih Dahulu'
             ]);
         }
         
