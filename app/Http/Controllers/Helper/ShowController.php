@@ -162,7 +162,7 @@ class ShowController extends Controller
     }
 
     public function classroom(Request $request){
-        if(!$uuidUser = $request->user()->uuid){
+        if(!$uuidUser = $request->user()){
             return response()->json([
                 'message' => 'Failed',
                 'info'    => 'Dimohon Untuk Login Terlebih Dahulu'
