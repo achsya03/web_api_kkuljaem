@@ -177,7 +177,7 @@ class ShowController extends Controller
         //     ]);
         // }
         
-        $usr = Models\User::where('uuid',$uuidUser)->first();
+        $usr = Models\User::where('uuid',$uuidUser->uuid)->first();
         $date = date_format(date_create($usr->tgl_langganan_akhir),"Y/m/d");
        
         $result['stat_pengguna'] = $this->userCheck($uuidUser,$date);
