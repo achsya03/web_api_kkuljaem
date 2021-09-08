@@ -16,6 +16,10 @@ class Content extends Model
         'type',
         'uuid'
     ];
+    public function classes()
+    {
+        return $this->belongsTo(Classes::class,'id_class','id');
+    }
     public function quiz()
     {
         return $this->hasMany(Quiz::class,'id_content','id');

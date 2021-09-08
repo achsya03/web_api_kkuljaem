@@ -12,6 +12,13 @@ class ShowController extends Controller
     #=========================Home===========================
 
     public function home(Request $request){
+
+        // if(!$request->user()){
+        //     return response()->json([
+        //         'message' => 'Failed',
+        //         'data'    => 'Dimohon Untuk Login Terlebih Dahulu'
+        //     ]);
+        // }
         $result = [];
 
         $tglSekarang = date('Y/m/d');
@@ -155,13 +162,20 @@ class ShowController extends Controller
     }
 
     public function classroom(Request $request){
-        $result = [];
-        if(!$uuidUser = $request->header('user-uuid')){
+        if(!$uuidUser = $request->user()){
             return response()->json([
                 'message' => 'Failed',
-                'error' => 'UUID tidak sesuai'
+                'data'    => 'Dimohon Untuk Login Terlebih Dahulu'
             ]);
         }
+        $result = [];
+        
+        // if(!$uuidUser = $request->header('user-uuid')){
+        //     return response()->json([
+        //         'message' => 'Failed',
+        //         'error' => 'UUID tidak sesuai'
+        //     ]);
+        // }
         
         $usr = Models\User::where('uuid',$uuidUser)->first();
         $date = date_format(date_create($usr->tgl_langganan_akhir),"Y/m/d");
@@ -268,12 +282,19 @@ class ShowController extends Controller
                 'error' => 'Token tidak sesuai'
             ]);
         }
-        if(!$uuidUser = $request->header('user-uuid')){
+
+        if(!$uuidUser = $request->user()){
             return response()->json([
                 'message' => 'Failed',
-                'error' => 'UUID tidak sesuai'
+                'data'    => 'Dimohon Untuk Login Terlebih Dahulu'
             ]);
         }
+        // if(!$uuidUser = $request->header('user-uuid')){
+        //     return response()->json([
+        //         'message' => 'Failed',
+        //         'error' => 'UUID tidak sesuai'
+        //     ]);
+        // }
         $usr = Models\User::where('uuid',$uuidUser)->first();
         $date = date_format(date_create($usr->tgl_langganan_akhir),"Y/m/d");
        
@@ -414,10 +435,17 @@ class ShowController extends Controller
 
     public function classroomRegistered(Request $request){
         $result = [];
-        if(!$uuidUser = $request->header('user-uuid')){
+        // if(!$uuidUser = $request->header('user-uuid')){
+        //     return response()->json([
+        //         'message' => 'Failed',
+        //         'error' => 'UUID tidak sesuai'
+        //     ]);
+        // }
+
+        if(!$uuidUser = $request->user()){
             return response()->json([
                 'message' => 'Failed',
-                'error' => 'UUID tidak sesuai'
+                'data'    => 'Dimohon Untuk Login Terlebih Dahulu'
             ]);
         }
         $uuid = $uuidUser;
@@ -828,12 +856,15 @@ class ShowController extends Controller
     public function qnaByUser(Request $request){
         $result = [];
 
-        if(!$uuid = $request->header('user-uuid')){
+        
+        if(!$uuidUser = $request->user()){
             return response()->json([
                 'message' => 'Failed',
-                'error' => 'Token tidak sesuai'
+                'data'    => 'Dimohon Untuk Login Terlebih Dahulu'
             ]);
         }
+        
+        $uuid = $uuidUser;
 
         if(count($user = Models\User::where('uuid',$uuid)->get())==0){
             return response()->json([
@@ -1126,12 +1157,20 @@ class ShowController extends Controller
     }
     public function forumByUser(Request $request){
         $result = [];
-        if(!$uuidUser = $request->header('user-uuid')){
+        // if(!$uuidUser = $request->header('user-uuid')){
+        //     return response()->json([
+        //         'message' => 'Failed',
+        //         'error' => 'UUID tidak sesuai'
+        //     ]);
+        // }
+
+        if(!$uuidUser = $request->user()){
             return response()->json([
                 'message' => 'Failed',
-                'error' => 'UUID tidak sesuai'
+                'data'    => 'Dimohon Untuk Login Terlebih Dahulu'
             ]);
         }
+        
         $uuid = $uuidUser;
 
         $user = Models\User::where('uuid',$uuid)->get();

@@ -225,6 +225,7 @@ class ValidationController extends Controller
     private function classes(){
         $this->rules = [
             'id_class_category'                  => 'required',
+            'id_user'                            => 'required',
             'nama'                               => 'required',
             'deskripsi'                          => 'required',
             'url_web'                            => 'required|image',
@@ -234,6 +235,7 @@ class ValidationController extends Controller
     
         $this->messages = [
             'id_class_category.required'         => 'ID Kategori wajib diisi',
+            'id_user.required'                   => 'ID User wajib diisi',
             'nama.required'                      => 'Nama wajib diisi',
             'deskripsi.required'                 => 'Deskripsi wajib diisi',
             'url_web.required'                   => 'Banner Web wajib diisi',

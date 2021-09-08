@@ -52,12 +52,13 @@ class LoginController extends Controller
             'lokasi'          => $request->lokasi
         ];
 
+
         $input = new Helper\UpdateController('login',$data);
         $result = [
-            'token'=>$token,
+            'bearer-token'=>$token,
             #'nama'=>$user[0]->nama,
-            'jenis_pengguna'=>$jenis_pengguna[$user->jenis_pengguna],
-            'jenis_akun'=>$jenis_akun[$user->jenis_akun]
+            'jenis_pengguna'=>$jenis_pengguna[$request->user()->jenis_pengguna],
+            'jenis_akun'=>$jenis_akun[$request->user()->jenis_akun]
         ];
 
         return response()->json(['message'=>'Success','data'=>$result

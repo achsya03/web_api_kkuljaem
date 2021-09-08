@@ -82,7 +82,7 @@ class ClassCategoryController extends Controller
         
 
         return response()->json(['message'=>'Success','data'
-        => $class_cat],200);
+        => $class_cat]);
     }
 
     public function detailData(Request $request){

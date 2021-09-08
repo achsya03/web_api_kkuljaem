@@ -16,6 +16,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->BigInteger('id_reference')->unsigned()->nullable();
             $table->string('nama')->nullable();
             $table->string('email')->unique();
             $table->string('password');
@@ -32,6 +33,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             //$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             $table->index(['web_token','uuid']);
+            $table->foreign('id_reference')->references('id')->on('reference')->onDelete('cascade');
         });
     }
 

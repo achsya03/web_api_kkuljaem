@@ -19,6 +19,7 @@ class CreateSubsTable extends Migration
             $table->BigInteger('id_packet')->unsigned()->nullable();
             $table->integer('harga')->nullable();
             $table->integer('diskon')->nullable();
+            $table->datetime('tgl_subs')->nullable();
             #$table->string('jenis_jawaban')->nullable();
             $table->string('uuid');
             $table->index(['uuid']);

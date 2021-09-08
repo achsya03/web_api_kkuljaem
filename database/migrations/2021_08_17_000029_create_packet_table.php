@@ -17,6 +17,7 @@ class CreatePacketTable extends Migration
             $table->id();
             $table->string('nama')->nullable();
             $table->text('deskripsi')->nullable();
+            $table->integer('lama_paket')->nullable();
             $table->integer('harga')->nullable();
             #$table->string('jenis_jawaban')->nullable();
             $table->string('uuid');

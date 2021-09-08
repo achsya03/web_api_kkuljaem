@@ -62,7 +62,7 @@ class RegisterController extends Controller
         $input = new Helper\InputController('authUser',$data);
         
         return response()->json(['message'=>'Success',
-        'info'=> $kirim_email->message]);
+        'info'=> $kirim_email]);
     }
     /*public function apiRequest(Request $request){
         

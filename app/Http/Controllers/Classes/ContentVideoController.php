@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Classes;
 
+use App\Models;
 use App\Models\ContentVideo;
 use App\Models\Classes;
 use App\Models\ContentQuiz;
@@ -98,5 +99,18 @@ class ContentVideoController extends Controller
 
         return response()->json(['message'=>'Success','info'
         => 'Proses Update Berhasil']);
+    }
+
+    public function detailData(Request $request){
+        if(!$uuid=$request->token){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+
+        $object = ContentVideo::where('uuid',$uuid)->first();
+
+        if(!$object){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+
     }
 }

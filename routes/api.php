@@ -8,8 +8,10 @@ use App\Http\Controllers\Auth;
 use App\Http\Controllers\Banner;
 
 use App\Http\Controllers\Classes;
+use App\Http\Controllers\TestController;
 
 use App\Http\Controllers\Helper;
+use App\Http\Controllers\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -93,7 +95,42 @@ Route::group(['prefix' => 'api/qna'], function () {
 #==========================Student================================
 
 #==========================Admin/Mentor================================
+Route::group(['prefix' => 'api/admin'], function () {
+    Route::get('/', [Helper\AdminController::class,'dashboard']);
+});
 
+Route::group(['prefix' => 'api/admin/classroom-group'], function () {
+    Route::post('/', [Classes\ClassCategoryController::class,'addData']);
+    Route::post('update', [Classes\ClassCategoryController::class,'updateData']);
+    Route::get('/', [Classes\ClassCategoryController::class,'allData']);
+    Route::get('/detail', [Classes\ClassCategoryController::class,'detailData']);
+});
+
+Route::group(['prefix' => 'api/admin/classroom'], function () {
+    Route::post('/', [Classes\ClassController::class,'addData']);
+    Route::post('update', [Classes\ClassController::class,'updateData']);
+    Route::get('/', [Classes\ClassController::class,'allData']);
+    Route::get('/detail', [Classes\ClassController::class,'detailData']);
+    Route::get('/content', [Classes\ClassController::class,'classContent']);
+    Route::get('/student', [Classes\ClassController::class,'studentData']);
+});
+
+Route::group(['prefix' => 'api/content-quiz'], function () {
+    Route::post('/', [Classes\ContentQuizController::class,'addData']);
+    Route::post('update', [Classes\ContentQuizController::class,'updateData']);
+    Route::get('/', [Classes\ContentQuizController::class,'allData']);
+    Route::get('/detail', [Classes\ContentQuizController::class,'detailData']);
+});
+
+Route::group(['prefix' => 'api/content-video'], function () {
+    Route::post('/', [Classes\ContentVideoController::class,'addData']);
+    Route::post('update', [Classes\ContentVideoController::class,'updateData']);
+    Route::get('/', [Classes\ContentVideoController::class,'allData']);
+    Route::get('/detail', [Classes\ContentVideoController::class,'detailData']);
+});
+
+Route::post('/test', [TestController::class,'test']);
+Route::get('/payment', [Payment\PaymentController::class,'show']);
 #==========================Admin/Mentor================================
 
 
@@ -183,7 +220,7 @@ Route::group(['prefix' => 'api/user'], function () {
     Route::get('/', [UserController::class, 'allData']);
     Route::post('/', [UserController::class, 'addData']);
 });
-Route::get('/test', [HelperController::class, 'randomToken']);
+//Route::get('/test', [HelperController::class, 'randomToken']);
 Route::post('/upload', function (Request $request) {
     // $uploadedFileUrl = Cloudinary::uploadFile($request->file('file')->getRealPath(),[
     //     'folder' => date("Y-m-d"),
