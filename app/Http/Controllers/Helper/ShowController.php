@@ -207,6 +207,7 @@ class ShowController extends Controller
 
 
             $arr['category'] = $category[$i]->nama;
+            $arr['category_detail'] = $category[$i]->deskripsi;
             $arr['category_uuid'] = $category[$i]->uuid;
             $arr['classroom'] = $classes;
             $arr0[$i] = $arr;
