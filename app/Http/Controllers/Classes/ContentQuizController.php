@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Classes;
 
-use App\Models\Question;
+use App\Models;
 use App\Models\ContentQuiz;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,6 +14,16 @@ class ContentQuizController extends Controller
 
     public function addData(Request $request)
     {
+        $validation1 = new Helper\ValidationController('content');
+        $this->rules = $validation1->rules;
+        $this->messages = $validation1->messages;
+
+        $validator = Validator::make($request->all(), $this->rules, $this->messages);
+        #echo $web_token;
+        if($validator->fails()){
+            return response()->json(['message'=>'Failed','info'=>$validator->errors()]);
+        }
+
         $validation = new Helper\ValidationController('contentQuiz');
         $this->rules = $validation->rules;
         $this->messages = $validation->messages;
@@ -23,23 +33,42 @@ class ContentQuizController extends Controller
         if($validator->fails()){
             return response()->json(['message'=>'Failed','info'=>$validator->errors()]);
         }
-        
-        $id_question = Question::where('uuid',$request->id_question)->first();
-        if($id_question==null){
-            return response()->json(['message'=>'Failed','info'=>'ID Quiz Tidak Sesuai']);
+
+
+        $id_class = Models\Classes::where('uuid',$request->id_class)->first();
+        if($id_class==null){
+            return response()->json(['message'=>'Failed','info'=>'ID Class Tidak Sesuai']);
         }
 
-        $uuid = $validation->data['uuid'];
+        $uuid1 = $validation1->data['uuid'];
        
         $data = [
-            'id_question'       => $id_question->id,
+            'id_class'      => $id_class->id,
+            'number'        => $request->nomor,
+            'type'          => 'quiz',
+            'uuid'          => $uuid1
+        ];
+
+        $input = new Helper\InputController('content',$data);
+        $uuid = $validation->data['uuid'];
+        $id_content = Models\Content::where('uuid',$uuid1)->first();
+       
+        $data = [
+            'id_content'      => $id_content->id,
             'judul'             => $request->judul,
             'keterangan'        => $request->keterangan,
             'jml_pertanyaan'    => 0,
             'uuid'              => $uuid
         ];
+        $input = new Helper\InputController('contentQuiz',$data);
 
-        $input = new Helper\InputController('teacher',$data);
+        $id_class1 = Models\Classes::where('id',$id_class->id)->first();
+        $data = [
+            'jml_kuis'              => $id_class1->jml_kuis+1,
+            'uuid'                   => $id_class1->uuid
+        ];
+
+        $update = new Helper\UpdateController('classes',$data);
 
         return response()->json(['message'=>'Success','info'
         => 'Proses Input Berhasil']);
@@ -54,7 +83,7 @@ class ContentQuizController extends Controller
             return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
         }
 
-        $object = ContentQuiz::where('uuid',$uuid)->first();
+        $object = Models\Quiz::where('uuid',$uuid)->first();
 
         if(!$object){
             return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
@@ -66,17 +95,10 @@ class ContentQuizController extends Controller
         if($validator->fails()){
             return response()->json(['message'=>'Failed','info'=>$validator->errors()]);
         }
-        
-        $id_question = Question::where('uuid',$request->id_question)->first();
-        if($id_question==null){
-            return response()->json(['message'=>'Failed','info'=>'ID Quiz Tidak Sesuai']);
-        }
    
         $data = [
-            'id_question'       => $id_question->id,
             'judul'             => $request->judul,
             'keterangan'        => $request->keterangan,
-            'jml_pertanyaan'    => $object->jml_pertanyaan,
             'uuid'              => $uuid
         ];
 
@@ -84,5 +106,29 @@ class ContentQuizController extends Controller
 
         return response()->json(['message'=>'Success','info'
         => 'Proses Update Berhasil']);
+    }
+
+    public function detailData(Request $request){
+        if(!$uuid=$request->token){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+
+        $object = Models\Quiz::where('uuid',$uuid)->first();
+
+        if(!$object){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+
+        #unset($object->id);
+
+        $result = [
+            'nomor'         => $object->content->number,
+            'judul'         => $object->judul,
+            'keterangan'    => $object->keterangan,
+            'uuid'          => $object->uuid,
+        ];
+
+        return response()->json(['message'=>'Success','data'
+        => $result]);
     }
 }

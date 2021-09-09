@@ -72,7 +72,7 @@ class ClassController extends Controller
             'web_id'                     => $uploadedFileUrl1['getPublicId'],
             'url_mobile'                 => $uploadedFileUrl2['getSecurePath'],
             'mobile_id'                  => $uploadedFileUrl2['getPublicId'],
-            'jml_materi'                 => 0,
+            'jml_video'                  => 0,
             'jml_kuis'                   => 0,
             'status_tersedia'            => request('status_tersedia'),
             'uuid'                       => $uuid1
@@ -141,7 +141,7 @@ class ClassController extends Controller
             'web_id'                     => $uploadedFileUrl1['getPublicId'],
             'url_mobile'                 => $uploadedFileUrl2['getSecurePath'],
             'mobile_id'                  => $uploadedFileUrl2['getPublicId'],
-            'jml_materi'                 => 0,
+            'jml_video'                  => 0,
             'jml_kuis'                   => 0,
             'status_tersedia'            => request('status_tersedia'),
             'uuid'                       => $uuid
@@ -243,7 +243,7 @@ class ClassController extends Controller
         }
 
         $student = Models\Student::where('id_class',$classes[0]->id)->first();
-        $progress = $student->jml_pengerjaan / ($classes[0]->jml_materi+$classes[0]->jml_kuis);
+        $progress = $student->jml_pengerjaan / ($classes[0]->jml_video+$classes[0]->jml_kuis);
 
         $result = [
             'nama' => $student->user->nama,
@@ -364,9 +364,9 @@ class ClassController extends Controller
                 'mentor_all' => $arr0,
                 'url_web' => $classes[$i]->url_web,
                 'url_mobile' => $classes[$i]->url_mobile,
-                'jml_video' => $classes[$i]->jml_materi,
+                'jml_video' => $classes[$i]->jml_video,
                 'jml_quiz' => $classes[$i]->jml_kuis,
-                'jml_materi' => $classes[$i]->jml_kuis + $classes[$i]->jml_materi,
+                'jml_materi' => $classes[$i]->jml_kuis + $classes[$i]->jml_video,
                 'dibuat' => $classes[$i]->created_at,
                 'status' => $statTersedia[$classes[$i]->status_tersedia],
                 'diubah' => $classes[$i]->updated_at,

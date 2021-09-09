@@ -13,6 +13,7 @@ class Task extends Model
     protected $fillable = [
         'id_question',
         'id_video',
+        'number',
         'uuid'
     ];
     public function question()

@@ -17,6 +17,7 @@ class CreateShadowingTable extends Migration
             $table->id();
             $table->BigInteger('id_word')->unsigned()->nullable();
             $table->BigInteger('id_video')->unsigned()->nullable();
+            $table->integer('number')->nullable();
             $table->string('uuid');
             $table->index(['uuid']);
             

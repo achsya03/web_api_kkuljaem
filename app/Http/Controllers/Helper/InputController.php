@@ -26,9 +26,9 @@ class InputController extends Controller
         }elseif($pos=='content'){
             $this->content(Models\Content::class,$data);
         }elseif($pos=='contentQuiz'){
-            $this->contentQuiz(Models\ContentQuiz::class,$data);
+            $this->contentQuiz(Models\Quiz::class,$data);
         }elseif($pos=='contentVideo'){
-            $this->contentVideo(Models\ContentVideo::class,$data);
+            $this->contentVideo(Models\Video::class,$data);
         }elseif($pos=='option'){
             $this->option(Models\Option::class,$data);
         }elseif($pos=='question'){
@@ -103,7 +103,7 @@ class InputController extends Controller
             'web_id'                       => $data['web_id'],
             'url_mobile'                   => $data['url_mobile'],
             'mobile_id'                    => $data['mobile_id'],
-            'jml_materi'                   => $data['jml_materi'],
+            'jml_video'                    => $data['jml_video'],
             'jml_kuis'                     => $data['jml_kuis'],
             'status_tersedia'              => $data['status_tersedia'],
             'uuid'                         => $data['uuid']
@@ -121,7 +121,7 @@ class InputController extends Controller
 
     private function contentQuiz($model,$data){
         $model::create([
-            'id_question'                  => $data['id_question'],
+            'id_content'                  => $data['id_content'],
             'judul'                        => $data['judul'],
             'keterangan'                   => $data['keterangan'],
             'jml_pertanyaan'               => $data['jml_pertanyaan'],
@@ -131,13 +131,13 @@ class InputController extends Controller
 
     private function contentVideo($model,$data){
         $model::create([
-            'id_class'                     => $data['id_class'],
+            'id_content'                     => $data['id_content'],
             #'id_quiz'                      => $data['id_quiz'],
             'judul'                        => $data['judul'],
-            'deskripsi'                    => $data['deskripsi'],
+            'keterangan'                    => $data['keterangan'],
             'url_video'                    => $data['url_video'],
-            'like_count'                   => $data['like_count'],
-            'comment_count'                => $data['comment_count'],
+            'jml_latihan'                   => $data['jml_latihan'],
+            'jml_shadowing'                => $data['jml_shadowing'],
             'uuid'                         => $data['uuid']
         ]);
     }

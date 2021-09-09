@@ -74,12 +74,12 @@ class ValidationController extends Controller
         }elseif($pos=='contentQuiz'){
             $this->contentQuiz();
             $this->data = [
-                'uuid'      => $this->getUuid(Models\ContentQuiz::class)
+                'uuid'      => $this->getUuid(Models\Quiz::class)
             ];
         }elseif($pos=='contentVideo'){
             $this->contentVideo();
             $this->data = [
-                'uuid'      => $this->getUuid(Models\ContentVideo::class)
+                'uuid'      => $this->getUuid(Models\Video::class)
             ];
         }elseif($pos=='option'){
             $this->option();
@@ -257,7 +257,7 @@ class ValidationController extends Controller
             #'id_content_quiz'                    => 'required',
             'nomor'                               => 'required',
             #'tgl_testimoni'                      => 'required',
-            'type'                                => 'required'
+            #'tipe'                                => 'required'
         ];
     
         $this->messages = [
@@ -265,13 +265,13 @@ class ValidationController extends Controller
             #'id_content_quiz.required'         => 'ID Kuis wajib diisi',
             'nomor.required'                    => 'Nomor wajib diisi',
             #'tgl_testimoni.required'           => 'Tanggal wajib diisi',
-            'tipe.required'                     => 'Tipe wajib diisi'
+            #'tipe.required'                     => 'Tipe wajib diisi'
         ];
     }
 
     private function contentQuiz(){
         $this->rules = [
-            'id_question'                            => 'required',
+            #'id_content'                            => 'required',
             #'id_content_quiz'                       => 'required',
             'judul'                                  => 'required',
             #'tgl_testimoni'                         => 'required',
@@ -279,7 +279,7 @@ class ValidationController extends Controller
         ];
     
         $this->messages = [
-            'id_question.required'                 => 'ID Pertanyaan wajib diisi',
+            #'id_content.required'                 => 'ID Content wajib diisi',
             #'id_content_quiz.required'            => 'ID Kuis wajib diisi',
             'judul.required'                       => 'ID Judul wajib diisi',
             #'tgl_testimoni.required'              => 'Tanggal wajib diisi',
@@ -289,7 +289,7 @@ class ValidationController extends Controller
 
     private function contentVideo(){
         $this->rules = [
-            'id_content'                              => 'required',
+            #'id_content'                              => 'required',
             #'id_content_quiz'                      => 'required',
             #'id_quiz'                               => 'required',
             #'tgl_testimoni'                        => 'required',
@@ -299,12 +299,12 @@ class ValidationController extends Controller
         ];
     
         $this->messages = [
-            'id_content.required'                     => 'ID Kelas wajib diisi',
+            #'id_content.required'                     => 'ID Content wajib diisi',
             #'id_content_quiz.required'             => 'ID Kuis wajib diisi',
             #'id_quiz.required'                      => 'ID Kuis wajib diisi',
             #'tgl_testimoni.required'               => 'Tanggal wajib diisi',
             'judul.required'                        => 'Judul wajib diisi',
-            'keterangan.required'                    => 'Deskripsi wajib diisi',
+            'keterangan.required'                    => 'Keterangan wajib diisi',
             'url_video.required'                    => 'URL Video wajib diisi'
         ];
     }

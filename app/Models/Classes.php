@@ -19,7 +19,7 @@ class Classes extends Model
         'web_id',
         'url_mobile',
         'mobile_id',
-        'jml_materi',
+        'jml_video',
         'jml_kuis',
         'status_tersedia',
         'uuid',

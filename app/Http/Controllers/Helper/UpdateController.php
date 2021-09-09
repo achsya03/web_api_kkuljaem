@@ -31,9 +31,9 @@ class UpdateController extends Controller
         }elseif($pos=='content'){
             $this->content(Models\Content::class,$data);
         }elseif($pos=='contentQuiz'){
-            $this->contentQuiz(Models\ContentQuiz::class,$data);
+            $this->contentQuiz(Models\Quiz::class,$data);
         }elseif($pos=='contentVideo'){
-            $this->contentVideo(Models\ContentVideo::class,$data);
+            $this->contentVideo(Models\Video::class,$data);
         }elseif($pos=='option'){
             $this->option(Models\Option::class,$data);
         }elseif($pos=='question'){
@@ -112,36 +112,52 @@ class UpdateController extends Controller
     }
 
     private function classes($model,$data){
-        $model::where('uuid',$data['uuid'])
-        ->update([
-            'id_class_category'            => $data['id_class_category'],
-            'nama'                         => $data['nama'],
-            'deskripsi'                    => $data['deskripsi'],
-            'url_web'                      => $data['url_web'],
-            'web_id'                       => $data['web_id'],
-            'url_mobile'                   => $data['url_mobile'],
-            'mobile_id'                    => $data['mobile_id'],
-            'status_tersedia'              => $data['status_tersedia']
-        ]);
+        $field = [
+            'id_class_category',
+            'nama',
+            'deskripsi',
+            'url_web',
+            'web_id',
+            'url_mobile',
+            'mobile_id',
+            'jml_video',
+            'jml_kuis',
+            'status_tersedia',
+            'uuid',
+        ];
+        for($i=0;$i<count($field)-1;$i++){
+            if(isset($data[$field[$i]])){
+                $model::where('uuid',$data['uuid'])
+                ->update([
+                    $field[$i]            => $data[$field[$i]]
+                ]);
+            }
+        }
+        
     }
     
     private function contentQuiz($model,$data){
-        $model::where('uuid',$data['uuid'])
-        ->update([
-            'id_question'                  => $data['id_question'],
-            'judul'                        => $data['judul'],
-            'keterangan'                   => $data['keterangan'],
-            'jml_pertanyaan'               => $data['jml_pertanyaan']
-        ]);
+        $field = [
+            'judul',
+            'keterangan',
+            'jml_pertanyaan',
+            'uuid',
+        ];
+        for($i=0;$i<count($field)-1;$i++){
+            if(isset($data[$field[$i]])){
+                $model::where('uuid',$data['uuid'])
+                ->update([
+                    $field[$i]            => $data[$field[$i]]
+                ]);
+            }
+        }
     }
 
     private function contentVideo($model,$data){
         $model::where('uuid',$data['uuid'])
         ->update([
-            'id_class'                     => $data['id_class'],
-            #'id_quiz'                      => $data['id_quiz'],
             'judul'                        => $data['judul'],
-            'deskripsi'                    => $data['deskripsi'],
+            'keterangan'                    => $data['keterangan'],
             'url_video'                    => $data['url_video']
         ]);
     }

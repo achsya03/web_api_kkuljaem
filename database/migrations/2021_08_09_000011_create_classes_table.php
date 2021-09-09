@@ -23,7 +23,7 @@ class CreateClassesTable extends Migration
             $table->string('web_id')->nullable();
             $table->string('url_mobile')->nullable();
             $table->string('mobile_id')->nullable();
-            $table->integer('jml_materi')->nullable();
+            $table->integer('jml_video')->nullable();
             $table->integer('jml_kuis')->nullable();
             $table->char('status_tersedia',1)->nullable();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

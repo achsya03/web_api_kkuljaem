@@ -46,16 +46,16 @@ class ContentVideoController extends Controller
         $data = [
             'id_class'      => $id_class->id,
             'number'        => $request->nomor,
-            'type'          => $request->tipe,
+            'type'          => 'video',
             'uuid'          => $uuid1
         ];
 
         $input = new Helper\InputController('content',$data);
 
         $uuid = $validation->data['uuid'];
-        $id_content = Content::where('uuid',$uuid1)->first();
+        $id_content = Models\Content::where('uuid',$uuid1)->first();
         $data = [
-            'id_content'      => $id_content,
+            'id_content'      => $id_content->id,
             'judul'           => $request->judul,
             'keterangan'      => $request->keterangan,
             'jml_latihan'     => 0,
@@ -65,6 +65,14 @@ class ContentVideoController extends Controller
         ];
 
         $input = new Helper\InputController('contentVideo',$data);
+
+        $id_class1 = Models\Classes::where('id',$id_class->id)->first();
+        $data = [
+            'jml_video'              => $id_class1->jml_video+1,
+            'uuid'                   => $id_class1->uuid
+        ];
+
+        $update = new Helper\UpdateController('classes',$data);
 
         return response()->json(['message'=>'Success','info'
         => 'Proses Input Berhasil']);
@@ -79,9 +87,9 @@ class ContentVideoController extends Controller
         $this->rules = $validation->rules;
         $this->messages = $validation->messages;
 
-        $object = ContentVideo::where('uuid',$uuid)->first();
+        $id_video = Models\Video::where('uuid',$uuid)->first();
 
-        if(!$object){
+        if($id_video==null){
             return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
         }
 
@@ -91,24 +99,13 @@ class ContentVideoController extends Controller
         if($validator->fails()){
             return response()->json(['message'=>'Failed','info'=>$validator->errors()]);
         }
-        
-        #$id_quiz = ContentQuiz::where('uuid',$request->id_quiz)->first();
-        #if($id_quiz==null){
-        #    return response()->json(['message'=>'ID Quiz Tidak Sesuai','input'=>$return_data]);
-        #}
 
-        $id_class = Classes::where('uuid',$request->id_class)->first();
-        if($id_class==null){
-            return response()->json(['message'=>'Failed','info'=>'ID Class Tidak Sesuai']);
-        }
        
         $data = [
-            'id_class'      => $id_class->id,
-            #'id_quiz'       => $id_quiz->id,
-            'judul'         => $request->judul,
-            'deskripsi'     => $request->deskripsi,
-            'url_video'     => $request->url_video,
-            'uuid'          => $uuid
+            'judul'           => $request->judul,
+            'keterangan'      => $request->keterangan,
+            'url_video'       => $request->url_video,
+            'uuid'            => $uuid
         ];
 
         $input = new Helper\UpdateController('contentVideo',$data);
@@ -122,11 +119,23 @@ class ContentVideoController extends Controller
             return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
         }
 
-        $object = ContentVideo::where('uuid',$uuid)->first();
+        $object = Models\Video::where('uuid',$uuid)->first();
 
         if(!$object){
             return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
         }
 
+        #unset($object->id);
+
+        $result = [
+            'nomor'         => $object->content->number,
+            'judul'         => $object->judul,
+            'keterangan'    => $object->keterangan,
+            'url_video'     => $object->url_video,
+            'uuid'          => $object->uuid,
+        ];
+
+        return response()->json(['message'=>'Success','data'
+        => $result]);
     }
 }

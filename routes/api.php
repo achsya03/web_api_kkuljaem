@@ -119,82 +119,31 @@ Route::group(['prefix' => 'api/admin/classroom/content'], function () {
     Route::get('/', [Classes\ClassController::class,'classContent']);
     Route::get('/add', [Classes\ClassController::class,'checkData']);
     Route::post('/quiz', [Classes\ContentQuizController::class,'addData']);
+    Route::get('/quiz/detail', [Classes\ContentQuizController::class,'detailData']);
     Route::post('/quiz/update', [Classes\ContentQuizController::class,'updateData']);
     Route::post('/video', [Classes\ContentVideoController::class,'addData']);
+    Route::get('/video/detail', [Classes\ContentVideoController::class,'detailData']);
     Route::post('/video/update', [Classes\ContentVideoController::class,'updateData']);
-
 });
   
-Route::group(['prefix' => 'api/content-quiz'], function () {
-    Route::post('/', [Classes\ContentQuizController::class,'addData']);
-    Route::post('update', [Classes\ContentQuizController::class,'updateData']);
-    Route::get('/', [Classes\ContentQuizController::class,'allData']);
-    Route::get('/detail', [Classes\ContentQuizController::class,'detailData']);
+Route::group(['prefix' => 'api/admin/classroom/content/quiz'], function () {
+    Route::get('/exam', [Classes\ExamController::class,'getData']);
+    Route::post('/exam', [Classes\ExamController::class,'addData']);
+    Route::get('/exam/detail', [Classes\ExamController::class,'detailData']);
+    Route::post('/exam/update', [Classes\ExamController::class,'updateData']);
 });
 
-Route::group(['prefix' => 'api/content-video'], function () {
-    Route::post('/', [Classes\ContentVideoController::class,'addData']);
-    Route::post('update', [Classes\ContentVideoController::class,'updateData']);
-    Route::get('/', [Classes\ContentVideoController::class,'allData']);
-    Route::get('/detail', [Classes\ContentVideoController::class,'detailData']);
+Route::group(['prefix' => 'api/admin/classroom/content/video'], function () {
+    Route::get('/task', [Classes\TaskController::class,'getData']);
+    Route::post('/task', [Classes\TaskController::class,'addData']);
+    Route::get('/exam/detail', [Classes\TaskController::class,'detailData']);
+    Route::post('/exam/update', [Classes\TaskController::class,'updateData']);
 });
 
 Route::post('/test', [TestController::class,'test']);
 Route::get('/payment', [Payment\PaymentController::class,'show']);
 #==========================Admin/Mentor================================
 
-
-Route::group(['prefix' => 'api/banner'], function () {
-    Route::post('/', [Banner\BannerController::class,'addData']);
-    Route::post('update', [Banner\BannerController::class,'updateData']);
-    Route::get('/', [Banner\BannerController::class,'allData']);
-    Route::get('/detail', [Banner\BannerController::class,'detailData']);
-});
-
-Route::group(['prefix' => 'api/video'], function () {
-    Route::post('/', [Banner\VideoController::class,'addDataVideo']);
-    Route::post('update', [Banner\VideoController::class,'updateDataVideo']);
-    Route::get('/', [Banner\VideoController::class,'allDataVideo']);
-    Route::get('/detail', [Banner\VideoController::class,'detailDataVideo']);
-});
-
-
-
-Route::group(['prefix' => 'api/word'], function () {
-    Route::post('/', [Banner\WordController::class,'addDataWord']);
-    Route::post('update', [Banner\WordController::class,'updateDataWord']);
-    Route::get('/', [Banner\WordController::class,'allDataWord']);
-    Route::get('/detail', [Banner\WordController::class,'detailDataWord']);
-});
-
-Route::group(['prefix' => 'api/class-category'], function () {
-    Route::post('/', [Classes\ClassCategoryController::class,'addData']);
-    Route::post('update', [Classes\ClassCategoryController::class,'updateData']);
-    Route::get('/', [Classes\ClassCategoryController::class,'allData']);
-    Route::get('/detail', [Classes\ClassCategoryController::class,'detailData']);
-});
-
-Route::group(['prefix' => 'api/class'], function () {
-    Route::post('/', [Classes\ClassController::class,'addData']);
-    Route::post('update', [Classes\ClassController::class,'updateData']);
-    Route::get('/', [Classes\ClassController::class,'allData']);
-    Route::get('/detail', [Classes\ClassController::class,'detailData']);
-});
-
-
-Route::group(['prefix' => 'api/content-quiz'], function () {
-    Route::post('/', [Classes\ContentQuizController::class,'addData']);
-    Route::post('update', [Classes\ContentQuizController::class,'updateData']);
-    Route::get('/', [Classes\ContentQuizController::class,'allData']);
-    Route::get('/detail', [Classes\ContentQuizController::class,'detailData']);
-});
-
-Route::group(['prefix' => 'api/content-video'], function () {
-    Route::post('/', [Classes\ContentVideoController::class,'addData']);
-    Route::post('update', [Classes\ContentVideoController::class,'updateData']);
-    Route::get('/', [Classes\ContentVideoController::class,'allData']);
-    Route::get('/detail', [Classes\ContentVideoController::class,'detailData']);
-});
 
 Route::group(['prefix' => 'api/option'], function () {
     Route::post('/', [Classes\OptionController::class,'addData']);

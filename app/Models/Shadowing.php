@@ -13,6 +13,7 @@ class Shadowing extends Model
     protected $fillable = [
         'id_word',
         'id_video',
+        'number',
         'uuid'
     ];
     public function word()
