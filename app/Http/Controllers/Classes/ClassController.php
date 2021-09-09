@@ -178,7 +178,38 @@ class ClassController extends Controller
         $result = $this->classesValue($classes);
         for ($i=0;$i<count($result);$i++){
             unset($result[$i]['mentor_not_reg']);
+            unset($result[$i]['mentor_all']);
+            unset($result[$i]['group_all']);
         }
+
+        return response()->json(['message'=>'Success','data'
+        => $result]);
+    }
+
+    public function getForAddData(Request $request){
+
+        $category = Models\ClassesCategory::all();
+        $mentor = Models\User::where('jenis_pengguna','!=',0)->get();
+        for($i=0;$i<count($category);$i++){
+            $category[$i]['category_uuid'] = $category[$i]->uuid;
+            unset($category[$i]->id);
+            unset($category[$i]->deskripsi);
+            unset($category[$i]->uuid);
+        }
+
+        $arrMentor = [];
+        for($i=0;$i<count($mentor);$i++){
+            $arr = [];
+            $arrMentor[$i] = [
+                'nama' => $mentor[$i]->nama,
+                'mentor_uuid' => $mentor[$i]->uuid,
+            ];
+        }       
+
+        $result = [
+            'category' => $category,
+            'mentor' => $arrMentor
+        ];
 
         return response()->json(['message'=>'Success','data'
         => $result]);
@@ -193,6 +224,11 @@ class ClassController extends Controller
         }
 
         $result = $this->classesValue($classes);
+        for ($i=0;$i<count($result);$i++){
+            // unset($result[$i]['mentor_not_reg']);
+            // unset($result[$i]['mentor_all']);
+            // unset($result[$i]['group_all']);
+        }
 
         return response()->json(['message'=>'Success','data'
         => $result[0]]);

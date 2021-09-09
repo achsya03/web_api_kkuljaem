@@ -262,11 +262,12 @@ class ShowController extends Controller
             $classes[$j] = $arr1;
         }    
 
-        // $arr['category'] = $category[0]->nama;
-        // $arr['category_uuid'] = $category[0]->uuid;
-        #$arr += $classes;
+        $arr['category'] = $category[0]->nama;
+        $arr['deskripsi'] = $category[0]->deskripsi;
+        $arr['category_uuid'] = $category[0]->uuid;
+        $arr ['class']= $classes;
 
-        $result = $classes;
+        $result = $arr;
 
         return response()->json([
             'message' => 'Success',
@@ -332,7 +333,7 @@ class ShowController extends Controller
                     'urutan' => $content[$i]->number,
                     'judul' => $content_video[0]->judul,
                     'type' => $content[$i]->type,
-                    'jml_latihan' => $content_video[0]->jml_pertanyaan,
+                    'jml_latihan' => $content_video[0]->jml_latihan,
                     'jml_shadowing' => $content_video[0]->jml_shadowing,
                     'content_video_uuid' => $content_video[0]->uuid
                 ];
@@ -547,7 +548,7 @@ class ShowController extends Controller
                     'urutan' => $content[$i]->number,
                     'judul' => $content_video[0]->judul,
                     'type' => $content[$i]->type,
-                    'jml_latihan' => $content_video[0]->jml_pertanyaan,
+                    'jml_latihan' => $content_video[0]->jml_latihan,
                     'jml_shadowing' => $content_video[0]->jml_shadowing,
                     'content_video_uuid' => $content_video[0]->uuid
                 ];

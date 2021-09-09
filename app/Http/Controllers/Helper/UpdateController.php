@@ -28,6 +28,8 @@ class UpdateController extends Controller
             $this->classCategory(Models\ClassesCategory::class,$data);
         }elseif($pos=='classes'){
             $this->classes(Models\Classes::class,$data);
+        }elseif($pos=='content'){
+            $this->content(Models\Content::class,$data);
         }elseif($pos=='contentQuiz'){
             $this->contentQuiz(Models\ContentQuiz::class,$data);
         }elseif($pos=='contentVideo'){

@@ -23,6 +23,8 @@ class InputController extends Controller
             $this->classCategory(Models\ClassesCategory::class,$data);
         }elseif($pos=='classes'){
             $this->classes(Models\Classes::class,$data);
+        }elseif($pos=='content'){
+            $this->content(Models\Content::class,$data);
         }elseif($pos=='contentQuiz'){
             $this->contentQuiz(Models\ContentQuiz::class,$data);
         }elseif($pos=='contentVideo'){
@@ -104,6 +106,15 @@ class InputController extends Controller
             'jml_materi'                   => $data['jml_materi'],
             'jml_kuis'                     => $data['jml_kuis'],
             'status_tersedia'              => $data['status_tersedia'],
+            'uuid'                         => $data['uuid']
+        ]);
+    }
+
+    private function content($model,$data){
+        $model::create([
+            'id_class'                     => $data['id_class'],
+            'number'                       => $data['number'],
+            'type'                         => $data['type'],
             'uuid'                         => $data['uuid']
         ]);
     }

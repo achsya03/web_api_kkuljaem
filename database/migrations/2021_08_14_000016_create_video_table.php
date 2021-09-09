@@ -19,7 +19,7 @@ class CreateVideoTable extends Migration
             #$table->BigInteger('id_task')->unsigned()->nullable();
             $table->string('judul')->nullable();
             $table->text('keterangan')->nullable();
-            $table->integer('jml_pertanyaan')->nullable();
+            //$table->integer('jml_pertanyaan')->nullable();
             $table->integer('jml_latihan')->nullable();
             $table->integer('jml_shadowing')->nullable();
             $table->string('url_video')->nullable();

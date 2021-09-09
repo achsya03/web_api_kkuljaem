@@ -16,7 +16,7 @@ class Video extends Model
         'keterangan',
         'jml_latihan',
         'jml_shadowing',
-        'jml_pertanyaan',
+        //'jml_pertanyaan',
         'url_video',
         'uuid'
     ];

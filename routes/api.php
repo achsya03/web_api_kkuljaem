@@ -110,11 +110,21 @@ Route::group(['prefix' => 'api/admin/classroom'], function () {
     Route::post('/', [Classes\ClassController::class,'addData']);
     Route::post('update', [Classes\ClassController::class,'updateData']);
     Route::get('/', [Classes\ClassController::class,'allData']);
-    Route::get('/detail', [Classes\ClassController::class,'detailData']);
-    Route::get('/content', [Classes\ClassController::class,'classContent']);
+    Route::get('/add', [Classes\ClassController::class,'getForAddData']);
+    Route::get('/edit', [Classes\ClassController::class,'detailData']);
     Route::get('/student', [Classes\ClassController::class,'studentData']);
 });
 
+Route::group(['prefix' => 'api/admin/classroom/content'], function () {
+    Route::get('/', [Classes\ClassController::class,'classContent']);
+    Route::get('/add', [Classes\ClassController::class,'checkData']);
+    Route::post('/quiz', [Classes\ContentQuizController::class,'addData']);
+    Route::post('/quiz/update', [Classes\ContentQuizController::class,'updateData']);
+    Route::post('/video', [Classes\ContentVideoController::class,'addData']);
+    Route::post('/video/update', [Classes\ContentVideoController::class,'updateData']);
+
+});
+  
 Route::group(['prefix' => 'api/content-quiz'], function () {
     Route::post('/', [Classes\ContentQuizController::class,'addData']);
     Route::post('update', [Classes\ContentQuizController::class,'updateData']);
