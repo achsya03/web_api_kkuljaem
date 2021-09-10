@@ -68,12 +68,16 @@ class ShowController extends Controller
         $cls = [];
         for($i = 0;$i < count($class); $i++){
             $cl = Models\Teacher::where('id_class',$class[$i]->id)->first();
+            $mentor = [];
+            if($cl != null){
+                $mentor = $cl->user->nama;
+            } 
             $cls[$i] = [
                 'nama_kelas' => $class[$i]->nama,
-                'nama_mentor' => $cl->user->nama,
+                'nama_mentor' => $mentor,
                 'url_web' => $class[$i]->url_web,
                 'url_mobile' => $class[$i]->url_mobile,
-                'jml_materi' => $classes[$i]->jml_video+$classes[$i]->jml_kuis,
+                'jml_materi' => $class[$i]->jml_video+$class[$i]->jml_kuis,
                 'kelas_uuid' => $class[$i]->uuid
             ];
         }
@@ -249,7 +253,7 @@ class ShowController extends Controller
             $arr1['class_nama'] = $class[$j]->nama;
             $arr1['url_web'] = $class[$j]->url_web;
             $arr1['url_mobile'] = $class[$j]->url_mobile;
-            $arr1['jml_materi'] = $class[$i]->jml_video+$class[$i]->jml_kuis;
+            $arr1['jml_materi'] = $class[$j]->jml_video+$class[$j]->jml_kuis;
             $arr1['class_uuid'] = $class[$j]->uuid;
             $teacher = Models\Teacher::where('id_class',$class[$j]->id)->first();
             if($teacher != null){
@@ -396,11 +400,11 @@ class ShowController extends Controller
                 'error' => 'Token tidak sesuai'
             ]);
         }
-
         //$teacher = Models\Teacher::where('id_user',$user[0]->id)->get();
         $usr = Models\User::where('id',$teacher[0]->id_user)->first();
         $teacher = Models\Teacher::where('id_user',$usr->id)->get();
         
+        //return $usr->detailMentor;
         $arr['mentor_nama'] = $usr->nama;
         $arr['mentor_bio'] = $usr->detailMentor[0]->bio;
         if($usr->foto!=null){
@@ -469,7 +473,7 @@ class ShowController extends Controller
         for($i=0;$i<count($classes);$i++){
             $arr0 = [];
             $class = Models\Classes::find($classes[$i]->id_class);
-            $usr['nama'] = '';
+            $usr['nama'] = [];
             if(count($class->teacher)>0){
                 $usr = Models\User::find($class->teacher[0]->id_user);
             }
@@ -494,13 +498,16 @@ class ShowController extends Controller
         for($i=0;$i<count($class);$i++){
             $arr0 = [];
             $tcr = Models\Teacher::where('id_class',$class[$i]->id)->first();
-            $usr = Models\User::find($tcr->id_user);
+            $usr['nama'] = [];
+            if($tcr != null){
+                $usr = Models\User::find($tcr->id_user);
+            }
             $arr0 = [
                 'class_nama' => $class[$i]->nama,
                 'class_url_web' => $class[$i]->url_web,
                 'class_url_mobile' => $class[$i]->url_mobile,
                 'mentor_nama' => $usr->nama,
-                'class_jml_materi' => $classes[0]->jml_video+$classes[0]->jml_kuis,
+                'class_jml_materi' => $class[$i]->jml_video+$class[$i]->jml_kuis,
                 #'class_prosentase' => ($classes[$i]->jml_pengerjaan / $class->jml_materi) * 100,
                 'class_uuid' => $class[$i]->uuid
             ];
