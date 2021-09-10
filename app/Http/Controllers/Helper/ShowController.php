@@ -452,16 +452,16 @@ class ShowController extends Controller
         }
         $uuid = $uuidUser;
 
-        $user = Models\User::where('uuid',$uuid)->get();
+        // $user = Models\User::where('uuid',$uuid)->get();
         
-        if(count($user)==0){
-            return response()->json([
-                'message' => 'Failed',
-                'error' => 'Token tidak sesuai'
-            ]);
-        }
+        // if(count($user)==0){
+        //     return response()->json([
+        //         'message' => 'Failed',
+        //         'error' => 'Token tidak sesuai'
+        //     ]);
+        // }
 
-        $usr = Models\User::find($user->id);
+        $usr = Models\User::find($request->user()->id);
 
         $classes = $usr->student;
         $arr = [];
