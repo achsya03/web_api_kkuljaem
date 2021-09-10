@@ -73,7 +73,7 @@ class ShowController extends Controller
                 'nama_mentor' => $cl->user->nama,
                 'url_web' => $class[$i]->url_web,
                 'url_mobile' => $class[$i]->url_mobile,
-                'jml_materi' => $classes[0]->jml_video+$classes[0]->jml_kuis,
+                'jml_materi' => $classes[$i]->jml_video+$classes[$i]->jml_kuis,
                 'kelas_uuid' => $class[$i]->uuid
             ];
         }
@@ -194,7 +194,7 @@ class ShowController extends Controller
                 $arr1['class_nama'] = $class[$j]->nama;
                 $arr1['url_web'] = $class[$j]->url_web;
                 $arr1['url_mobile'] = $class[$j]->url_mobile;
-                $arr1['jml_materi'] = $classes[0]->jml_video+$classes[0]->jml_kuis;
+                $arr1['jml_materi'] = $class[0]->jml_video+$class[0]->jml_kuis;
                 $arr1['class_uuid'] = $class[$j]->uuid;
                 $teacher = Models\Teacher::where('id_class',$class[$j]->id)->first();
                 if($teacher != null){
@@ -249,7 +249,7 @@ class ShowController extends Controller
             $arr1['class_nama'] = $class[$j]->nama;
             $arr1['url_web'] = $class[$j]->url_web;
             $arr1['url_mobile'] = $class[$j]->url_mobile;
-            $arr1['jml_materi'] = $classes[0]->jml_video+$classes[0]->jml_kuis;
+            $arr1['jml_materi'] = $class[$i]->jml_video+$class[$i]->jml_kuis;
             $arr1['class_uuid'] = $class[$j]->uuid;
             $teacher = Models\Teacher::where('id_class',$class[$j]->id)->first();
             if($teacher != null){
@@ -475,9 +475,9 @@ class ShowController extends Controller
                 'class_url-web' => $class->url_web,
                 'class_url-mobile' => $class->url_mobile,
                 'mentor_nama' => $usr->nama,
-                'class_jml_materi' => $classes[0]->jml_video+$classes[0]->jml_kuis,
+                'class_jml_materi' => $class->jml_video+$class->jml_kuis,
                 'class_tersedia' => $class->status_tersedia,
-                'class_prosentase' => ($classes[$i]->jml_pengerjaan / ($classes[0]->jml_video+$classes[0]->jml_kuis)) * 100,
+                'class_prosentase' => ($class->jml_pengerjaan / ($class->jml_video+$classes[0]->jml_kuis)) * 100,
                 'class_uuid' => $class->uuid
             ];
             $arr[$i] = $arr0;
