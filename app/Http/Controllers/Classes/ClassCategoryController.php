@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Classes;
 
+use App\Models;
 use App\Models\ClassesCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -76,8 +77,10 @@ class ClassCategoryController extends Controller
     public function allData(Request $request){
 
         $class_cat = ClassesCategory::all();
-        foreach ($class_cat as $ct) {
-            unset($ct['id']);
+        for($i=0;$i<count($class_cat);$i++) {
+            $classes = Models\Classes::where('id_class_category',$class_cat[$i]->id)->get();
+            unset($class_cat[$i]['id']);
+            $class_cat[$i]['jml_kelas'] = count($classes);
         }
         
 
