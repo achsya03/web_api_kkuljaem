@@ -469,7 +469,10 @@ class ShowController extends Controller
         for($i=0;$i<count($classes);$i++){
             $arr0 = [];
             $class = Models\Classes::find($classes[$i]->id_class);
-            $usr = Models\User::find($class->teacher[0]->id_user);
+            $usr['nama'] = '';
+            if(count($class->teacher)>0){
+                $usr = Models\User::find($class->teacher[0]->id_user);
+            }
             $arr0 = [
                 'class_nama' => $class->nama,
                 'class_url-web' => $class->url_web,
