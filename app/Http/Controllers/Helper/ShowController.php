@@ -1103,7 +1103,7 @@ class ShowController extends Controller
             ]);
         }
         $result = [];
-        if(!$theme = Models\Theme::where('uuid',$uuid)->get()){
+        if(count($theme = Models\Theme::where('uuid',$uuid)->get())==0){
             return response()->json([
                 'message' => 'Failed',
                 'error' => 'UUID tidak sesuai'
@@ -1139,7 +1139,7 @@ class ShowController extends Controller
             ]);
         }
         $result = [];
-        if(!$theme = Models\Theme::where('uuid',$uuid)->get()){
+        if(count($theme = Models\Theme::where('uuid',$uuid)->get())==0){
             return response()->json([
                 'message' => 'Failed',
                 'error' => 'UUID tidak sesuai'
