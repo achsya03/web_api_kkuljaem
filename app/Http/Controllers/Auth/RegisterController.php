@@ -56,6 +56,7 @@ class RegisterController extends Controller
             'web_token' => $web_token,
             'jenis_pengguna' => 0,
             'jenis_akun' => 0,
+            'jenis_akun' => 0,
             'uuid' => $uuid
         ];
 
