@@ -27,7 +27,7 @@ class CreateClassesTable extends Migration
             $table->integer('jml_kuis')->nullable();
             $table->char('status_tersedia',1)->nullable();
             //$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-        $table->timestamp('updated_at')->default(/*DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP')*/);
+        $table->timestamp('updated_at')/*->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'))*/;
             $table->string('uuid');
             $table->index(['uuid','nama']);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
