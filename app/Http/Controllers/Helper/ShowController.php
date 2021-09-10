@@ -477,7 +477,7 @@ class ShowController extends Controller
                 'mentor_nama' => $usr->nama,
                 'class_jml_materi' => $class->jml_video+$class->jml_kuis,
                 'class_tersedia' => $class->status_tersedia,
-                'class_prosentase' => ($class->jml_pengerjaan / ($class->jml_video+$classes[0]->jml_kuis)) * 100,
+                'class_prosentase' => ($class->jml_pengerjaan / ($class->jml_video+$class->jml_kuis)) * 100,
                 'class_uuid' => $class->uuid
             ];
             $arr[$i] = $arr0;
