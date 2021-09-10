@@ -461,7 +461,7 @@ class ShowController extends Controller
             ]);
         }
 
-        $usr = Models\User::find($user[0]->id);
+        $usr = Models\User::find($user->id);
 
         $classes = $usr->student;
         $arr = [];
