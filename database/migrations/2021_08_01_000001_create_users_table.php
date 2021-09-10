@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration
             $table->char('jenis_pengguna',1)->nullable();
             $table->char('jenis_akun',1)->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->date('tgl_langganan_akhir')->default("2001/01/01");
+            $table->date('tgl_langganan_akhir')->default("2001/01/01")->nullable();
             $table->string('uuid')->nullable();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             //$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
