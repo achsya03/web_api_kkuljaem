@@ -110,6 +110,7 @@ Route::group(['prefix' => 'api/admin/classroom'], function () {
     Route::post('/', [Classes\ClassController::class,'addData']);
     Route::post('update', [Classes\ClassController::class,'updateData']);
     Route::get('/', [Classes\ClassController::class,'allData']);
+    Route::get('/category', [Classes\ClassController::class,'detailDataForClass']);
     Route::get('/add', [Classes\ClassController::class,'getForAddData']);
     Route::get('/edit', [Classes\ClassController::class,'detailData']);
     Route::get('/student', [Classes\ClassController::class,'studentData']);
@@ -118,9 +119,11 @@ Route::group(['prefix' => 'api/admin/classroom'], function () {
 Route::group(['prefix' => 'api/admin/classroom/content'], function () {
     Route::get('/', [Classes\ClassController::class,'classContent']);
     Route::get('/add', [Classes\ClassController::class,'checkData']);
+    Route::get('/quiz', [Classes\ContentQuizController::class,'getData']);
     Route::post('/quiz', [Classes\ContentQuizController::class,'addData']);
     Route::get('/quiz/detail', [Classes\ContentQuizController::class,'detailData']);
     Route::post('/quiz/update', [Classes\ContentQuizController::class,'updateData']);
+    Route::get('/video', [Classes\ContentVideoController::class,'getData']);
     Route::post('/video', [Classes\ContentVideoController::class,'addData']);
     Route::get('/video/detail', [Classes\ContentVideoController::class,'detailData']);
     Route::post('/video/update', [Classes\ContentVideoController::class,'updateData']);

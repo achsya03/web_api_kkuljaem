@@ -32,6 +32,42 @@ class ClassController extends Controller
         => $result]);
     }
 
+    public function detailDataForClass(Request $request){
+        if(!$uuid=$request->token){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+        if(count(ClassesCategory::where('uuid',$uuid)->get())==0){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+        $class_cat = ClassesCategory::where('uuid',$uuid)->first();
+        $classes = Classes::where('id_class_category',$class_cat->id)
+                ->where('nama','LIKE','%'.$request->nama_kelas.'%')
+                ->limit($request->limit)
+                ->get();
+        // foreach ($classes as $cl) {
+        //     unset($cl['id']);
+        //     unset($cl['id_class_category']);
+        // }
+        $result = [];
+        $res= $this->classesValue($classes);
+        $result['nama_group'] = $res[0]['nama_group'];
+        $result['group_deskripsi'] = $res[0]['group_deskripsi'];
+        $result['group_uuid'] = $res[0]['group_uuid'];
+        
+        $result['classes'] = $res;
+        for ($i=0;$i<count($res);$i++){
+            unset($result['classes'][$i]['mentor_not_reg']);
+            unset($result['classes'][$i]['mentor_all']);
+            unset($result['classes'][$i]['group_all']);
+            unset($result['classes'][$i]['nama_group']);
+            unset($result['classes'][$i]['group_deskripsi']);
+            unset($result['classes'][$i]['group_uuid']);
+        }
+
+        return response()->json(['message'=>'Success','data'
+        => $result]);
+    }
+
     public function addData(Request $request)
     {
         $validation = new Helper\ValidationController('classes');
@@ -356,6 +392,7 @@ class ClassController extends Controller
 
             $result[$i] = [
                 'nama_group' => $classes[$i]->class_category->nama,
+                'group_deskripsi' => $classes[$i]->class_category->deskripsi,
                 'group_uuid' => $classes[$i]->class_category->uuid,
                 'group_all' => $arr01,
                 'judul_class' => $classes[$i]->nama,

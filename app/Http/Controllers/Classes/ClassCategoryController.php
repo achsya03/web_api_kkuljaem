@@ -88,6 +88,7 @@ class ClassCategoryController extends Controller
         => $class_cat]);
     }
 
+
     public function detailData(Request $request){
         if(!$uuid=$request->token){
             return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
