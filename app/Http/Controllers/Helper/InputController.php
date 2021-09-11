@@ -33,6 +33,8 @@ class InputController extends Controller
             $this->option(Models\Option::class,$data);
         }elseif($pos=='question'){
             $this->question(Models\Question::class,$data);
+        }elseif($pos=='task'){
+            $this->task(Models\Task::class,$data);
         }elseif($pos=='teacher'){
             $this->teacher(Models\Teacher::class,$data);
         }elseif($pos=='testimoni'){
@@ -164,6 +166,15 @@ class InputController extends Controller
             'file_id'               => $data['file_id'],
             'jawaban'               => $data['jawaban'],
             'uuid'                  => $data['uuid']
+        ]);
+    }
+
+    private function task($model,$data){
+        $model::create([
+            'id_question'            => $data['id_question'],
+            'id_video'               => $data['id_video'],
+            'number'                 => $data['number'],
+            'uuid'                   => $data['uuid']
         ]);
     }
 

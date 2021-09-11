@@ -326,13 +326,13 @@ class ValidationController extends Controller
 
     private function question(){
         $this->rules = [
-            'jawaban_id'                          => 'required',
+            'pertanyaan_teks'                     => 'required',
             'jawaban'                             => 'required',
             #'jenis_jawaban'                       => 'required'
         ];
     
         $this->messages = [
-            'jawaban_id.required'                 => 'ID Pertanyaan wajib diisi',
+            'pertanyaan_teks.required'            => 'Pertanyaan wajib diisi',
             'jawaban.required'                    => 'Jawaban wajib diisi',
             #'jenis_jawaban.required'              => 'Jenis Jawaban wajib diisi'
         ];
@@ -340,15 +340,15 @@ class ValidationController extends Controller
 
     private function task(){
         $this->rules = [
-            'id_question'                          => 'required',
-            'id_video'                             => 'required',
+            // 'id_question'                          => 'required',
+            // 'id_video'                             => 'required',
             'number'                               => 'required',
             #'jenis_jawaban'                       => 'required'
         ];
     
         $this->messages = [
-            'id_question.required'                 => 'ID Pertanyaan wajib diisi',
-            'id_video.required'                    => 'ID Video wajib diisi',
+            // 'id_question.required'                 => 'ID Pertanyaan wajib diisi',
+            // 'id_video.required'                    => 'ID Video wajib diisi',
             'number.required'                      => 'Nomor wajib diisi',
             #'jenis_jawaban.required'              => 'Jenis Jawaban wajib diisi'
         ];

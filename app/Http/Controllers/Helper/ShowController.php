@@ -404,6 +404,7 @@ class ShowController extends Controller
         
         //return $usr->detailMentor;
         $arr['mentor_nama'] = $usr->nama;
+        $arr['mentor_lama'] = date_format(date_create($usr->created_at),"Y");
         $arr['mentor_bio'] = $usr->detailMentor[0]->bio;
         if($usr->foto!=null){
             $arr['mentor_foto'] = $usr->foto;
