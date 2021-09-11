@@ -68,18 +68,16 @@ class ShowController extends Controller
         $cls = [];
         for($i = 0;$i < count($class); $i++){
             $cl = Models\Teacher::where('id_class',$class[$i]->id)->first();
-            $mentor = '';
+            
+            
+            $cls[$i]['nama_kelas'] = $class[$i]->nama;
             if($cl != null){
-                $mentor = $cl->user->nama;
-            } 
-            $cls[$i] = [
-                'nama_kelas' => $class[$i]->nama,
-                'nama_mentor' => $mentor,
-                'url_web' => $class[$i]->url_web,
-                'url_mobile' => $class[$i]->url_mobile,
-                'jml_materi' => $class[$i]->jml_video+$class[$i]->jml_kuis,
-                'kelas_uuid' => $class[$i]->uuid
-            ];
+                $cls[$i]['nama_mentor'] = $cl->user->nama;
+            }
+            $cls[$i]['url_web'] = $class[$i]->url_web;
+            $cls[$i]['url_mobile'] = $class[$i]->url_mobile;
+            $cls[$i]['jml_materi'] = $class[$i]->jml_video+$class[$i]->jml_kuis;
+            $cls[$i]['kelas_uuid'] = $class[$i]->uuid;
         }
 
         $th = [];
