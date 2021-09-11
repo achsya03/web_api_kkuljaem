@@ -91,6 +91,11 @@ class ValidationController extends Controller
             $this->data = [
                 'uuid'      => $this->getUuid(Models\Question::class)
             ];
+        }elseif($pos=='task'){
+            $this->task();
+            $this->data = [
+                'uuid'      => $this->getUuid(Models\Task::class)
+            ];
         }elseif($pos=='teacher'){
             $this->teacher();
             $this->data = [
@@ -329,6 +334,22 @@ class ValidationController extends Controller
         $this->messages = [
             'jawaban_id.required'                 => 'ID Pertanyaan wajib diisi',
             'jawaban.required'                    => 'Jawaban wajib diisi',
+            #'jenis_jawaban.required'              => 'Jenis Jawaban wajib diisi'
+        ];
+    }
+
+    private function task(){
+        $this->rules = [
+            'id_question'                          => 'required',
+            'id_video'                             => 'required',
+            'number'                               => 'required',
+            #'jenis_jawaban'                       => 'required'
+        ];
+    
+        $this->messages = [
+            'id_question.required'                 => 'ID Pertanyaan wajib diisi',
+            'id_video.required'                    => 'ID Video wajib diisi',
+            'number.required'                      => 'Nomor wajib diisi',
             #'jenis_jawaban.required'              => 'Jenis Jawaban wajib diisi'
         ];
     }

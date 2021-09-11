@@ -128,19 +128,27 @@ Route::group(['prefix' => 'api/admin/classroom/content'], function () {
     Route::get('/video/detail', [Classes\ContentVideoController::class,'detailData']);
     Route::post('/video/update', [Classes\ContentVideoController::class,'updateData']);
 });
+
+Route::group(['prefix' => 'api/admin/classroom/content/video'], function () {
+    Route::get('/task', [Classes\TaskController::class,'checkData']);
+    Route::post('/task', [Classes\TaskController::class,'addData']);
+    Route::get('/task/detail', [Classes\TaskController::class,'detailData']);
+    Route::post('/task/update', [Classes\TaskController::class,'updateData']);
+});
+
+Route::group(['prefix' => 'api/admin/classroom/content/video'], function () {
+    Route::get('/shadowing', [Classes\ShadowingController::class,'checkData']);
+    Route::post('/shadowing', [Classes\ShadowingController::class,'addData']);
+    Route::get('/shadowing/detail', [Classes\ShadowingController::class,'detailData']);
+    Route::post('/shadowing/update', [Classes\ShadowingController::class,'updateData']);
+});
+
   
 Route::group(['prefix' => 'api/admin/classroom/content/quiz'], function () {
     Route::get('/exam', [Classes\ExamController::class,'getData']);
     Route::post('/exam', [Classes\ExamController::class,'addData']);
     Route::get('/exam/detail', [Classes\ExamController::class,'detailData']);
     Route::post('/exam/update', [Classes\ExamController::class,'updateData']);
-});
-
-Route::group(['prefix' => 'api/admin/classroom/content/video'], function () {
-    Route::get('/task', [Classes\TaskController::class,'getData']);
-    Route::post('/task', [Classes\TaskController::class,'addData']);
-    Route::get('/exam/detail', [Classes\TaskController::class,'detailData']);
-    Route::post('/exam/update', [Classes\TaskController::class,'updateData']);
 });
 
 Route::post('/test', [TestController::class,'test']);

@@ -15,7 +15,7 @@ class CreateWordsTable extends Migration
     {
         Schema::create('words', function (Blueprint $table) {
             $table->id();
-            $table->date('jadwal')->nullable();
+            $table->date('jadwal')->default("2001/01/01")->nullable();
             $table->string('hangeul')->nullable();
             $table->string('pelafalan')->nullable();
             $table->text('penjelasan')->nullable();

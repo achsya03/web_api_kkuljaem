@@ -13,6 +13,61 @@ use Validator;
 
 class ContentVideoController extends Controller
 {
+    public function getData(Request $request){
+        if(!$uuid=$request->token){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+
+        $object = Models\Video::where('uuid',$uuid)->first();
+
+        if(!$object){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+
+        #unset($object->id);
+
+        $result = [
+            //'nomor'         => $object->content->number,
+            'judul'         => $object->judul,
+            'keterangan'    => $object->keterangan,
+            'url_video'     => $object->url_video,
+            'uuid'          => $object->uuid,
+        ];
+
+        $task = Models\Task::where('id_video',$object->id)->get();
+        $arr0 = [];
+        for($i=0;$i<count($task);$i++){
+            $arr1 = [];
+            $arr1 = [
+                'nomor' => $task[$i]->number,
+                'pertanyaan' => $task[$i]->question->pertanyaan_teks,
+                'jawaban' => $task[$i]->question->jawaban,
+                'task_uuid' => $task[$i]->uuid,
+            ];
+            $arr0[$i] = $arr1;
+        }
+        #return $task;
+        $shadowing = Models\Shadowing::where('id_video',$object->id)->get();
+        $arr = [];
+        for($i=0;$i<count($shadowing);$i++){
+            $arr1 = [];
+            $arr1 = [
+                'nomor' => $shadowing[$i]->number,
+                'hangeul' => $shadowing[$i]->word->hangeul,
+                'pelafalan' => $shadowing[$i]->word->pelafalan,
+                'url_pengucapan' => $shadowing[$i]->word->url_pengucapan,
+                'shadowing_uuid' => $shadowing[$i]->uuid,
+            ];
+            $arr[$i] = $arr1;
+        }
+        $result['jml_task'] = count($arr0);
+        $result['jml_shadowing'] = count($arr);
+        $result['task'] = $arr0;
+        $result['shadowing'] = $arr;
+
+        return response()->json(['message'=>'Success','data'
+        => $result]);
+    }
     public function addData(Request $request)
     {
         $validation1 = new Helper\ValidationController('content');

@@ -68,7 +68,7 @@ class ShowController extends Controller
         $cls = [];
         for($i = 0;$i < count($class); $i++){
             $cl = Models\Teacher::where('id_class',$class[$i]->id)->first();
-            $mentor = [];
+            $mentor = '';
             if($cl != null){
                 $mentor = $cl->user->nama;
             } 
