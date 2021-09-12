@@ -25,7 +25,7 @@ class ShowController extends Controller
     }
 
     public function __construct(Request $request){
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     public function home(Request $request){
