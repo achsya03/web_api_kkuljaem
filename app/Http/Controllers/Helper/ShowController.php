@@ -406,8 +406,8 @@ class ShowController extends Controller
         $arr['mentor_nama'] = $usr->nama;
         $arr['mentor_lama'] = date_format(date_create($usr->created_at),"Y");
         $arr['mentor_bio'] = $usr->detailMentor[0]->bio;
-        if($usr->foto!=null){
-            $arr['mentor_foto'] = $usr->foto;
+        if($usr->url_foto!=null){
+            $arr['mentor_foto'] = $usr->url_foto;
         }
         $arr['mentor_uuid'] = $uuid;
         $cls = [];$co=0;
