@@ -25,7 +25,7 @@ class ShowController extends Controller
     }
 
     public function __construct(Request $request){
-        //$this->middleware('auth');
+        $this->middleware('auth');
     }
 
     public function home(Request $request){
@@ -320,8 +320,8 @@ class ShowController extends Controller
 
                 $stat = 'Belum';
                 if(count($studentVideo = Models\StudentVideo::where('id_video',$content_video[0]->id)->get())!=0){
-                    for($i = 0;$i<count($studentVideo);$i++){
-                        if($studentVideo[$i]->student->id_user == $request->user()->id){
+                    for($j = 0;$j<count($studentVideo);$j++){
+                        if($studentVideo[$j]->student->id_user == $request->user()->id){
                             $stat = 'Selesai';
                             break;
                         }
@@ -340,8 +340,8 @@ class ShowController extends Controller
 
                 $stat = 'Belum';
                 if(count($studentQuiz = Models\StudentQuiz::where('id_quiz',$content_quiz[0]->id)->get())!=0){
-                    for($i = 0;$i<count($studentQuiz);$i++){
-                        if($studentQuiz[$i]->student->id_user == $request->user()->id){
+                    for($j = 0;$j<count($studentQuiz);$j++){
+                        if($studentQuiz[$j]->student->id_user == $request->user()->id){
                             $stat = 'Selesai';
                             break;
                         }
