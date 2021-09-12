@@ -516,7 +516,7 @@ class ShowController extends Controller
             if($usr->nama != null){
                 $arr0['mentor_nama'] = $usr->nama;
             }
-            $arr0['class_jml_materi'] = $class[$i]->jml_video+$class->jml_kuis;
+            $arr0['class_jml_materi'] = $class[$i]->jml_video+$class[$i]->jml_kuis;
             //$arr0['class_tersedia'] = $class->status_tersedia;
             //$arr0['class_prosentase'] = ($class->jml_pengerjaan / ($class->jml_video+$class->jml_kuis)) * 100;
             $arr0['class_uuid'] = $class[$i]->uuid;
