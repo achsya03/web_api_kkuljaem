@@ -476,16 +476,16 @@ class ShowController extends Controller
             if(count($class->teacher)>0){
                 $usr = Models\User::find($class->teacher[0]->id_user);
             }
-            $arr0 = [
-                'class_nama' => $class->nama,
-                'class_url-web' => $class->url_web,
-                'class_url-mobile' => $class->url_mobile,
-                'mentor_nama' => $usr->nama,
-                'class_jml_materi' => $class->jml_video+$class->jml_kuis,
-                'class_tersedia' => $class->status_tersedia,
-                'class_prosentase' => ($class->jml_pengerjaan / ($class->jml_video+$class->jml_kuis)) * 100,
-                'class_uuid' => $class->uuid
-            ];
+            $arr0['class_nama'] = $class->nama;
+            $arr0['class_url-web'] = $class->url_web;
+            $arr0['class_url-mobile'] = $class->url_mobile;
+            if($usr[0]->nama != null){
+                $arr0['mentor_nama'] = $usr[0]->nama;
+            }
+            $arr0['class_jml_materi'] = $class->jml_video+$class->jml_kuis;
+            $arr0['class_tersedia'] = $class->status_tersedia;
+            $arr0['class_prosentase'] = ($class->jml_pengerjaan / ($class->jml_video+$class->jml_kuis)) * 100;
+            $arr0['class_uuid'] = $class->uuid;
             $arr[$i] = $arr0;
             $reg_id[$i] = $classes[$i]->id_class;
         }
