@@ -479,7 +479,7 @@ class ShowController extends Controller
             $arr0['class_nama'] = $class->nama;
             $arr0['class_url-web'] = $class->url_web;
             $arr0['class_url-mobile'] = $class->url_mobile;
-            if(count($usr->nama)){
+            if($usr->nama != null){
                 $arr0['mentor_nama'] = $usr->nama;
             }
             $arr0['class_jml_materi'] = $class->jml_video+$class->jml_kuis;
@@ -499,7 +499,7 @@ class ShowController extends Controller
             $tcr = Models\Teacher::where('id_class',$class[$i]->id)->first();
             $usr['nama'] = [];
             if($tcr != null){
-                $usr = Models\User::find($tcr->id_user);
+                $usr = Models\User::where('id',$tcr->id_user)->first();
             }
             // $arr0 = [
             //     'class_nama' => $class[$i]->nama,
@@ -513,7 +513,7 @@ class ShowController extends Controller
             $arr0['class_nama'] = $class[$i]->nama;
             $arr0['class_url-web'] = $class[$i]->url_web;
             $arr0['class_url-mobile'] = $class[$i]->url_mobile;
-            if(count($usr->nama)){
+            if($usr->nama != null){
                 $arr0['mentor_nama'] = $usr->nama;
             }
             $arr0['class_jml_materi'] = $class[$i]->jml_video+$class->jml_kuis;
