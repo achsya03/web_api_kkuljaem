@@ -510,16 +510,16 @@ class ShowController extends Controller
             //     #'class_prosentase' => ($classes[$i]->jml_pengerjaan / $class->jml_materi) * 100,
             //     'class_uuid' => $class[$i]->uuid
             // ];
-            $arr0['class_nama'] = $class->nama;
-            $arr0['class_url-web'] = $class->url_web;
-            $arr0['class_url-mobile'] = $class->url_mobile;
+            $arr0['class_nama'] = $class[$i]->nama;
+            $arr0['class_url-web'] = $class[$i]->url_web;
+            $arr0['class_url-mobile'] = $class[$i]->url_mobile;
             if(count($usr->nama)){
                 $arr0['mentor_nama'] = $usr->nama;
             }
-            $arr0['class_jml_materi'] = $class->jml_video+$class->jml_kuis;
+            $arr0['class_jml_materi'] = $class[$i]->jml_video+$class->jml_kuis;
             //$arr0['class_tersedia'] = $class->status_tersedia;
             //$arr0['class_prosentase'] = ($class->jml_pengerjaan / ($class->jml_video+$class->jml_kuis)) * 100;
-            $arr0['class_uuid'] = $class->uuid;
+            $arr0['class_uuid'] = $class[$i]->uuid;
             $arr[$i] = $arr0;
         }
         $result['class_tidak_terdaftar'] = $arr;
