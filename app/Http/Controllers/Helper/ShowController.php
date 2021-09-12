@@ -511,8 +511,8 @@ class ShowController extends Controller
             //     'class_uuid' => $class[$i]->uuid
             // ];
             $arr0['class_nama'] = $class[$i]->nama;
-            $arr0['class_url-web'] = $class[$i]->url_web;
-            $arr0['class_url-mobile'] = $class[$i]->url_mobile;
+            $arr0['class_url_web'] = $class[$i]->url_web;
+            $arr0['class_url_mobile'] = $class[$i]->url_mobile;
             if($usr->nama != null){
                 $arr0['mentor_nama'] = $usr->nama;
             }
