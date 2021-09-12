@@ -18,6 +18,7 @@ class RegisterController extends Controller
 
     public function __invoke(Request $request)
     {
+        $random = rand(0, 999999);
         $validation = new Helper\ValidationController('authUser');
         $this->rules = $validation->rules;
         $this->messages = $validation->messages;
@@ -51,6 +52,7 @@ class RegisterController extends Controller
         $uuid = $validation->data['uuid'];
 
         $data = [
+            'nama' => 'Student-'.$random,
             'email' => request('email'),
             'password' => bcrypt(request('password')),
             'web_token' => $web_token,

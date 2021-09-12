@@ -12,9 +12,17 @@ class StudentQuiz extends Model
     public $timestamps=false;
     protected $fillable = [
         'id_student',
-        'id_content_quiz',
+        'id_quiz',
         'register_date',
         'answer',
         'uuid'
     ];
+    public function quiz()
+    {
+        return $this->belongsTo(Quiz::class,'id_quiz','id');
+    }
+    public function student()
+    {
+        return $this->belongsTo(Student::class,'id_student','id');
+    }
 }

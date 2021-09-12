@@ -10,15 +10,25 @@ use Illuminate\Http\Request;
 class ShowController extends Controller
 {
     #=========================Home===========================
+    private function statUser($user){
+        $stUsr = "Non-Member";
+        $jenis_akun=['No Sign','Helm','Crown Silver'];
+        if($user->tgl_langganan_akhir >= date('Y/m/d')){
+            $stUsr = "Member";
+        }
+        $data = [
+            'nama' => $user->nama,
+            'status_member' => $stUsr,
+            'jenis_akun' => $jenis_akun[$user->jenis_akun],
+        ];
+        return $data;
+    }
+
+    public function __construct(Request $request){
+        $this->middleware('auth');
+    }
 
     public function home(Request $request){
-
-        // if(!$request->user()){
-        //     return response()->json([
-        //         'message' => 'Failed',
-        //         'data'    => 'Dimohon Untuk Login Terlebih Dahulu'
-        //     ]);
-        // }
         $result = [];
 
         $tglSekarang = date('Y/m/d');
@@ -99,6 +109,7 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
     }
@@ -164,25 +175,12 @@ class ShowController extends Controller
     }
 
     public function classroom(Request $request){
-        if(!$uuidUser = $request->user()){
-            return response()->json([
-                'message' => 'Failed',
-                'info'    => 'Dimohon Untuk Login Terlebih Dahulu'
-            ]);
-        }
         $result = [];
-        
-        // if(!$uuidUser = $request->header('user-uuid')){
-        //     return response()->json([
-        //         'message' => 'Failed',
-        //         'error' => 'UUID tidak sesuai'
-        //     ]);
-        // }
-        
-        $usr = Models\User::where('uuid',$uuidUser->uuid)->first();
+                
+        $usr = Models\User::where('uuid',$request->user()->uuid)->first();
         $date = date_format(date_create($usr->tgl_langganan_akhir),"Y/m/d");
        
-        $result['stat_pengguna'] = $this->userCheck($uuidUser,$date);
+        $result['stat_pengguna'] = $this->userCheck($request->user()->uuid,$date);
 
         $category = Models\ClassesCategory::all();
         $arr0 = [];
@@ -273,6 +271,7 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
     }
@@ -287,31 +286,13 @@ class ShowController extends Controller
             ]);
         }
 
-        if(!$uuidUser = $request->user()->uuid){
-            return response()->json([
-                'message' => 'Failed',
-                'info'    => 'Dimohon Untuk Login Terlebih Dahulu'
-            ]);
-        }
-        // if(!$uuidUser = $request->header('user-uuid')){
-        //     return response()->json([
-        //         'message' => 'Failed',
-        //         'error' => 'UUID tidak sesuai'
-        //     ]);
-        // }
-        $usr = Models\User::where('uuid',$uuidUser)->first();
+        $usr = Models\User::where('uuid',$request->user()->uuid)->first();
         $date = date_format(date_create($usr->tgl_langganan_akhir),"Y/m/d");
        
 
         $classes = Models\Classes::where('uuid',$uuid)
             ->where('status_tersedia',1)->get();
         
-        // if(!$user = Models\User::where('uuid',$uuid)->get()){
-        //     return response()->json([
-        //         'message' => 'Failed',
-        //         'error' => 'User Token tidak sesuai'
-        //     ]);
-        // }
         if(count($classes)==0){
             return response()->json([
                 'message' => 'Failed',
@@ -324,31 +305,51 @@ class ShowController extends Controller
         $content = Models\Content::where('id_class',$classes[0]->id)->orderBy('number', 'ASC')->get();
         $count_vid = 0;
         $count_quiz = 0;
-        $arr['stat_pengguna'] = $this->userCheck($uuidUser,$date);
+        //$arr['stat_pengguna'] = $this->userCheck($uuidUser,$date);
 
         for($i = 0;$i < count($content);$i++){
             $arr1 = [];
             if($content[$i]->type == 'video'){
                 $count_vid += 1;
                 $content_video = Models\Video::where('id_content',$content[$i]->id)->get();
-                $arr1 = [
-                    'urutan' => $content[$i]->number,
-                    'judul' => $content_video[0]->judul,
-                    'type' => $content[$i]->type,
-                    'jml_latihan' => $content_video[0]->jml_latihan,
-                    'jml_shadowing' => $content_video[0]->jml_shadowing,
-                    'content_video_uuid' => $content_video[0]->uuid
-                ];
+                $arr1['urutan'] = $content[$i]->number;
+                $arr1['judul'] = $content_video[0]->judul;
+                $arr1['type'] = $content[$i]->type;
+                $arr1['jml_latihan'] = $content_video[0]->jml_latihan;
+                $arr1['jml_shadowing'] = $content_video[0]->jml_shadowing;
+
+                $stat = 'Belum';
+                if(count($studentVideo = Models\StudentVideo::where('id_video',$content_video[0]->id)->get())!=0){
+                    for($i = 0;$i<count($studentVideo);$i++){
+                        if($studentVideo[$i]->student->id_user == $request->user()->id){
+                            $stat = 'Selesai';
+                            break;
+                        }
+                    }
+                }
+
+                $arr1['stat_pengerjaan'] = $stat;
+                $arr1['content_video_uuid'] = $content_video[0]->uuid;
             }elseif($content[$i]->type == 'quiz'){
                 $count_quiz += 1;
                 $content_quiz = Models\Quiz::where('id_content',$content[$i]->id)->get();
-                $arr1 = [
-                    'urutan' => $content[$i]->number,
-                    'judul' => $content_quiz[0]->judul,
-                    'type' => $content[$i]->type,
-                    'jml_soal' => $content_quiz[0]->jml_pertanyaan,
-                    'content_quiz_uuid' => $content_quiz[0]->uuid
-                ];
+                $arr1['urutan'] = $content[$i]->number;
+                $arr1['judul'] = $content_quiz[0]->judul;
+                $arr1['type'] = $content[$i]->type;
+                $arr1['jml_soal'] = $content_quiz[0]->jml_pertanyaan;
+
+                $stat = 'Belum';
+                if(count($studentQuiz = Models\StudentQuiz::where('id_quiz',$content_quiz[0]->id)->get())!=0){
+                    for($i = 0;$i<count($studentQuiz);$i++){
+                        if($studentQuiz[$i]->student->id_user == $request->user()->id){
+                            $stat = 'Selesai';
+                            break;
+                        }
+                    }
+                }
+
+                $arr1['stat_pengerjaan'] = $stat;
+                $arr1['content_quiz_uuid'] = $content_quiz[0]->uuid;
             }
             $cont[$i] = $arr1;
         }
@@ -366,7 +367,9 @@ class ShowController extends Controller
             $tcr = Models\Teacher::find($teacher->id);
             $usr = Models\User::find($teacher->id_user);
             $arr['mentor_nama'] = $tcr->user->nama;
-            $arr['mentor_foto'] = $usr->detailMentor[0]->url_foto;
+            if($usr->detailMentor[0]->url_foto != null){
+                $arr['mentor_foto'] = $usr->detailMentor[0]->url_foto;
+            }
             $arr['mentor_uuid'] = $tcr->uuid;
         }
         $arr['content'] = $cont;
@@ -375,6 +378,7 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
     }
@@ -434,35 +438,15 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
     }
 
     public function classroomRegistered(Request $request){
         $result = [];
-        // if(!$uuidUser = $request->header('user-uuid')){
-        //     return response()->json([
-        //         'message' => 'Failed',
-        //         'error' => 'UUID tidak sesuai'
-        //     ]);
-        // }
 
-        if(!$uuidUser = $request->user()->uuid){
-            return response()->json([
-                'message' => 'Failed',
-                'info'    => 'Dimohon Untuk Login Terlebih Dahulu'
-            ]);
-        }
-        $uuid = $uuidUser;
-
-        // $user = Models\User::where('uuid',$uuid)->get();
-        
-        // if(count($user)==0){
-        //     return response()->json([
-        //         'message' => 'Failed',
-        //         'error' => 'Token tidak sesuai'
-        //     ]);
-        // }
+        $uuid = $request->user()->uuid;
 
         $usr = Models\User::find($request->user()->id);
 
@@ -526,6 +510,7 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
     }
@@ -589,6 +574,7 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
     }
@@ -647,6 +633,7 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
     }
@@ -677,6 +664,7 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
     }
@@ -732,6 +720,7 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
     }
@@ -769,6 +758,7 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
     }
@@ -818,6 +808,7 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
     }
@@ -871,21 +862,14 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
     }
     public function qnaByUser(Request $request){
         $result = [];
-
         
-        if(!$uuidUser = $request->user()->uuid){
-            return response()->json([
-                'message' => 'Failed',
-                'info'    => 'Dimohon Untuk Login Terlebih Dahulu'
-            ]);
-        }
-        
-        $uuid = $uuidUser;
+        $uuid = $request->user()->uuid;
 
         if(count($user = Models\User::where('uuid',$uuid)->get())==0){
             return response()->json([
@@ -935,6 +919,7 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
     }
@@ -1013,6 +998,7 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
     }
@@ -1100,6 +1086,7 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
     }
@@ -1136,6 +1123,7 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
     }
@@ -1173,26 +1161,14 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
     }
     public function forumByUser(Request $request){
         $result = [];
-        // if(!$uuidUser = $request->header('user-uuid')){
-        //     return response()->json([
-        //         'message' => 'Failed',
-        //         'error' => 'UUID tidak sesuai'
-        //     ]);
-        // }
-
-        if(!$uuidUser = $request->user()->uuid){
-            return response()->json([
-                'message' => 'Failed',
-                'info'    => 'Dimohon Untuk Login Terlebih Dahulu'
-            ]);
-        }
         
-        $uuid = $uuidUser;
+        $uuid = $request->user()->uuid;
 
         $user = Models\User::where('uuid',$uuid)->get();
         
@@ -1213,6 +1189,7 @@ class ShowController extends Controller
         $result = $pos;
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
     }

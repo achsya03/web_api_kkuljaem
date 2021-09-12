@@ -28,4 +28,8 @@ class Video extends Model
     {
         return $this->hasMany(VideoTheme::class,'id_video','id');
     }
+    public function studentVideo()
+    {
+        return $this->hasMany(StudentVideo::class,'id_video','id');
+    }
 }

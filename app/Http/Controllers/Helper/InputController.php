@@ -44,7 +44,7 @@ class InputController extends Controller
 
     private function authUser($model,$data){
         $model::create([
-            #'nama' => request('nama'),
+            'nama'           => $data['nama'],
             'email'          => $data['email'],
             'password'       => $data['password'],
             'web_token'      => $data['web_token'],

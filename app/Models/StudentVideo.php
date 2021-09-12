@@ -12,8 +12,16 @@ class StudentVideo extends Model
     public $timestamps=false;
     protected $fillable = [
         'id_student',
-        'id_content_video',
+        'id_video',
         'register_date',
         'uuid'
     ];
+    public function video()
+    {
+        return $this->belongsTo(Video::class,'id_video','id');
+    }
+    public function student()
+    {
+        return $this->belongsTo(Student::class,'id_student','id');
+    }
 }
