@@ -474,13 +474,13 @@ class ShowController extends Controller
             $class = Models\Classes::find($classes[$i]->id_class);
             $usr['nama'] = [];
             if(count($class->teacher)>0){
-                $usr = Models\User::find($class->teacher[0]->id_user);
+                $usr = Models\User::where('id',$class->teacher[0]->id_user)->first();
             }
             $arr0['class_nama'] = $class->nama;
             $arr0['class_url-web'] = $class->url_web;
             $arr0['class_url-mobile'] = $class->url_mobile;
-            if($usr[0]->nama != null){
-                $arr0['mentor_nama'] = $usr[0]->nama;
+            if(count($usr->nama)){
+                $arr0['mentor_nama'] = $usr->nama;
             }
             $arr0['class_jml_materi'] = $class->jml_video+$class->jml_kuis;
             $arr0['class_tersedia'] = $class->status_tersedia;
@@ -501,15 +501,25 @@ class ShowController extends Controller
             if($tcr != null){
                 $usr = Models\User::find($tcr->id_user);
             }
-            $arr0 = [
-                'class_nama' => $class[$i]->nama,
-                'class_url_web' => $class[$i]->url_web,
-                'class_url_mobile' => $class[$i]->url_mobile,
-                'mentor_nama' => $usr->nama,
-                'class_jml_materi' => $class[$i]->jml_video+$class[$i]->jml_kuis,
-                #'class_prosentase' => ($classes[$i]->jml_pengerjaan / $class->jml_materi) * 100,
-                'class_uuid' => $class[$i]->uuid
-            ];
+            // $arr0 = [
+            //     'class_nama' => $class[$i]->nama,
+            //     'class_url_web' => $class[$i]->url_web,
+            //     'class_url_mobile' => $class[$i]->url_mobile,
+            //     'mentor_nama' => $usr->nama,
+            //     'class_jml_materi' => $class[$i]->jml_video+$class[$i]->jml_kuis,
+            //     #'class_prosentase' => ($classes[$i]->jml_pengerjaan / $class->jml_materi) * 100,
+            //     'class_uuid' => $class[$i]->uuid
+            // ];
+            $arr0['class_nama'] = $class->nama;
+            $arr0['class_url-web'] = $class->url_web;
+            $arr0['class_url-mobile'] = $class->url_mobile;
+            if(count($usr->nama)){
+                $arr0['mentor_nama'] = $usr->nama;
+            }
+            $arr0['class_jml_materi'] = $class->jml_video+$class->jml_kuis;
+            //$arr0['class_tersedia'] = $class->status_tersedia;
+            //$arr0['class_prosentase'] = ($class->jml_pengerjaan / ($class->jml_video+$class->jml_kuis)) * 100;
+            $arr0['class_uuid'] = $class->uuid;
             $arr[$i] = $arr0;
         }
         $result['class_tidak_terdaftar'] = $arr;
