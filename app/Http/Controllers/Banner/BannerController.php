@@ -111,7 +111,7 @@ class BannerController extends Controller
         => $banner]);
     }
 
-    public static function detailData($token){
+    public static function detailData($token,$user){
         if(!$uuid=$token){
             return response()->json(['message' => 'Failed',
             'info'=>"Token Tidak Sesuai"]);
@@ -126,7 +126,9 @@ class BannerController extends Controller
         unset($banner['gambar_web_id']);
         unset($banner['gambar_mobile_id']);
 
-        return response()->json(['message'=>'Success','data'
-        => $banner]);
+        return response()->json([
+            'message'=>'Success',
+            'account' => $user,
+            'data'  => $banner]);
     }
 }

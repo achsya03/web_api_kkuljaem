@@ -116,7 +116,7 @@ class VideoController extends Controller
         return response()->json(['message'=>'Success','data'=>['video'=>$video,'word'=>$word]]);
     }
 
-    public static function detailDataVideo($token){
+    public static function detailDataVideo($token,$user){
         if(!$uuid=$token){
             return response()->json(['message' => 'Failed',
             'info'=>"Token Tidak Sesuai"]);
@@ -129,8 +129,11 @@ class VideoController extends Controller
         $video = Videos::where('uuid',$uuid)->first();
         unset($video['id']);
 
-        return response()->json(['message'=>'Success','data'
-        => $video]);
+        return response()->json(['
+            message'=>'Success',
+            'account' => $user,
+            'data' => $video
+        ]);
     }
 
 

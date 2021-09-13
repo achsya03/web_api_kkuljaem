@@ -116,7 +116,7 @@ class WordController extends Controller
         => $word]);
     }
 
-    public static function detailDataWord($token){
+    public static function detailDataWord($token,$user){
         if(!$uuid=$token){
             return response()->json(['message' => 'Failed',
             'info'=>"Token Tidak Sesuai"]);
@@ -130,7 +130,10 @@ class WordController extends Controller
         unset($word['id']);
         unset($word['pengucapan_id']); 
 
-        return response()->json(['message'=>'Success','data'
-        => $word]);
+        return response()->json([
+            'message'=>'Success',
+            'account' => $user,
+            'data'=> $word
+        ]);
     }
 }
