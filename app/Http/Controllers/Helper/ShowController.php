@@ -18,7 +18,6 @@ class ShowController extends Controller
         }
         $data = [
             'nama' => $user->nama,
-            'date' => date_format(date_create($user->tgl_langganan_akhir),"Y/m/d"),
             'status_member' => $stUsr,
             'jenis_akun' => $jenis_akun[$user->jenis_akun],
         ];
