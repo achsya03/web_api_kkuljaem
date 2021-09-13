@@ -724,6 +724,7 @@ class ShowController extends Controller
             $option = Models\Option::where('id_question',$question[0]->id)
                 ->get();
 
+            $arr1['nomor'] = $question[0]->task[0]->number;
             if($question[0]->pertanyaan_teks != null){$arr1['pertanyaan_teks'] = $question[0]->pertanyaan_teks;}
             if($question[0]->url_gambar != null){$arr1['url_gambar'] = $question[0]->url_gambar;}
             if($question[0]->url_file != null){$arr1['url_file'] = $question[0]->url_file;}
