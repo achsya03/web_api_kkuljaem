@@ -13,7 +13,7 @@ class ShowController extends Controller
     private function statUser($user){
         $stUsr = "Non-Member";
         $jenis_akun=['No Sign','Helm','Crown Silver'];
-        if(date_format(date_create($request->user()->tgl_langganan_akhir),"Y/m/d") >= date('Y/m/d')){
+        if(date_format(date_create($user->tgl_langganan_akhir),"Y/m/d") >= date('Y/m/d')){
             $stUsr = "Member";
         }
         $data = [
