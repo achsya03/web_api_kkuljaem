@@ -115,17 +115,17 @@ class ShowController extends Controller
     }
 
     public function banner(Request $request){
-        $banner = Controllers\Banner\BannerController::detailData($request->token,$this->statUser($request->user());
+        $banner = Controllers\Banner\BannerController::detailData($request->token,$this->statUser($request->user()));
         return $banner;
     }
 
     public function word(Request $request){
-        $word = Controllers\Banner\WordController::detailDataWord($request->token,$this->statUser($request->user());
+        $word = Controllers\Banner\WordController::detailDataWord($request->token,$this->statUser($request->user()));
         return $word;
     }
 
     public function video(Request $request){
-        $video = Controllers\Banner\VideoController::detailDataVideo($request->token,$this->statUser($request->user());
+        $video = Controllers\Banner\VideoController::detailDataVideo($request->token,$this->statUser($request->user()));
         return $video;
     }
 
