@@ -1063,6 +1063,7 @@ class ShowController extends Controller
 
         return response()->json([
             'message' => 'Success',
+            'account' => $this->statUser($request->user()),
             'data'    => $result
         ]);
 
@@ -1087,6 +1088,7 @@ class ShowController extends Controller
         if(count($forum)==0){
             return response()->json([
                 'message' => 'Success',
+                'account' => $this->statUser($request->user()),
                 'data'    => $result
             ]);
         }
