@@ -91,7 +91,7 @@ class UpdateController extends Controller
             'pelafalan'       => $data['pelafalan'],
             'penjelasan'      => $data['penjelasan'],
             'url_pengucapan'  => $data['url_pengucapan'],
-            'pengucapan_id'   => $data['pengucapan_id']
+            //'pengucapan_id'   => $data['pengucapan_id']
         ]);
     }
 
@@ -170,7 +170,7 @@ class UpdateController extends Controller
             'url_gambar'            => $data['url_gambar'],
             'gambar_id'             => $data['gambar_id'],
             'url_file'              => $data['url_file'],
-            'file_id'               => $data['file_id']
+            //'file_id'               => $data['file_id']
         ]);
     }
 
@@ -181,7 +181,7 @@ class UpdateController extends Controller
             'url_gambar'            => $data['url_gambar'],
             'gambar_id'             => $data['gambar_id'],
             'url_file'              => $data['url_file'],
-            'file_id'               => $data['file_id'],
+            //'file_id'               => $data['file_id'],
             'jawaban'               => $data['jawaban']
         ]);
     }

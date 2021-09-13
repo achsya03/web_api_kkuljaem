@@ -16,7 +16,7 @@ class Option extends Model
         'url_gambar',
         'gambar_id',
         'url_file',
-        'file_id',
+        //'file_id',
         'uuid',
     ];
     public function question()

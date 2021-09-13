@@ -21,7 +21,7 @@ class CreateOptionTable extends Migration
             $table->string('url_gambar')->nullable();
             $table->string('gambar_id')->nullable();
             $table->string('url_file')->nullable();
-            $table->string('file_id')->nullable();
+            //$table->string('file_id')->nullable();
             $table->string('uuid');
             $table->index(['uuid']);
             $table->foreign('id_question')->references('id')->on('questions')->onDelete('cascade');

@@ -77,15 +77,15 @@ class TaskController extends Controller
             $uploadedFileUrl1 = $validation1->UUidCheck($gambar1,'Question/Gambar');
         }
 
-        if($gambar2 = $request->file_pertanyaan){
-            $uploadedFileUrl2 = $validation1->UUidCheck($gambar2,'Question/File');
-        }
+        // if($gambar2 = $request->file_pertanyaan){
+        //     $uploadedFileUrl2 = $validation1->UUidCheck($gambar2,'Question/File');
+        // }
         $data = [
             'pertanyaan_teks'             => $request->nama,
             'url_gambar'                  => $uploadedFileUrl1['getSecurePath'],
             'gambar_id'                   => $uploadedFileUrl1['getPublicId'],
-            'url_file'                    => $uploadedFileUrl2['getSecurePath'],
-            'file_id'                     => $uploadedFileUrl2['getPublicId'],
+            'url_file'                    => $request->file_pertanyaan,
+            //'file_id'                     => $uploadedFileUrl2['getPublicId'],
             'jawaban'                     => $request->jawaban,
             'uuid'                        => $uuid1
         ];
@@ -109,17 +109,17 @@ class TaskController extends Controller
                 $uploadedFileUrl1 = $validation2->UUidCheck($gambar1,'Option/Gambar');
             }
 
-            if($gambar2 = $request->file_opsi[$i]){
-                $uploadedFileUrl2 = $validation2->UUidCheck($gambar2,'Option/File');
-            }
+            // if($gambar2 = $request->file_opsi[$i]){
+            //     $uploadedFileUrl2 = $validation2->UUidCheck($gambar2,'Option/File');
+            // }
             $data = [
                 'id_question'                 => $question->id,
                 'jawaban_id'                  => $request->jawaban_id,
                 'jawaban_teks'                => $request->jawaban_teks,
                 'url_gambar'                  => $uploadedFileUrl1['getSecurePath'],
                 'gambar_id'                   => $uploadedFileUrl1['getPublicId'],
-                'url_file'                    => $uploadedFileUrl2['getSecurePath'],
-                'file_id'                     => $uploadedFileUrl2['getPublicId'],
+                'url_file'                    => $request->file_pertanyaan,
+                //'file_id'                     => $uploadedFileUrl2['getPublicId'],
                 'uuid'                        => $uuid2
             ];
 

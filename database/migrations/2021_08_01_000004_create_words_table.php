@@ -20,7 +20,7 @@ class CreateWordsTable extends Migration
             $table->string('pelafalan')->nullable();
             $table->text('penjelasan')->nullable();
             $table->string('url_pengucapan')->nullable();
-            $table->string('pengucapan_id')->nullable();
+            //$table->string('pengucapan_id')->nullable();
             $table->string('uuid');
             $table->index(['uuid']);
         });

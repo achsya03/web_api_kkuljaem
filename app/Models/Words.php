@@ -15,7 +15,7 @@ class Words extends Model
         'pelafalan',
         'penjelasan',
         'url_pengucapan',
-        'pengucapan_id',
+        //'pengucapan_id',
         'uuid',
     ];
 

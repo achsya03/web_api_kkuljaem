@@ -14,7 +14,7 @@ class Question extends Model
         'url_gambar',
         'gambar_id',
         'url_file',
-        'file_id',
+        //'file_id',
         'jawaban',
         'uuid',
     ];

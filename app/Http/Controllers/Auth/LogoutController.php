@@ -16,7 +16,7 @@ class LogoutController extends Controller
      */
     public function __invoke(Request $request)
     {
-        if(!$request->user()){
+        if($request->user()){
             auth()->logout();
             return response()->json([
                 'message' => 'Success',

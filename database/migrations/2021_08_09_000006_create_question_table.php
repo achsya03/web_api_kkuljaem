@@ -19,7 +19,7 @@ class CreateQuestionTable extends Migration
             $table->string('url_gambar')->nullable();
             $table->string('gambar_id')->nullable();
             $table->string('url_file')->nullable();
-            $table->string('file_id')->nullable();
+            //$table->string('file_id')->nullable();
             $table->char('jawaban',1)->nullable();
             #$table->string('jenis_jawaban')->nullable();
             $table->string('uuid');
