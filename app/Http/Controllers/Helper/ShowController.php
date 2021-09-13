@@ -138,12 +138,12 @@ class ShowController extends Controller
 
         $post = Models\Post::where('stat_post',0)
         ->where('jenis','forum')
-        ->where('judul','like','%'.$key.'%')
+        ->where('judul','ilike','%'.$key.'%')
         ->get();
 
         $qna = Models\Post::where('stat_post',0)
         ->where('jenis','qna')
-        ->where('judul','like','%'.$key.'%')
+        ->where('judul','ilike','%'.$key.'%')
         ->get();
 
         $pos = Controllers\Post\PostController::getPost($post);
@@ -543,28 +543,52 @@ class ShowController extends Controller
 
         $content = Models\Content::where('id_class',$video[0]->content->id_class)->get();
         #return $content;
+        $count_vid=0;
+        $count_quiz=0;
         $cont = [];
         for($i = 0;$i < count($content);$i++){
             $arr1 = [];
             if($content[$i]->type == 'video'){
+                $count_vid += 1;
                 $content_video = Models\Video::where('id_content',$content[$i]->id)->get();
-                $arr1 = [
-                    'urutan' => $content[$i]->number,
-                    'judul' => $content_video[0]->judul,
-                    'type' => $content[$i]->type,
-                    'jml_latihan' => $content_video[0]->jml_latihan,
-                    'jml_shadowing' => $content_video[0]->jml_shadowing,
-                    'content_video_uuid' => $content_video[0]->uuid
-                ];
+                $arr1['urutan'] = $content[$i]->number;
+                $arr1['judul'] = $content_video[0]->judul;
+                $arr1['type'] = $content[$i]->type;
+                $arr1['jml_latihan'] = $content_video[0]->jml_latihan;
+                $arr1['jml_shadowing'] = $content_video[0]->jml_shadowing;
+
+                $stat = 'Belum';
+                if(count($studentVideo = Models\StudentVideo::where('id_video',$content_video[0]->id)->get())!=0){
+                    for($j = 0;$j<count($studentVideo);$j++){
+                        if($studentVideo[$j]->student->id_user == $request->user()->id){
+                            $stat = 'Selesai';
+                            break;
+                        }
+                    }
+                }
+
+                $arr1['stat_pengerjaan'] = $stat;
+                $arr1['content_video_uuid'] = $content_video[0]->uuid;
             }elseif($content[$i]->type == 'quiz'){
+                $count_quiz += 1;
                 $content_quiz = Models\Quiz::where('id_content',$content[$i]->id)->get();
-                $arr1 = [
-                    'urutan' => $content[$i]->number,
-                    'judul' => $content_quiz[0]->judul,
-                    'type' => $content[$i]->type,
-                    'jml_soal' => $content_quiz[0]->jml_pertanyaan,
-                    'content_quiz_uuid' => $content_quiz[0]->uuid
-                ];
+                $arr1['urutan'] = $content[$i]->number;
+                $arr1['judul'] = $content_quiz[0]->judul;
+                $arr1['type'] = $content[$i]->type;
+                $arr1['jml_soal'] = $content_quiz[0]->jml_pertanyaan;
+
+                $stat = 'Belum';
+                if(count($studentQuiz = Models\StudentQuiz::where('id_quiz',$content_quiz[0]->id)->get())!=0){
+                    for($j = 0;$j<count($studentQuiz);$j++){
+                        if($studentQuiz[$j]->student->id_user == $request->user()->id){
+                            $stat = 'Selesai';
+                            break;
+                        }
+                    }
+                }
+
+                $arr1['stat_pengerjaan'] = $stat;
+                $arr1['content_quiz_uuid'] = $content_quiz[0]->uuid;
             }
             $cont[$i] = $arr1;
         }

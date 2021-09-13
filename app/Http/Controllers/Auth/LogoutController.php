@@ -17,6 +17,9 @@ class LogoutController extends Controller
     public function __invoke(Request $request)
     {
         auth()->logout();
-        return response("You are Logout", 205);
+        return response()->json([
+            'message' => 'Success',
+            'info'    => 'Anda Berhasil Keluar Aplikasi'
+        ]);
     }
 }
