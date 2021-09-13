@@ -290,8 +290,7 @@ class ShowController extends Controller
         $date = date_format(date_create($usr->tgl_langganan_akhir),"Y/m/d");
        
 
-        $classes = Models\Classes::where('uuid',$uuid)
-            ->where('status_tersedia',1)->get();
+        $classes = Models\Classes::where('uuid',$uuid)->get();
         
         if(count($classes)==0){
             return response()->json([
@@ -307,6 +306,7 @@ class ShowController extends Controller
         $count_quiz = 0;
         //$arr['stat_pengguna'] = $this->userCheck($uuidUser,$date);
 
+        //return $content;
         for($i = 0;$i < count($content);$i++){
             $arr1 = [];
             if($content[$i]->type == 'video'){
@@ -353,10 +353,12 @@ class ShowController extends Controller
             }
             $cont[$i] = $arr1;
         }
+        $stat = ['Tidak Tersedia','Tersedia'];
 
         $arr['class_nama'] = $classes[0]->nama;
         $arr['class_desc'] = $classes[0]->deskripsi;
-        $arr['url_web'] = $classes[0]->url_web;
+        $arr['class_desc'] = $classes[0]->deskripsi;
+        $arr['class_tersedia'] = $stat[$classes[0]->status_tersedia];
         $arr['url_mobile'] = $classes[0]->url_mobile;
         $arr['class_uuid'] = $classes[0]->uuid;
         $arr['jml_video'] = $count_vid;
