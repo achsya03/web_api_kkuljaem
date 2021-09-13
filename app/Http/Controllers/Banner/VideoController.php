@@ -129,8 +129,8 @@ class VideoController extends Controller
         $video = Videos::where('uuid',$uuid)->first();
         unset($video['id']);
 
-        return response()->json(['
-            message'=>'Success',
+        return response()->json([
+            'message'=>'Success',
             'account' => $user,
             'data' => $video
         ]);
