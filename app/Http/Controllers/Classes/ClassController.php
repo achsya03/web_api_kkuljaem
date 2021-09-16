@@ -19,12 +19,12 @@ class ClassController extends Controller
 
     public function checkData(Request $request)
     {
-    if(!$uuid=$request->token){
-        return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
-    }
-    if(count($classes = Classes::where('uuid',$uuid)->get())==0){
-        return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
-    }
+        if(!$uuid=$request->token){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+        if(count($classes = Classes::where('uuid',$uuid)->get())==0){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
         $content = Models\Content::where('id_class',$classes[0]->id)->get();
         $result['nomor_content'] = count($content)+1;
 
@@ -219,6 +219,7 @@ class ClassController extends Controller
         => 'Proses Update Berhasil']);
     }
 
+    #testing
     public function allData(Request $request){
 
         $classes = Classes::where('nama','LIKE','%'.$request->nama_kelas.'%')
@@ -321,6 +322,7 @@ class ClassController extends Controller
 
         for ($i=0;$i<count($result);$i++){
             unset($result[$i]['group_all']);
+            unset($result[$i]['group']);
             unset($result[$i]['mentor_not_reg']);
             //unset($result[$i]['mentor_all']);
             unset($result[$i]['dibuat']);
