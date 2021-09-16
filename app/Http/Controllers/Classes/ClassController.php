@@ -50,17 +50,20 @@ class ClassController extends Controller
         // }
         $result = [];
         $res= $this->classesValue($classes);
-        // $result['nama_group'] = $res[0]['nama_group'];
-        // $result['group_deskripsi'] = $res[0]['group_deskripsi'];
-        // $result['group_uuid'] = $res[0]['group_uuid'];
-        
+        $result['nama_group'] = $res[0]['nama_group'];
+        $result['group_deskripsi'] = $res[0]['group_deskripsi'];
+        $result['group_uuid'] = $res[0]['group_uuid'];
+
         $result['classes'] = $res;
         for ($i=0;$i<count($res);$i++){
             unset($result['classes'][$i]['mentor_not_reg']);
-            //unset($result['classes'][$i]['mentor_all']);
+            unset($result['classes'][$i]['group']);
             unset($result['classes'][$i]['group_all']);
             unset($result['classes'][$i]['nama_group']);
+            //unset($result['classes'][$i]['mentor']);
             unset($result['classes'][$i]['group_deskripsi']);
+            unset($result['classes'][$i]['url_web']);
+            unset($result['classes'][$i]['url_mobile']);
             unset($result['classes'][$i]['group_uuid']);
         }
 
@@ -214,7 +217,8 @@ class ClassController extends Controller
 
     public function allData(Request $request){
 
-        $classes = Classes::all();
+        $classes = Classes::where('nama','LIKE','%'.$request->nama_kelas.'%')
+        ->limit($request->limit)->get();
         // foreach ($classes as $cl) {
         //     unset($cl['id']);
         //     unset($cl['id_class_category']);
@@ -375,13 +379,13 @@ class ClassController extends Controller
         for($i=0;$i<count($classes);$i++){
             $mentor =[];
             $idMentor = [];
-            // for($j=0;$j<count($classes[$i]->teacher);$j++){
-            //     $arr = [];
-            //     $idMentor[$j] = $classes[$i]->teacher[$j]->id_user;
-            //     $arr['nama_mentor'] = $classes[$i]->teacher[$j]->user->nama;
-            //     $arr['mentor_uuid'] = $classes[$i]->teacher[$j]->uuid;
-            //     $mentor[$j] = $arr;
-            // }
+            for($j=0;$j<count($classes[$i]->teacher);$j++){
+                $arr = [];
+                $idMentor[$j] = $classes[$i]->teacher[$j]->id_user;
+                $arr['nama_mentor'] = $classes[$i]->teacher[$j]->user->nama;
+                $arr['mentor_uuid'] = $classes[$i]->teacher[$j]->uuid;
+                $mentor[$j] = $arr;
+            }
             $users = Models\User::where('jenis_pengguna','!=',0)->get();
             $arr0 = [];
             for($j=0;$j<count($users);$j++){
@@ -411,13 +415,13 @@ class ClassController extends Controller
             }
 
             $result[$i] = [
-                //'nama_group' => $classes[$i]->class_category->nama,
-                //'group_deskripsi' => $classes[$i]->class_category->deskripsi,
-                //'group_uuid' => $classes[$i]->class_category->uuid,
+                'nama_group' => $classes[$i]->class_category->nama,
+                'group_deskripsi' => $classes[$i]->class_category->deskripsi,
+                'group_uuid' => $classes[$i]->class_category->uuid,
                 'group' => $arr01,
                 'judul_class' => $classes[$i]->nama,
                 'deskripsi_class' => $classes[$i]->deskripsi,
-                'mentor' => $arr0,
+                'mentor' => $mentor,
                 //'mentor_all' => $arr0,
                 'url_web' => $classes[$i]->url_web,
                 'url_mobile' => $classes[$i]->url_mobile,
