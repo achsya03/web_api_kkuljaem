@@ -137,6 +137,7 @@ Route::group(['prefix' => 'api/admin/classroom/content/video'], function () {
     Route::get('/task/detail', [Classes\TaskController::class,'detailData']);
     Route::post('/task/update', [Classes\TaskController::class,'updateData']);
 });
+Route::post('/test', [TestController::class,'test']);
 
 Route::group(['prefix' => 'api/admin/classroom/content/video'], function () {
     Route::get('/shadowing', [Classes\ShadowingController::class,'checkData']);
@@ -153,7 +154,7 @@ Route::group(['prefix' => 'api/admin/classroom/content/quiz'], function () {
     Route::post('/exam/update', [Classes\ExamController::class,'updateData']);
 });
 
-Route::post('/test', [TestController::class,'test']);
+Route::get('/test', [TestController::class,'test']);
 Route::get('/payment', [Payment\PaymentController::class,'show']);
 #==========================Admin/Mentor================================
 

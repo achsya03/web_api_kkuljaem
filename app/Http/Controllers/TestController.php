@@ -13,9 +13,6 @@ class TestController extends Controller
 {
     public function test(Request $request){
 
-        // $formFile = $request->file('file');
-        // $path = $formFile->getClientOriginalName();
-        // $file = $formFile->getPathName();
-        // $result = Dropbox::files()->upload($path, $file);
+        return view('dumy');
     }
 }

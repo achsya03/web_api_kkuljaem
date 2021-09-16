@@ -50,9 +50,9 @@ class ClassController extends Controller
         // }
         $result = [];
         $res= $this->classesValue($classes);
-        $result['nama_group'] = $res[0]['nama_group'];
-        $result['group_deskripsi'] = $res[0]['group_deskripsi'];
-        $result['group_uuid'] = $res[0]['group_uuid'];
+        // $result['nama_group'] = $res[0]['nama_group'];
+        // $result['group_deskripsi'] = $res[0]['group_deskripsi'];
+        // $result['group_uuid'] = $res[0]['group_uuid'];
         
         $result['classes'] = $res;
         for ($i=0;$i<count($res);$i++){
