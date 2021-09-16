@@ -39,20 +39,29 @@ class ClassController extends Controller
         if(count(ClassesCategory::where('uuid',$uuid)->get())==0){
             return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
         }
+
+        $limit = 5;
+
+        if(isset($request->limit)){
+            $limit = $request->limit;
+        }
+
         $class_cat = ClassesCategory::where('uuid',$uuid)->first();
         $classes = Classes::where('id_class_category',$class_cat->id)
                 //->where('nama','LIKE','%'.$request->nama_kelas.'%')
                 ->where('nama','ilike','%'.$request->nama_kelas.'%')
-                ->limit($request->limit)
+                ->limit($limit)->offset(($request->page - 1) * $limit)
                 ->get();
+        
+        $result = [];
         if(count($classes)==0){
-            return response()->json(['message'=>'Success','info'=>"Data Tidak Ditemukan"]);
+            return response()->json(['message'=>'Success','data'
+            => $result]);
         }
         // foreach ($classes as $cl) {
         //     unset($cl['id']);
         //     unset($cl['id_class_category']);
         // }
-        $result = [];
         $res= $this->classesValue($classes);
         $result['nama_group'] = $res[0]['nama_group'];
         $result['group_deskripsi'] = $res[0]['group_deskripsi'];
@@ -296,14 +305,32 @@ class ClassController extends Controller
             return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
         }
 
-        $student = Models\Student::where('id_class',$classes[0]->id)->first();
-        $progress = $student->jml_pengerjaan / ($classes[0]->jml_video+$classes[0]->jml_kuis);
+        $limit = 5;
 
-        $result = [
-            'nama' => $student->user->nama,
-            'progress' => $progress*100,
-            'uuid' => $student->uuid,
-        ];
+        if(isset($request->limit)){
+            $limit = $request->limit;
+        }
+
+        $student = Models\Student::join('users','users.id','=','students.id_user')
+                ->where('id_class',$classes[0]->id)
+                //->where('nama','ilike','%'.$request->nama_siswa.'%')
+                ->where('users.nama','LIKE','%'.$request->nama_siswa.'%')
+                ->limit($limit)->offset(($request->page - 1) * $limit)
+                ->get();
+                //return $student;
+        $result = [];
+        for($i=0;$i<count($student);$i++){
+            $arr = [];
+            $progress = $student[$i]->jml_pengerjaan / ($classes[0]->jml_video+$classes[0]->jml_kuis);
+
+            $arr = [
+                'nama' => $student[$i]->user->nama,
+                'progress' => $progress*100,
+                'uuid' => $student[$i]->uuid,
+            ];
+            $result[$i] = $arr;
+        }
+
 
         return response()->json(['message'=>'Success','data'
         => $result]);
@@ -328,9 +355,39 @@ class ClassController extends Controller
             unset($result[$i]['dibuat']);
             unset($result[$i]['diubah']);
         }
+        $limit = 5;
+
+        if(isset($request->limit)){
+            $limit = $request->limit;
+        }
 
         $content = Models\Content::where('id_class',$classes[0]->id)
+                    //->where('video.judul','ilike','%'.$request->nama_kelas.'%')
+                    // ->where('video.judul','LIKE','%'.$request->judul.'%')
+                    // //->where('quiz.judul','ilike','%'.$request->nama_quiz.'%')
+                    // ->where('quiz.judul','LIKE','%'.$request->judul.'%')
+                    ->limit($limit)->offset(($request->page - 1) * $limit)
                     ->orderBy('number','ASC')->get();
+        if(isset($request->judul_video)){
+            $content = Models\Content::join('video','content.id','=','video.id_content')
+            ->where('id_class',$classes[0]->id)
+            // ->where('video.judul','ilike','%'.$request->nama_kelas.'%')
+            ->where('video.judul','LIKE','%'.$request->judul_video.'%')
+            // //->where('quiz.judul','ilike','%'.$request->nama_quiz.'%')
+            // ->where('quiz.judul','LIKE','%'.$request->judul.'%')
+            ->limit($limit)->offset(($request->page - 1) * $limit)
+            ->orderBy('number','ASC')->get();
+        }elseif(isset($request->judul_quiz)){
+            $content = Models\Content::join('quiz','content.id','=','quiz.id_content')
+            ->where('id_class',$classes[0]->id)
+            //->where('video.judul','ilike','%'.$request->nama_kelas.'%')
+            // ->where('video.judul','LIKE','%'.$request->judul.'%')
+            //->where('quiz.judul','ilike','%'.$request->nama_quiz.'%')
+            ->where('quiz.judul','LIKE','%'.$request->judul_quiz.'%')
+            ->limit($limit)->offset(($request->page - 1) * $limit)
+            ->orderBy('number','ASC')->get();
+        }
+        //return $content;
         $arr = [];
         $arr9 = [];
         $arr8 = [];
@@ -339,12 +396,14 @@ class ClassController extends Controller
             $arr0 = [];
             $arr0['number'] = $content[$i]->number;
             if($content[$i]->type == 'quiz'){
-                if(!$quiz = Models\Quiz::where('id_content',$content[$i]->id)->first()){
-                    //continue;
-                }//return $quiz;
+                $quiz = Models\Quiz::where('id_content',$content[$i]->id)->first();
+                if(isset($request->judul_quiz)){
+                    $quiz = Models\Quiz::where('id_content',$content[$i]->id_content)->first();
+                }
                 $test = $quiz;
+                //return $content[$i]->id;
                 $arr0['jenis'] = $content[$i]->type;
-                $arr0['judul'] = $test->judul;
+                $arr0['judul'] = $quiz->judul;
                 $arr0['keterangan'] = $quiz->keterangan;
                 $arr0['jml_pertanyaan'] = $quiz->jml_pertanyaan;
                 $arr0['uuid'] = $quiz->uuid;
@@ -352,10 +411,10 @@ class ClassController extends Controller
                 $co1 += 1;
             }
             if($content[$i]->type == 'video'){
-                if(!$video = Models\Video::where('id_content',$content[$i]->id)->first()){
-                    //continue;
-                }
                 $video = Models\Video::where('id_content',$content[$i]->id)->first();
+                if(isset($request->judul_video)){
+                    $video = Models\Video::where('id_content',$content[$i]->id_content)->first();
+                }
                 $arr0['jenis'] = $content[$i]->type;
                 $arr0['judul'] = $video->judul;
                 $arr0['keterangan'] = $video->keterangan;

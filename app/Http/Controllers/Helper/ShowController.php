@@ -817,6 +817,7 @@ class ShowController extends Controller
             $videoTheme = Models\VideoTheme::where('id_theme',$idTheme)->first();
             $video = $videoTheme->video;
             $arr1 = [
+                'judul' => $post[$i]->judul,
                 'deskripsi' => $post[$i]->deskripsi,
                 'nama_pengirim' => $post[$i]->user->nama
             ];
@@ -871,6 +872,7 @@ class ShowController extends Controller
         for($i=0;$i<count($post);$i++){
             $arr1 = [];
             $arr1 = [
+                'judul' => $post[$i]->judul,
                 'deskripsi' => $post[$i]->deskripsi,
                 'nama_pengirim' => $post[$i]->user->nama
             ];
@@ -928,6 +930,7 @@ class ShowController extends Controller
             $videoTheme = Models\VideoTheme::where('id_theme',$idTheme)->first();
             $video = $videoTheme->video;
             $arr1 = [
+                'judul' => $post[$i]->judul,
                 'deskripsi' => $post[$i]->deskripsi,
                 'nama_pengirim' => $post[$i]->user->nama
             ];
@@ -988,6 +991,7 @@ class ShowController extends Controller
             $videoTheme = Models\VideoTheme::where('id_theme',$idTheme)->first();
             $video = $videoTheme->video;
             $arr1 = [
+                'judul' => $post[$i]->judul,
                 'deskripsi' => $post[$i]->deskripsi,
                 'nama_pengirim' => $post[$i]->user->nama
             ];
