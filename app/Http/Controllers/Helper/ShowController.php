@@ -130,10 +130,10 @@ class ShowController extends Controller
     }
 
     public function search(Request $request){
-        if(!$key=$request->keyword){
-            return response()->json(['message' => 'Failed',
-            'info'=>"Keyword Tidak Sesuai"]);
-        }
+        // if(!$key=$request->keyword){
+        //     return response()->json(['message' => 'Failed',
+        //     'info'=>"Keyword Tidak Sesuai"]);
+        // }
         $result  = [];
 
         $post = Models\Post::where('stat_post',0)
