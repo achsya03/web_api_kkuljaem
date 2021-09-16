@@ -25,4 +25,8 @@ class Quiz extends Model
     {
         return $this->belongsTo(StudentQuiz::class,'id_quiz','id');
     }
+    public function exam()
+    {
+        return $this->hasMany(Exam::class,'id_quiz','id');
+    }
 }

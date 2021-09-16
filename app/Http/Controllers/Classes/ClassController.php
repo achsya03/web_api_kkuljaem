@@ -80,11 +80,20 @@ class ClassController extends Controller
         if($validator->fails()){
             return response()->json(['message'=>'Failed','info'=>$validator->errors()]);
         }
-        
-        $id_class_category = ClassesCategory::where('uuid',$request->id_class_category)->first();
-        if(!$id_class_category){
-            return response()->json(['message'=>'Failed','info'=>'Category ID Tidak Sesuai']);
+        if(!$uuid=$request->token){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
         }
+
+        $id_class_category = ClassesCategory::where('uuid',$uuid)->first();
+
+        if(!$id_class_category){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+        
+        // $id_class_category = ClassesCategory::where('uuid',$request->id_class_category)->first();
+        // if(!$id_class_category){
+        //     return response()->json(['message'=>'Failed','info'=>'Category ID Tidak Sesuai']);
+        // }
         for($i=0;$i<count($request->id_user);$i++){
             if(!$user = Models\User::where('uuid',$request->id_user[$i])
                             ->where('jenis_pengguna','!=',0)->first()){

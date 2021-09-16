@@ -13,6 +13,21 @@ use Validator;
 
 class ContentVideoController extends Controller
 {
+    public function checkData(Request $request){
+        if(!$uuid=$request->token){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+        if(count($classes = Models\Classes::where('uuid',$uuid)->get())==0){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+        $content = Models\Content::where('id_class',$classes[0]->id)
+                ->where('type','video')->get();
+        $result['nomor_soal'] = count($content)+1;
+    
+        return response()->json(['message'=>'Success','data'
+        => $result]);
+    }
+
     public function getData(Request $request){
         if(!$uuid=$request->token){
             return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
@@ -74,6 +89,16 @@ class ContentVideoController extends Controller
         $this->rules = $validation1->rules;
         $this->messages = $validation1->messages;
 
+        if(!$uuid=$request->token){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+
+        $id_class = Models\Classes::where('uuid',$uuid)->first();
+
+        if($id_class==null){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+
         $validator = Validator::make($request->all(), $this->rules, $this->messages);
         #echo $web_token;
         if($validator->fails()){
@@ -91,7 +116,7 @@ class ContentVideoController extends Controller
         }
 
 
-        $id_class = Classes::where('uuid',$request->id_class)->first();
+        //$id_class = Classes::where('uuid',$request->id_class)->first();
         if($id_class==null){
             return response()->json(['message'=>'Failed','info'=>'ID Class Tidak Sesuai']);
         }

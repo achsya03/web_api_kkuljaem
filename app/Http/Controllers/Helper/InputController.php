@@ -35,6 +35,10 @@ class InputController extends Controller
             $this->question(Models\Question::class,$data);
         }elseif($pos=='task'){
             $this->task(Models\Task::class,$data);
+        }elseif($pos=='exam'){
+            $this->exam(Models\Exam::class,$data);
+        }elseif($pos=='shadowing'){
+            $this->shadowing(Models\Shadowing::class,$data);
         }elseif($pos=='teacher'){
             $this->teacher(Models\Teacher::class,$data);
         }elseif($pos=='testimoni'){
@@ -172,6 +176,24 @@ class InputController extends Controller
     private function task($model,$data){
         $model::create([
             'id_question'            => $data['id_question'],
+            'id_video'               => $data['id_video'],
+            'number'                 => $data['number'],
+            'uuid'                   => $data['uuid']
+        ]);
+    }
+
+    private function exam($model,$data){
+        $model::create([
+            'id_question'            => $data['id_question'],
+            'id_quiz'                => $data['id_quiz'],
+            'number'                 => $data['number'],
+            'uuid'                   => $data['uuid']
+        ]);
+    }
+
+    private function shadowing($model,$data){
+        $model::create([
+            'id_word'                => $data['id_word'],
             'id_video'               => $data['id_video'],
             'number'                 => $data['number'],
             'uuid'                   => $data['uuid']

@@ -38,6 +38,10 @@ class UpdateController extends Controller
             $this->option(Models\Option::class,$data);
         }elseif($pos=='question'){
             $this->question(Models\Question::class,$data);
+        }elseif($pos=='contentVideo'){
+            $this->contentVideo(Models\Video::class,$data);
+        }elseif($pos=='task'){
+            $this->task(Models\Task::class,$data);
         }elseif($pos=='teacher'){
             $this->teacher(Models\Teacher::class,$data);
         }elseif($pos=='testimoni'){
@@ -84,23 +88,61 @@ class UpdateController extends Controller
     }
 
     private function word($model,$data){
-        $model::where('uuid',$data['uuid'])
-        ->update([
-            'jadwal'          => $data['jadwal'],
-            'hangeul'         => $data['hangeul'],
-            'pelafalan'       => $data['pelafalan'],
-            'penjelasan'      => $data['penjelasan'],
-            'url_pengucapan'  => $data['url_pengucapan'],
-            //'pengucapan_id'   => $data['pengucapan_id']
-        ]);
+        $field = [
+            //'id_question',
+            'jadwal',
+            'hangeul',
+            'pelafalan',
+            'penjelasan',
+            'url_pengucapan',
+            'uuid',
+        ];
+        for($i=0;$i<count($field)-1;$i++){
+            if(isset($data[$field[$i]])){
+                $model::where('uuid',$data['uuid'])
+                ->update([
+                    $field[$i]            => $data[$field[$i]]
+                ]);
+            }
+        }
     }
 
     private function video($model,$data){
-        $model::where('uuid',$data['uuid'])
-        ->update([
-            'jadwal'          => $data['jadwal'],
-            'url_video'       => $data['url_video']
-        ]);
+        $field = [
+            //'id_question',
+            'jadwal',
+            'url_video',
+            'uuid',
+        ];
+        for($i=0;$i<count($field)-1;$i++){
+            if(isset($data[$field[$i]])){
+                $model::where('uuid',$data['uuid'])
+                ->update([
+                    $field[$i]            => $data[$field[$i]]
+                ]);
+            }
+        }
+    }
+
+    private function contentVideo($model,$data){
+        $field = [
+            //'id_question',
+            'jadwal',
+            'judul',
+            'keterangan',
+            'jml_latihan',
+            'jml_shadowing',
+            'url_video',
+            'uuid',
+        ];
+        for($i=0;$i<count($field)-1;$i++){
+            if(isset($data[$field[$i]])){
+                $model::where('uuid',$data['uuid'])
+                ->update([
+                    $field[$i]            => $data[$field[$i]]
+                ]);
+            }
+        }
     }
 
     private function classCategory($model,$data){
@@ -153,36 +195,60 @@ class UpdateController extends Controller
         }
     }
 
-    private function contentVideo($model,$data){
-        $model::where('uuid',$data['uuid'])
-        ->update([
-            'judul'                        => $data['judul'],
-            'keterangan'                    => $data['keterangan'],
-            'url_video'                    => $data['url_video']
-        ]);
-    }
+    // private function contentVideo($model,$data){
+    //     $model::where('uuid',$data['uuid'])
+    //     ->update([
+    //         'judul'                        => $data['judul'],
+    //         'keterangan'                    => $data['keterangan'],
+    //         'url_video'                    => $data['url_video']
+    //     ]);
+    // }
 
     private function option($model,$data){
-        $model::where('uuid',$data['uuid'])
-        ->update([
-            'id_question'           => $data['id_question'],
-            'jawaban_teks'          => $data['jawaban_teks'],
-            'url_gambar'            => $data['url_gambar'],
-            'gambar_id'             => $data['gambar_id'],
-            'url_file'              => $data['url_file'],
-            //'file_id'               => $data['file_id']
-        ]);
+        $field = [
+            //'id_question',
+            'jawaban_teks',
+            'url_gambar',
+            'gambar_id',
+            'url_file',
+            'uuid',
+        ];
+        for($i=0;$i<count($field)-1;$i++){
+            if(isset($data[$field[$i]])){
+                $model::where('uuid',$data['uuid'])
+                ->update([
+                    $field[$i]            => $data[$field[$i]]
+                ]);
+            }
+        }
     }
 
     private function question($model,$data){
+        $field = [
+            //'id_question',
+            'pertanyaan_teks',
+            'url_gambar',
+            'gambar_id',
+            'url_file',
+            'jawaban',
+            'uuid',
+        ];
+        for($i=0;$i<count($field)-1;$i++){
+            if(isset($data[$field[$i]])){
+                $model::where('uuid',$data['uuid'])
+                ->update([
+                    $field[$i]            => $data[$field[$i]]
+                ]);
+            }
+        }
+    }
+
+    private function task($model,$data){
         $model::where('uuid',$data['uuid'])
         ->update([
-            'pertanyaan_teks'       => $data['pertanyaan_teks'],
-            'url_gambar'            => $data['url_gambar'],
-            'gambar_id'             => $data['gambar_id'],
-            'url_file'              => $data['url_file'],
-            //'file_id'               => $data['file_id'],
-            'jawaban'               => $data['jawaban']
+            'id_question'            => $data['id_question'],
+            'id_video'               => $data['id_video'],
+            'number'                 => $data['number']
         ]);
     }
 

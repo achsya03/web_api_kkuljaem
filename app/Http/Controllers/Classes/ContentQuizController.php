@@ -12,6 +12,62 @@ use Validator;
 class ContentQuizController extends Controller
 {
 
+    public function checkData(Request $request){
+        if(!$uuid=$request->token){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+        if(count($classes = Models\Classes::where('uuid',$uuid)->get())==0){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+        $content = Models\Content::where('id_class',$classes[0]->id)
+                    ->where('type','quiz')->get();
+        $result['nomor_soal'] = count($content)+1;
+    
+        return response()->json(['message'=>'Success','data'
+        => $result]);
+    }
+
+    public function getData(Request $request){
+        if(!$uuid=$request->token){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+
+        $object = Models\Quiz::where('uuid',$uuid)->first();
+
+        if(!$object){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+
+        #unset($object->id);
+
+        $result = [
+            //'nomor'         => $object->content->number,
+            'judul'         => $object->judul,
+            'keterangan'    => $object->keterangan,
+            'uuid'          => $object->uuid,
+        ];
+
+        $exam = Models\Exam::where('id_quiz',$object->id)->get();
+        $arr0 = [];
+        for($i=0;$i<count($exam);$i++){
+            $arr1 = [];
+            $arr1 = [
+                'nomor' => $exam[$i]->number,
+                'pertanyaan' => $exam[$i]->question->pertanyaan_teks,
+                'jawaban' => $exam[$i]->question->jawaban,
+                'exam_uuid' => $exam[$i]->uuid,
+            ];
+            $arr0[$i] = $arr1;
+        }
+        #return $task;
+        
+        $result['jml_exam'] = count($arr0);
+        $result['exam'] = $arr0;
+
+        return response()->json(['message'=>'Success','data'
+        => $result]);
+    }
+
     public function addData(Request $request)
     {
         $validation1 = new Helper\ValidationController('content');
@@ -34,8 +90,17 @@ class ContentQuizController extends Controller
             return response()->json(['message'=>'Failed','info'=>$validator->errors()]);
         }
 
+        if(!$uuid=$request->token){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
 
-        $id_class = Models\Classes::where('uuid',$request->id_class)->first();
+        $id_class = Models\Classes::where('uuid',$uuid)->first();
+
+        if($id_class==null){
+            return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
+        }
+
+        //$id_class = Models\Classes::where('uuid',$request->id_class)->first();
         if($id_class==null){
             return response()->json(['message'=>'Failed','info'=>'ID Class Tidak Sesuai']);
         }

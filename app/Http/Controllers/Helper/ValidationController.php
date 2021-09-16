@@ -96,6 +96,21 @@ class ValidationController extends Controller
             $this->data = [
                 'uuid'      => $this->getUuid(Models\Task::class)
             ];
+        }elseif($pos=='exam'){
+            $this->exam();
+            $this->data = [
+                'uuid'      => $this->getUuid(Models\Exam::class)
+            ];
+        }elseif($pos=='shadowing'){
+            $this->shadowing();
+            $this->data = [
+                'uuid'      => $this->getUuid(Models\Shadowing::class)
+            ];
+        }elseif($pos=='word'){
+            $this->word();
+            $this->data = [
+                'uuid'      => $this->getUuid(Models\Words::class)
+            ];
         }elseif($pos=='teacher'){
             $this->teacher();
             $this->data = [
@@ -193,7 +208,8 @@ class ValidationController extends Controller
             'hangeul'                       => 'required',
             'pelafalan'                     => 'required',
             'penjelasan'                    => 'required',
-            'url_pengucapan'                => 'required|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav'
+            'url_pengucapan'                => 'required'
+            //|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav
         ];
     
         $this->messages = [
@@ -203,7 +219,7 @@ class ValidationController extends Controller
             'pelafalan.required'           => 'Pelafalan wajib diisi',
             'penjelasan.required'          => 'Penjelasan wajib diisi',
             'url_pengucapan.required'      => 'Pengucapan wajib diisi',
-            'url_pengucapan.mimes'         => 'Ekstensi file yang didukung mpeg,mpga,mp3,wav'
+            //'url_pengucapan.mimes'         => 'Ekstensi file yang didukung mpeg,mpga,mp3,wav'
         ];
     }
 
@@ -234,8 +250,8 @@ class ValidationController extends Controller
 
     private function classes(){
         $this->rules = [
-            'id_class_category'                  => 'required',
-            'id_user'                            => 'required',
+            //'id_class_category'                  => 'required',
+            //'id_user'                            => 'required',
             'nama'                               => 'required',
             'deskripsi'                          => 'required',
             'url_web'                            => 'required|image',
@@ -244,8 +260,8 @@ class ValidationController extends Controller
         ];
     
         $this->messages = [
-            'id_class_category.required'         => 'ID Kategori wajib diisi',
-            'id_user.required'                   => 'ID User wajib diisi',
+            //'id_class_category.required'         => 'ID Kategori wajib diisi',
+            //'id_user.required'                   => 'ID User wajib diisi',
             'nama.required'                      => 'Nama wajib diisi',
             'deskripsi.required'                 => 'Deskripsi wajib diisi',
             'url_web.required'                   => 'Banner Web wajib diisi',
@@ -258,7 +274,7 @@ class ValidationController extends Controller
 
     private function content(){
         $this->rules = [
-            'id_class'                            => 'required',
+            //'id_class'                            => 'required',
             #'id_content_quiz'                    => 'required',
             'nomor'                               => 'required',
             #'tgl_testimoni'                      => 'required',
@@ -266,7 +282,7 @@ class ValidationController extends Controller
         ];
     
         $this->messages = [
-            'id_class.required'                 => 'ID Kelas wajib diisi',
+            //'id_class.required'                 => 'ID Kelas wajib diisi',
             #'id_content_quiz.required'         => 'ID Kuis wajib diisi',
             'nomor.required'                    => 'Nomor wajib diisi',
             #'tgl_testimoni.required'           => 'Tanggal wajib diisi',
@@ -316,11 +332,11 @@ class ValidationController extends Controller
 
     private function option(){
         $this->rules = [
-            'id_question'                              => 'required'
+            //'id_question'                              => 'required'
         ];
     
         $this->messages = [
-            'id_question.required'                      => 'ID Pertanyaan wajib diisi',
+            //'id_question.required'                      => 'ID Pertanyaan wajib diisi',
         ];
     }
 
@@ -342,15 +358,68 @@ class ValidationController extends Controller
         $this->rules = [
             // 'id_question'                          => 'required',
             // 'id_video'                             => 'required',
-            'number'                               => 'required',
+            'nomor'                               => 'required',
             #'jenis_jawaban'                       => 'required'
         ];
     
         $this->messages = [
             // 'id_question.required'                 => 'ID Pertanyaan wajib diisi',
             // 'id_video.required'                    => 'ID Video wajib diisi',
-            'number.required'                      => 'Nomor wajib diisi',
+            'nomor.required'                      => 'Nomor wajib diisi',
             #'jenis_jawaban.required'              => 'Jenis Jawaban wajib diisi'
+        ];
+    }
+
+    private function exam(){
+        $this->rules = [
+            // 'id_question'                          => 'required',
+            // 'id_video'                             => 'required',
+            'nomor'                               => 'required',
+            #'jenis_jawaban'                       => 'required'
+        ];
+    
+        $this->messages = [
+            // 'id_question.required'                 => 'ID Pertanyaan wajib diisi',
+            // 'id_video.required'                    => 'ID Video wajib diisi',
+            'nomor.required'                      => 'Nomor wajib diisi',
+            #'jenis_jawaban.required'              => 'Jenis Jawaban wajib diisi'
+        ];
+    }
+
+    private function shadowing(){
+        $this->rules = [
+            // 'id_question'                          => 'required',
+            // 'id_video'                             => 'required',
+            'nomor'                               => 'required',
+            #'jenis_jawaban'                       => 'required'
+        ];
+    
+        $this->messages = [
+            // 'id_question.required'                 => 'ID Pertanyaan wajib diisi',
+            // 'id_video.required'                    => 'ID Video wajib diisi',
+            'nomor.required'                      => 'Nomor wajib diisi',
+            #'jenis_jawaban.required'              => 'Jenis Jawaban wajib diisi'
+        ];
+    }
+
+    private function word(){
+        $this->rules = [
+            //'jadwal'                        => 'required|date',
+            'hangeul'                       => 'required',
+            'pelafalan'                     => 'required',
+            'penjelasan'                    => 'required',
+            'url_pengucapan'                => 'required'
+            //|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav
+        ];
+    
+        $this->messages = [
+            //'jadwal.required'              => 'Jadwal video wajib diisi',
+            //'jadwal.date'                  => 'Format tanggal tidak valid',
+            'hangeul.required'             => 'Hangeul wajib diisi',
+            'pelafalan.required'           => 'Pelafalan wajib diisi',
+            'penjelasan.required'          => 'Penjelasan wajib diisi',
+            'url_pengucapan.required'      => 'Pengucapan wajib diisi',
+            //'url_pengucapan.mimes'         => 'Ekstensi file yang didukung mpeg,mpga,mp3,wav'
         ];
     }
 
@@ -414,7 +483,7 @@ class ValidationController extends Controller
         }
 
         if(!$uploadedFileUrl = Cloudinary::uploadFile($gambar->getRealPath(),[
-            'folder' => date("Y-m-d")."/".$path,
+            'folder' => /*date("Y-m-d")."/".*/'Testing'.$path,
             'use_filename' => 'True',
             'filename_override' => date('mdYhis')
         ])){
