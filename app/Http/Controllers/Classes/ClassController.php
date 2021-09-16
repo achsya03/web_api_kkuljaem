@@ -41,9 +41,13 @@ class ClassController extends Controller
         }
         $class_cat = ClassesCategory::where('uuid',$uuid)->first();
         $classes = Classes::where('id_class_category',$class_cat->id)
-                ->where('nama','LIKE','%'.$request->nama_kelas.'%')
+                //->where('nama','LIKE','%'.$request->nama_kelas.'%')
+                ->where('nama','ilike','%'.$request->nama_kelas.'%')
                 ->limit($request->limit)
                 ->get();
+        if(count($classes)==0){
+            return response()->json(['message'=>'Success','info'=>"Data Tidak Ditemukan"]);
+        }
         // foreach ($classes as $cl) {
         //     unset($cl['id']);
         //     unset($cl['id_class_category']);
