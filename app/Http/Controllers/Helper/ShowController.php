@@ -139,13 +139,13 @@ class ShowController extends Controller
         $post = Models\Post::where('stat_post',0)
         ->where('jenis','forum')
         //->where('judul','LIKE','%'.strtolower($key).'%')
-        ->where('judul','ilike','%'.$key.'%')
+        ->where('judul','ilike','%'.$request->keyword.'%')
         ->get();
 
         $qna = Models\Post::where('stat_post',0)
         ->where('jenis','qna')
         //->where('judul','LIKE','%'.strtolower($key).'%')
-        ->where('judul','ilike','%'.$key.'%')
+        ->where('judul','ilike','%'.$request->keyword.'%')
         ->get();
 
         $pos = Controllers\Post\PostController::getPost($post);
