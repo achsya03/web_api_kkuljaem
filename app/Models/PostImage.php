@@ -9,6 +9,7 @@ class PostImage extends Model
 {
     use HasFactory;
     protected $table = 'post_image';
+    public $timestamps=false;
     protected $fillable = [
         'id_post',
         'url_gambar',

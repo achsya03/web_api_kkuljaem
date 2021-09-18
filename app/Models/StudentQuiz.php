@@ -14,7 +14,7 @@ class StudentQuiz extends Model
         'id_student',
         'id_quiz',
         'register_date',
-        'answer',
+        'nilai',
         'uuid'
     ];
     public function quiz()

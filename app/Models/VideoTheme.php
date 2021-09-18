@@ -9,6 +9,7 @@ class VideoTheme extends Model
 {
     use HasFactory;
     protected $table = 'video_theme';
+    public $timestamps=false;
     protected $fillable = [
         'id_video',
         'id_theme',

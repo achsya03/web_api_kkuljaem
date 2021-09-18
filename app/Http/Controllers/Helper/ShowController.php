@@ -98,7 +98,7 @@ class ShowController extends Controller
             ];
         }
 
-        $pos = Controllers\Post\PostController::getPost($post);
+        $pos = Controllers\Post\PostController::getPost($post,$request->user()->id);
 
         $result['banner'] = $ban;
         $result['video'] = $vid;
@@ -113,7 +113,7 @@ class ShowController extends Controller
             'data'    => $result
         ]);
     }
-
+    
     public function banner(Request $request){
         $banner = Controllers\Banner\BannerController::detailData($request->token,$this->statUser($request->user()));
         return $banner;
@@ -138,18 +138,18 @@ class ShowController extends Controller
 
         $post = Models\Post::where('stat_post',0)
         ->where('jenis','forum')
-        //->where('judul','LIKE','%'.strtolower($key).'%')
+        //->where('judul','LIKE','%'.strtolower($request->keyword).'%')
         ->where('judul','ilike','%'.$request->keyword.'%')
         ->get();
 
         $qna = Models\Post::where('stat_post',0)
         ->where('jenis','qna')
-        //->where('judul','LIKE','%'.strtolower($key).'%')
+        //->where('judul','LIKE','%'.strtolower($request->keyword).'%')
         ->where('judul','ilike','%'.$request->keyword.'%')
         ->get();
 
-        $pos = Controllers\Post\PostController::getPost($post);
-        $qn = Controllers\Post\PostController::getPost($qna);
+        $pos = Controllers\Post\PostController::getPost($post,$request->user()->id);
+        $qn = Controllers\Post\PostController::getPost($qna,$request->user()->id);
 
         $result = [
             'jml_forum' => count($pos),
@@ -183,7 +183,7 @@ class ShowController extends Controller
         $usr = Models\User::where('uuid',$request->user()->uuid)->first();
         $date = date_format(date_create($usr->tgl_langganan_akhir),"Y/m/d");
        
-        $result['stat_pengguna'] = $this->userCheck($request->user()->uuid,$date);
+        //$result['stat_pengguna'] = $this->userCheck($request->user()->uuid,$date);
 
         $category = Models\ClassesCategory::all();
         $arr0 = [];
@@ -982,7 +982,6 @@ class ShowController extends Controller
         
         #$theme = Models\Theme::orderBy('jml_post','DESC')->limit(3)->get();
 
-        $arr0 = [];
 
         // $post = Controllers\Post\PostController::getPost($qna);
         for($i=0;$i<count($post);$i++){
@@ -990,8 +989,23 @@ class ShowController extends Controller
             $idTheme = $post[$i]->theme->id;
             $videoTheme = Models\VideoTheme::where('id_theme',$idTheme)->first();
             $video = $videoTheme->video;
+            $posting = 'False';
+            $like = 'False';
+            $userId = $request->user()->id;
+
+            if($post[$i]->id_user==$userId){
+                $posting = 'True';
+            }
+            if(count($likes = Models\PostLike::where('id_post',$post[$i]->id)
+                            ->where('id_user',$userId)->get())>0){
+                $like = 'True';
+            }
+            $arr0 = [];
+            
             $arr1 = [
                 'judul' => $post[$i]->judul,
+                'user_posting' => $posting,
+                'user_like' => $like,
                 'deskripsi' => $post[$i]->deskripsi,
                 'nama_pengirim' => $post[$i]->user->nama
             ];
@@ -1020,7 +1034,14 @@ class ShowController extends Controller
             $user = Models\User::where('id',$comment[$j]->id_user)
                 ->first();
             #return $user;
+
+            $like = 'False';
+            if($comment[$j]->id_user==$request->user()->id){
+                $like = 'True';
+            }
+
             $arr1['comment_nama'] = $user->nama;
+            $arr1['user_like'] = $like;
             $arr1['comment_foto'] = $user->url_foto;
             $arr1['comment_isi'] = $comment[$j]->comment;
             $arr1['comment_tgl'] = $comment[$j]->created_at;
@@ -1064,7 +1085,7 @@ class ShowController extends Controller
             $arr[$i] = $arr1;
         }
 
-        $pos = Controllers\Post\PostController::getPost($forum);
+        $pos = Controllers\Post\PostController::getPost($forum,$request->user()->id);
 
         $result['theme'] = $arr;
         $result['forum'] = $pos;
@@ -1101,7 +1122,7 @@ class ShowController extends Controller
             ]);
         }
 
-        $pos = Controllers\Post\PostController::getPost($forum);
+        $pos = Controllers\Post\PostController::getPost($forum,$request->user()->id);
 
         $comment = Models\Comment::where('id_post',$forum[0]->id)
             ->orderBy('created_at','DESC')->get();
@@ -1112,7 +1133,13 @@ class ShowController extends Controller
             $user = Models\User::where('id',$comment[$j]->id_user)
                 ->first();
             #return $user;
+            $like = 'False';
+            if($comment[$j]->id_user==$request->user()->id){
+                $like = 'True';
+            }
+
             $arr1['comment_nama'] = $user->nama;
+            $arr1['user_like'] = $like;
             $arr1['comment_foto'] = $user->url_foto;
             $arr1['comment_isi'] = $comment[$j]->comment;
             $arr1['comment_tgl'] = $comment[$j]->created_at;
@@ -1156,7 +1183,7 @@ class ShowController extends Controller
         ];
         $result['theme'] = $arr1;
 
-        $pos = Controllers\Post\PostController::getPost($forum);
+        $pos = Controllers\Post\PostController::getPost($forum,$request->user()->id);
 
         $result['forum'] = $pos;
 
@@ -1194,7 +1221,7 @@ class ShowController extends Controller
         ];
         $result['theme'] = $arr1;
 
-        $pos = Controllers\Post\PostController::getPost($forum);
+        $pos = Controllers\Post\PostController::getPost($forum,$request->user()->id);
 
         $result['forum'] = $pos;
 
@@ -1223,7 +1250,7 @@ class ShowController extends Controller
         ->where('stat_post',0)
         ->orderBy('created_at','DESC')->get();
 
-        $pos = Controllers\Post\PostController::getPost($forum);
+        $pos = Controllers\Post\PostController::getPost($forum,$request->user()->id);
 
         $result = $pos;
         return response()->json([

@@ -27,4 +27,8 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class,'id_user','id');
     }
+    public function commentAlert()
+    {
+        return $this->hasMany(CommentAlert::class,'id_comment','id');
+    }
 }

@@ -44,6 +44,18 @@ class UpdateController extends Controller
             $this->task(Models\Task::class,$data);
         }elseif($pos=='teacher'){
             $this->teacher(Models\Teacher::class,$data);
+        }elseif($pos=='theme'){
+            $this->theme(Models\Theme::class,$data);
+        }elseif($pos=='videoTheme'){
+            $this->videoTheme(Models\VideoTheme::class,$data);
+        }elseif($pos=='post'){
+            $this->post(Models\Post::class,$data);
+        }elseif($pos=='comment'){
+            $this->comment(Models\Comment::class,$data);
+        }elseif($pos=='postAlert'){
+            $this->postAlert(Models\PostAlert::class,$data);
+        }elseif($pos=='commentAlert'){
+            $this->commentAlert(Models\CommentAlert::class,$data);
         }elseif($pos=='testimoni'){
             $this->testimoni(Models\Testimoni::class,$data);
         }
@@ -258,6 +270,122 @@ class UpdateController extends Controller
             'id_user'             => $data['id_user'],
             'id_class'            => $data['id_class']
         ]);
+    }
+
+    private function theme($model,$data){
+        $field = [
+            //'id_question',
+            'judul',
+            'jml_post',
+            'jml_like',
+            'jml_comment',
+            'uuid',
+        ];
+        for($i=0;$i<count($field)-1;$i++){
+            if(isset($data[$field[$i]])){
+                $model::where('uuid',$data['uuid'])
+                ->update([
+                    $field[$i]            => $data[$field[$i]]
+                ]);
+            }
+        }
+    }
+
+    private function videoTheme($model,$data){
+        $field = [
+            //'id_question',
+            'id_video',
+            'id_theme',
+            'uuid',
+        ];
+        for($i=0;$i<count($field)-1;$i++){
+            if(isset($data[$field[$i]])){
+                $model::where('uuid',$data['uuid'])
+                ->update([
+                    $field[$i]            => $data[$field[$i]]
+                ]);
+            }
+        }
+    }
+
+    private function post($model,$data){
+        $field = [
+            //'id_question',
+            'id_user',
+            'id_theme',
+            'judul',
+            'jenis',
+            'deskripsi',
+            'jml_like',
+            'jml_komen',
+            'stat_post',
+            'uuid',
+        ];
+        for($i=0;$i<count($field)-1;$i++){
+            if(isset($data[$field[$i]])){
+                $model::where('uuid',$data['uuid'])
+                ->update([
+                    $field[$i]            => $data[$field[$i]]
+                ]);
+            }
+        }
+    }
+
+    private function comment($model,$data){
+        $field = [
+            //'id_question',
+            'id_user',
+            'id_post',
+            'comment',
+            'stat_comment',
+            'uuid',
+        ];
+        for($i=0;$i<count($field)-1;$i++){
+            if(isset($data[$field[$i]])){
+                $model::where('uuid',$data['uuid'])
+                ->update([
+                    $field[$i]            => $data[$field[$i]]
+                ]);
+            }
+        }
+    }
+
+    private function postAlert($model,$data){
+        $field = [
+            //'id_question',
+            'id_user',
+            'id_post',
+            'komentar',
+            'alert_status',
+            'uuid',
+        ];
+        for($i=0;$i<count($field)-1;$i++){
+            if(isset($data[$field[$i]])){
+                $model::where('uuid',$data['uuid'])
+                ->update([
+                    $field[$i]            => $data[$field[$i]]
+                ]);
+            }
+        }
+    }
+
+    private function commentAlert($model,$data){
+        $field = [
+            //'id_question',
+            'id_user',
+            'id_comment',
+            'komentar',
+            'alert_status',
+            'uuid',
+        ];
+        for($i=0;$i<count($field)-1;$i++){
+            if(isset($data[$field[$i]])){
+                $model::where('uuid',$data['uuid'])
+                ->update([
+                    $field[$i]            => $data[$field[$i]]
+                ]);
+            }
+        }
     }
 
     private function testimoni($model,$data){

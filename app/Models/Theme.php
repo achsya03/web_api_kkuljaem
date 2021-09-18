@@ -9,6 +9,7 @@ class Theme extends Model
 {
     use HasFactory;
     protected $table = 'theme';
+    public $timestamps=false;
     protected $fillable = [
         'judul',
         'jml_post',

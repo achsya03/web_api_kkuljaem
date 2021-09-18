@@ -6,6 +6,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Banner;
+use App\Http\Controllers\Post;
 
 use App\Http\Controllers\Classes;
 use App\Http\Controllers\TestController;
@@ -30,20 +31,20 @@ use App\Http\Controllers\MailController;
 
 
 Route::group(['prefix' => 'api/auth'], function () {
-    Route::post('register', Auth\RegisterController::class);
-    Route::post('login', Auth\LoginController::class);
-    Route::post('logout', Auth\LogoutController::class);
+    Route::post('register',         Auth\RegisterController::class);
+    Route::post('login',            Auth\LoginController::class);
+    Route::post('logout',           Auth\LogoutController::class);
     #Route::get('send-mail','MailController@sendEmail');
-    Route::get('forget-password',Auth\ForgotPasswordController::class);
-    Route::put('change-password',Auth\ChangePasswordController::class);
-    Route::get('verify-mail',Auth\VerifyEmailController::class);
+    Route::get('forget-password',   Auth\ForgotPasswordController::class);
+    Route::put('change-password',   Auth\ChangePasswordController::class);
+    Route::get('verify-mail',       Auth\VerifyEmailController::class);
 });
 
 #==========================Student================================
 
 Route::group(['prefix' => 'api/banner'], function () {
-    Route::get('/', [Banner\BannerController::class,'allData']);
-    Route::get('/detail', [Banner\BannerController::class,'detailData']);
+    Route::get('/',         [Banner\BannerController::class,'allData']);
+    Route::get('/detail',   [Banner\BannerController::class,'detailData']);
 });
 
 Route::group(['prefix' => 'api/class'], function () {
@@ -51,46 +52,77 @@ Route::group(['prefix' => 'api/class'], function () {
 });
 
 Route::group(['prefix' => 'api/content'], function () {
-    Route::get('/', [Banner\VideoController::class,'allDataByDate']);
+    Route::get('/',     [Banner\VideoController::class,'allDataByDate']);
 });
 
 
 Route::group(['prefix' => 'api/home'], function () {
-    Route::get('/', [Helper\ShowController::class,'home']);
-    Route::get('/banner', [Helper\ShowController::class,'banner']);
-    Route::get('/word', [Helper\ShowController::class,'word']);
-    Route::get('/video', [Helper\ShowController::class,'video']);
-    Route::get('/search', [Helper\ShowController::class,'search']);
+    Route::get('/',         [Helper\ShowController::class,'home']);
+    Route::get('/web',         [Helper\StudentWebController::class,'homeWeb']);
+    Route::get('/banner',   [Helper\ShowController::class,'banner']);
+    Route::get('/word',     [Helper\ShowController::class,'word']);
+    Route::get('/video',    [Helper\ShowController::class,'video']);
+    Route::get('/search',   [Helper\ShowController::class,'search']);
 });
 
 Route::group(['prefix' => 'api/classroom'], function () {
-    Route::get('/', [Helper\ShowController::class,'classroom']);
-    Route::get('/category', [Helper\ShowController::class,'classroomByCategory']);
-    Route::get('/detail', [Helper\ShowController::class,'classroomDetail']);
-    Route::get('/registered', [Helper\ShowController::class,'classroomRegistered']);
-    Route::get('/mentor', [Helper\ShowController::class,'classroomMentorDetail']);
-    Route::get('/detail/video', [Helper\ShowController::class,'classroomVideoDetail']);
-    Route::get('/detail/quiz', [Helper\ShowController::class,'classroomQuizDetail']);
-    Route::get('/detail/more', [Helper\ShowController::class,'classroomVideoMore']);
-    Route::get('/detail/task', [Helper\ShowController::class,'classroomVideoTask']);
-    Route::get('/detail/shadowing', [Helper\ShowController::class,'classroomVideoShadowing']);
+    Route::get('/',                     [Helper\ShowController::class,'classroom']);
+
+    //Route::post('/student',             [Classes\StudentController::class,'studentAdd']);
+    Route::post('/student-video',       [Classes\StudentController::class,'studentVideoAdd']);
+    Route::post('/student-quiz',        [Classes\StudentController::class,'studentQuizAdd']);
+    //Route::post('/student-quiz/answer', [Classes\StudentController::class,'studentQuizAdd']);
+
+    Route::get('/category',             [Helper\ShowController::class,'classroomByCategory']);
+    Route::get('/detail',               [Helper\ShowController::class,'classroomDetail']);
+    Route::get('/registered',           [Helper\ShowController::class,'classroomRegistered']);
+    Route::get('/mentor',               [Helper\ShowController::class,'classroomMentorDetail']);
+    Route::get('/detail/video',         [Helper\ShowController::class,'classroomVideoDetail']);
+    Route::get('/detail/quiz',          [Helper\ShowController::class,'classroomQuizDetail']);
+    Route::get('/detail/more',          [Helper\ShowController::class,'classroomVideoMore']);
+    Route::get('/detail/task',          [Helper\ShowController::class,'classroomVideoTask']);
+    Route::get('/detail/shadowing',     [Helper\ShowController::class,'classroomVideoShadowing']);
     #Route::get('/testimoni', [Helper\ShowController::class,'testimoni']);
 });
 
 
 Route::group(['prefix' => 'api/forum'], function () {
-    Route::get('/', [Helper\ShowController::class,'forum']);
-    Route::get('/detail', [Helper\ShowController::class,'forumDetail']);
-    Route::get('/popular', [Helper\ShowController::class,'forumByThemePop']);
-    Route::get('/latest', [Helper\ShowController::class,'forumByThemeNew']);
-    Route::get('/posting', [Helper\ShowController::class,'forumByUser']);
+    Route::get('/',                 [Helper\ShowController::class,'forum']);
+
+    Route::post('/post',            [Post\PostController::class,'addForumPost']);##
+    Route::delete('/post',          [Post\PostController::class,'deletePost']);#
+    Route::post('/comment',         [Post\PostController::class,'addComment']);##
+    Route::delete('/comment',       [Post\PostController::class,'deleteComment']);
+    Route::post('/post/alert',      [Post\PostController::class,'alertPost']);#
+    Route::delete('/post/alert',      [Post\PostController::class,'alertPostDelete']);
+    Route::post('/comment/alert',   [Post\PostController::class,'alertComment']);#
+    Route::delete('/comment/alert',   [Post\PostController::class,'alertCommentDelete']);#
+    Route::post('/like',            [Post\PostController::class,'addLike']);
+    Route::delete('/like',          [Post\PostController::class,'deleteLike']);
+
+    Route::get('/detail',           [Helper\ShowController::class,'forumDetail']);
+    Route::get('/popular',          [Helper\ShowController::class,'forumByThemePop']);
+    Route::get('/latest',           [Helper\ShowController::class,'forumByThemeNew']);
+    Route::get('/posting',          [Helper\ShowController::class,'forumByUser']);
 });
 
 Route::group(['prefix' => 'api/qna'], function () {
-    Route::get('/', [Helper\ShowController::class,'qna']);
-    Route::get('/video', [Helper\ShowController::class,'qnaByVideo']);
-    Route::get('/posting', [Helper\ShowController::class,'qnaByUser']);
-    Route::get('/detail', [Helper\ShowController::class,'qnaDetail']);
+    Route::get('/',                 [Helper\ShowController::class,'qna']);
+
+    Route::post('/post',            [Post\PostController::class,'addQnAPost']);##
+    Route::delete('/post',          [Post\PostController::class,'deletePost']);#
+    Route::post('/comment',         [Post\PostController::class,'addComment']);##
+    Route::delete('/comment',       [Post\PostController::class,'deleteComment']);#
+    Route::post('/post/alert',      [Post\PostController::class,'alertPost']);#
+    Route::delete('/post/alert',      [Post\PostController::class,'alertPostDelete']);
+    Route::post('/comment/alert',   [Post\PostController::class,'alertComment']);#
+    Route::delete('/comment/alert',   [Post\PostController::class,'alertCommentDelete']);
+    Route::post('/like',            [Post\PostController::class,'addLike']);
+    Route::delete('/like',          [Post\PostController::class,'deleteLike']);
+
+    Route::get('/video',            [Helper\ShowController::class,'qnaByVideo']);
+    Route::get('/posting',          [Helper\ShowController::class,'qnaByUser']);
+    Route::get('/detail',           [Helper\ShowController::class,'qnaDetail']);
 });
 #==========================Student================================
 
@@ -100,57 +132,58 @@ Route::group(['prefix' => 'api/admin'], function () {
 });
 
 Route::group(['prefix' => 'api/admin/classroom-group'], function () {
-    Route::post('/', [Classes\ClassCategoryController::class,'addData']);
-    Route::post('update', [Classes\ClassCategoryController::class,'updateData']);
-    Route::get('/', [Classes\ClassCategoryController::class,'allData']);
-    Route::get('/detail', [Classes\ClassCategoryController::class,'detailData']);
+    Route::post('/',        [Classes\ClassCategoryController::class,'addData']);
+    Route::post('update',   [Classes\ClassCategoryController::class,'updateData']);
+    Route::get('/',         [Classes\ClassCategoryController::class,'allData']);
+    Route::get('/detail',   [Classes\ClassCategoryController::class,'detailData']);
 });
 
 Route::group(['prefix' => 'api/admin/classroom'], function () {
-    Route::post('/', [Classes\ClassController::class,'addData']);
-    Route::post('update', [Classes\ClassController::class,'updateData']);
-    Route::get('/', [Classes\ClassController::class,'allData']);
+    Route::post('/',        [Classes\ClassController::class,'addData']);
+    Route::post('update',   [Classes\ClassController::class,'updateData']);
+    Route::get('/',         [Classes\ClassController::class,'allData']);
     Route::get('/category', [Classes\ClassController::class,'detailDataForClass']);
-    Route::get('/add', [Classes\ClassController::class,'getForAddData']);
-    Route::get('/edit', [Classes\ClassController::class,'detailData']);
-    Route::get('/student', [Classes\ClassController::class,'studentData']);
+    Route::get('/add',      [Classes\ClassController::class,'getForAddData']);
+    Route::get('/edit',     [Classes\ClassController::class,'detailData']);
+    Route::get('/student',  [Classes\ClassController::class,'studentData']);
 });
 
 Route::group(['prefix' => 'api/admin/classroom/content'], function () {
-    Route::get('/', [Classes\ClassController::class,'classContent']);
-    Route::get('/add', [Classes\ClassController::class,'checkData']);
-    Route::get('/quiz/all', [Classes\ContentQuizController::class,'getData']);
-    Route::get('/quiz', [Classes\ContentQuizController::class,'checkData']);
-    Route::post('/quiz', [Classes\ContentQuizController::class,'addData']);
-    Route::get('/quiz/detail', [Classes\ContentQuizController::class,'detailData']);
+    Route::get('/',             [Classes\ClassController::class,'classContent']);
+    Route::get('/add',          [Classes\ClassController::class,'checkData']);
+
+    Route::get('/quiz/all',     [Classes\ContentQuizController::class,'getData']);
+    Route::get('/quiz',         [Classes\ContentQuizController::class,'checkData']);
+    Route::post('/quiz',        [Classes\ContentQuizController::class,'addData']);
+    Route::get('/quiz/detail',  [Classes\ContentQuizController::class,'detailData']);
     Route::post('/quiz/update', [Classes\ContentQuizController::class,'updateData']);
-    Route::get('/video/all', [Classes\ContentVideoController::class,'getData']);
-    Route::get('/video', [Classes\ContentVideoController::class,'checkData']);
-    Route::post('/video', [Classes\ContentVideoController::class,'addData']);
+    Route::get('/video/all',    [Classes\ContentVideoController::class,'getData']);
+    Route::get('/video',        [Classes\ContentVideoController::class,'checkData']);
+    Route::post('/video',       [Classes\ContentVideoController::class,'addData']);
     Route::get('/video/detail', [Classes\ContentVideoController::class,'detailData']);
-    Route::post('/video/update', [Classes\ContentVideoController::class,'updateData']);
+    Route::post('/video/update',[Classes\ContentVideoController::class,'updateData']);
 });
 
 Route::group(['prefix' => 'api/admin/classroom/content/video'], function () {
-    Route::get('/task', [Classes\TaskController::class,'checkData']);
-    Route::post('/task', [Classes\TaskController::class,'addData']);
-    Route::get('/task/detail', [Classes\TaskController::class,'detailData']);
+    Route::get('/task',         [Classes\TaskController::class,'checkData']);
+    Route::post('/task',        [Classes\TaskController::class,'addData']);
+    Route::get('/task/detail',  [Classes\TaskController::class,'detailData']);
     Route::post('/task/update', [Classes\TaskController::class,'updateData']);
 });
 Route::post('/test', [TestController::class,'test']);
 
 Route::group(['prefix' => 'api/admin/classroom/content/video'], function () {
-    Route::get('/shadowing', [Classes\ShadowingController::class,'checkData']);
-    Route::post('/shadowing', [Classes\ShadowingController::class,'addData']);
-    Route::get('/shadowing/detail', [Classes\ShadowingController::class,'detailData']);
-    Route::post('/shadowing/update', [Classes\ShadowingController::class,'updateData']);
+    Route::get('/shadowing',            [Classes\ShadowingController::class,'checkData']);
+    Route::post('/shadowing',           [Classes\ShadowingController::class,'addData']);
+    Route::get('/shadowing/detail',     [Classes\ShadowingController::class,'detailData']);
+    Route::post('/shadowing/update',    [Classes\ShadowingController::class,'updateData']);
 });
 
   
 Route::group(['prefix' => 'api/admin/classroom/content/quiz'], function () {
-    Route::get('/exam', [Classes\ExamController::class,'checkData']);
-    Route::post('/exam', [Classes\ExamController::class,'addData']);
-    Route::get('/exam/detail', [Classes\ExamController::class,'detailData']);
+    Route::get('/exam',         [Classes\ExamController::class,'checkData']);
+    Route::post('/exam',        [Classes\ExamController::class,'addData']);
+    Route::get('/exam/detail',  [Classes\ExamController::class,'detailData']);
     Route::post('/exam/update', [Classes\ExamController::class,'updateData']);
 });
 
@@ -160,38 +193,38 @@ Route::get('/payment', [Payment\PaymentController::class,'show']);
 
 
 Route::group(['prefix' => 'api/option'], function () {
-    Route::post('/', [Classes\OptionController::class,'addData']);
-    Route::post('update', [Classes\OptionController::class,'updateData']);
-    Route::get('/', [Classes\OptionController::class,'allData']);
-    Route::get('/detail', [Classes\OptionController::class,'detailData']);
+    Route::post('/',        [Classes\OptionController::class,'addData']);
+    Route::post('update',   [Classes\OptionController::class,'updateData']);
+    Route::get('/',         [Classes\OptionController::class,'allData']);
+    Route::get('/detail',   [Classes\OptionController::class,'detailData']);
 });
 
 Route::group(['prefix' => 'api/question'], function () {
-    Route::post('/', [Classes\QuestionController::class,'addData']);
-    Route::post('update', [Classes\QuestionController::class,'updateData']);
-    Route::get('/', [Classes\QuestionController::class,'allData']);
-    Route::get('/detail', [Classes\QuestionController::class,'detailData']);
+    Route::post('/',        [Classes\QuestionController::class,'addData']);
+    Route::post('update',   [Classes\QuestionController::class,'updateData']);
+    Route::get('/',         [Classes\QuestionController::class,'allData']);
+    Route::get('/detail',   [Classes\QuestionController::class,'detailData']);
 });
 
 
 Route::group(['prefix' => 'api/teacher'], function () {
-    Route::post('/', [Classes\TeacherController::class,'addData']);
-    Route::post('update', [Classes\TeacherController::class,'updateData']);
-    Route::get('/', [Classes\TeacherController::class,'allData']);
-    Route::get('/detail', [Classes\TeacherController::class,'detailData']);
+    Route::post('/',        [Classes\TeacherController::class,'addData']);
+    Route::post('update',   [Classes\TeacherController::class,'updateData']);
+    Route::get('/',         [Classes\TeacherController::class,'allData']);
+    Route::get('/detail',   [Classes\TeacherController::class,'detailData']);
 });
 
 Route::group(['prefix' => 'api/testimoni'], function () {
-    Route::post('/', [Classes\TestimoniController::class,'addData']);
-    Route::post('update', [Classes\TestimoniController::class,'updateData']);
-    Route::get('/', [Classes\TestimoniController::class,'allData']);
-    Route::get('/detail', [Classes\TestimoniController::class,'detailData']);
+    Route::post('/',        [Classes\TestimoniController::class,'addData']);
+    Route::post('update',   [Classes\TestimoniController::class,'updateData']);
+    Route::get('/',         [Classes\TestimoniController::class,'allData']);
+    Route::get('/detail',   [Classes\TestimoniController::class,'detailData']);
 });
 
 Route::group(['prefix' => 'api/user'], function () {
-    Route::post('update', [UserController::class, 'updateData']);
-    Route::get('/', [UserController::class, 'allData']);
-    Route::post('/', [UserController::class, 'addData']);
+    Route::post('update',   [UserController::class, 'updateData']);
+    Route::get('/',         [UserController::class, 'allData']);
+    Route::post('/',        [UserController::class, 'addData']);
 });
 //Route::get('/test', [HelperController::class, 'randomToken']);
 Route::post('/upload', function (Request $request) {

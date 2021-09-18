@@ -49,8 +49,8 @@ class ClassController extends Controller
         $class_cat = ClassesCategory::where('uuid',$uuid)->first();
         $classes = Classes::where('id_class_category',$class_cat->id)
                 //->where('nama','LIKE','%'.$request->nama_kelas.'%')
-                ->where('nama','ilike','%'.$request->nama_kelas.'%')
-                ->limit($limit)->offset(($request->page - 1) * $limit)
+                // ->where('nama','ilike','%'.$request->nama_kelas.'%')
+                // ->limit($limit)->offset(($request->page - 1) * $limit)
                 ->get();
         
         $result = [];
@@ -92,7 +92,7 @@ class ClassController extends Controller
 
         $validator = Validator::make($request->all(), $this->rules, $this->messages);
         #echo $web_token;
-        $return_data=$validator->validated();
+        //$return_data=$validator->validated();
         if($validator->fails()){
             return response()->json(['message'=>'Failed','info'=>$validator->errors()]);
         }
@@ -314,8 +314,8 @@ class ClassController extends Controller
         $student = Models\Student::join('users','users.id','=','students.id_user')
                 ->where('id_class',$classes[0]->id)
                 //->where('nama','ilike','%'.$request->nama_siswa.'%')
-                ->where('users.nama','LIKE','%'.$request->nama_siswa.'%')
-                ->limit($limit)->offset(($request->page - 1) * $limit)
+                // ->where('users.nama','LIKE','%'.$request->nama_siswa.'%')
+                // ->limit($limit)->offset(($request->page - 1) * $limit)
                 ->get();
                 //return $student;
         $result = [];
@@ -366,7 +366,7 @@ class ClassController extends Controller
                     // ->where('video.judul','LIKE','%'.$request->judul.'%')
                     // //->where('quiz.judul','ilike','%'.$request->nama_quiz.'%')
                     // ->where('quiz.judul','LIKE','%'.$request->judul.'%')
-                    ->limit($limit)->offset(($request->page - 1) * $limit)
+                    //->limit($limit)->offset(($request->page - 1) * $limit)
                     ->orderBy('number','ASC')->get();
         if(isset($request->judul_video)){
             $content = Models\Content::join('video','content.id','=','video.id_content')
@@ -375,7 +375,7 @@ class ClassController extends Controller
             ->where('video.judul','LIKE','%'.$request->judul_video.'%')
             // //->where('quiz.judul','ilike','%'.$request->nama_quiz.'%')
             // ->where('quiz.judul','LIKE','%'.$request->judul.'%')
-            ->limit($limit)->offset(($request->page - 1) * $limit)
+            //->limit($limit)->offset(($request->page - 1) * $limit)
             ->orderBy('number','ASC')->get();
         }elseif(isset($request->judul_quiz)){
             $content = Models\Content::join('quiz','content.id','=','quiz.id_content')
@@ -384,7 +384,7 @@ class ClassController extends Controller
             // ->where('video.judul','LIKE','%'.$request->judul.'%')
             //->where('quiz.judul','ilike','%'.$request->nama_quiz.'%')
             ->where('quiz.judul','LIKE','%'.$request->judul_quiz.'%')
-            ->limit($limit)->offset(($request->page - 1) * $limit)
+            //->limit($limit)->offset(($request->page - 1) * $limit)
             ->orderBy('number','ASC')->get();
         }
         //return $content;

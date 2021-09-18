@@ -19,6 +19,7 @@ class CreateCommentAlertTable extends Migration
             $table->BigInteger('id_comment')->unsigned()->nullable();
             // $table->BigInteger('id_quiz')->unsigned()->nullable();
             $table->text('komentar')->nullable();
+            $table->char('alert_status',1)->nullable();
             $table->string('uuid');
             $table->index(['uuid']);
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');

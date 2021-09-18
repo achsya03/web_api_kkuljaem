@@ -116,12 +116,74 @@ class ValidationController extends Controller
             $this->data = [
                 'uuid'      => $this->getUuid(Models\Teacher::class)
             ];
-        }elseif($pos=='testimoni'){
-            $this->testimoni();
+        }elseif($pos=='theme'){
+            //$this->theme();
             $this->data = [
-                'uuid'      => $this->getUuid(Models\Testimoni::class)
+                'uuid'      => $this->getUuid(Models\Theme::class)
+            ];
+        }elseif($pos=='videoTheme'){
+            //$this->videoTheme();
+            $this->data = [
+                'uuid'      => $this->getUuid(Models\VideoTheme::class)
+            ];
+        }elseif($pos=='post'){
+            $this->post();
+            $this->data = [
+                'uuid'      => $this->getUuid(Models\Post::class)
+            ];
+        }elseif($pos=='postLike'){
+            //$this->post();
+            $this->data = [
+                'uuid'      => $this->getUuid(Models\PostLike::class)
+            ];
+        }elseif($pos=='comment'){
+            $this->comment();
+            $this->data = [
+                'uuid'      => $this->getUuid(Models\Comment::class)
+            ];
+        }elseif($pos=='postAlert'){
+            $this->postAlert();
+            $this->data = [
+                'uuid'      => $this->getUuid(Models\PostAlert::class)
+            ];
+        }elseif($pos=='commentAlert'){
+            $this->commentAlert();
+            $this->data = [
+                'uuid'      => $this->getUuid(Models\CommentAlert::class)
+            ];
+        }elseif($pos=='postImage'){
+            //$this->commentAlert();
+            $this->data = [
+                'uuid'      => $this->getUuid(Models\PostImage::class)
+            ];
+        }elseif($pos=='student'){
+            //$this->commentAlert();
+            $this->data = [
+                'uuid'      => $this->getUuid(Models\Student::class)
+            ];
+        }elseif($pos=='studentVideo'){
+            //$this->commentAlert();
+            $this->data = [
+                'uuid'      => $this->getUuid(Models\StudentVideo::class)
+            ];
+        }elseif($pos=='studentQuiz'){
+            //$this->commentAlert();
+            $this->data = [
+                'uuid'      => $this->getUuid(Models\StudentQuiz::class)
+            ];
+        }elseif($pos=='studentAnswer'){
+            $this->studentAnswer();
+            $this->data = [
+                'uuid'      => $this->getUuid(Models\StudentAnswer::class)
             ];
         }
+        
+        // elseif($pos=='testimoni'){
+        //     $this->testimoni();
+        //     $this->data = [
+        //         'uuid'      => $this->getUuid(Models\Testimoni::class)
+        //     ];
+        // }
     }
 
     #============================================================
@@ -435,6 +497,52 @@ class ValidationController extends Controller
         ];
     }
 
+    private function post(){
+        $this->rules = [   
+            'judul'                        => 'required',
+            'deskripsi'                    => 'required'
+        ];
+    
+        $this->messages = [
+            'judul.required'               => 'Judul wajib diisi',
+            'deskripsi.required'           => 'Deskripsi wajib diisi'
+        ];
+    }
+
+    private function comment(){
+        $this->rules = [   
+            'komentar'                        => 'required',
+            //'deskripsi'                    => 'required'
+        ];
+    
+        $this->messages = [
+            'komentar.required'               => 'Komentar wajib diisi',
+            //'deskripsi.required'           => 'Deskripsi wajib diisi'
+        ];
+    }
+    private function postAlert(){
+        $this->rules = [   
+            'komentar'                        => 'required',
+            //'deskripsi'                    => 'required'
+        ];
+    
+        $this->messages = [
+            'komentar.required'               => 'Komentar wajib diisi',
+            //'deskripsi.required'           => 'Deskripsi wajib diisi'
+        ];
+    }
+    private function commentAlert(){
+        $this->rules = [   
+            'komentar'                        => 'required',
+            //'deskripsi'                    => 'required'
+        ];
+    
+        $this->messages = [
+            'komentar.required'               => 'Komentar wajib diisi',
+            //'deskripsi.required'           => 'Deskripsi wajib diisi'
+        ];
+    }
+
     private function testimoni(){
         $this->rules = [
             'id_class'                              => 'required',
@@ -450,6 +558,16 @@ class ValidationController extends Controller
             'id_user.required'                       => 'ID User wajib diisi',
             #'tgl_testimoni.reqired'                 => 'Tanggal wajib diisi',
             'testimoni.required'                     => 'Testimoni wajib diisi'
+        ];
+    }
+
+    private function studentAnswer(){
+        $this->rules = [
+            'jawaban'                               => 'required',
+        ];
+    
+        $this->messages = [
+            'jawaban.required'                      => 'Jawaban wajib diisi'
         ];
     }
 

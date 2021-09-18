@@ -9,6 +9,7 @@ class Post extends Model
 {
     use HasFactory;
     protected $table = 'post';
+    public $timestamps=false;
     protected $fillable = [
         'id_user',
         'id_theme',
@@ -39,5 +40,15 @@ class Post extends Model
     public function comment()
     {
         return $this->hasMany(Comment::class,'id_post','id');
+    }
+
+    public function postAlert()
+    {
+        return $this->hasMany(PostAlert::class,'id_post','id');
+    }
+
+    public function postLike()
+    {
+        return $this->hasMany(PostLike::class,'id_post','id');
     }
 }

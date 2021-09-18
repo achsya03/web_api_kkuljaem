@@ -41,8 +41,32 @@ class InputController extends Controller
             $this->shadowing(Models\Shadowing::class,$data);
         }elseif($pos=='teacher'){
             $this->teacher(Models\Teacher::class,$data);
+        }elseif($pos=='theme'){
+            $this->theme(Models\Theme::class,$data);
+        }elseif($pos=='videoTheme'){
+            $this->videoTheme(Models\VideoTheme::class,$data);
+        }elseif($pos=='post'){
+            $this->post(Models\Post::class,$data);
+        }elseif($pos=='postImage'){
+            $this->postImage(Models\PostImage::class,$data);
+        }elseif($pos=='comment'){
+            $this->comment(Models\Comment::class,$data);
+        }elseif($pos=='postAlert'){
+            $this->postAlert(Models\PostAlert::class,$data);
+        }elseif($pos=='postLike'){
+            $this->postLike(Models\PostLike::class,$data);
+        }elseif($pos=='commentAlert'){
+            $this->commentAlert(Models\CommentAlert::class,$data);
         }elseif($pos=='testimoni'){
             $this->testimoni(Models\Testimoni::class,$data);
+        }elseif($pos=='student'){
+            $this->student(Models\Testimoni::class,$data);
+        }elseif($pos=='studentVideo'){
+            $this->studentVideo(Models\Testimoni::class,$data);
+        }elseif($pos=='studentQuiz'){
+            $this->studentQuiz(Models\Testimoni::class,$data);
+        }elseif($pos=='studentAnswer'){
+            $this->studentAnswer(Models\Testimoni::class,$data);
         }
     }
 
@@ -208,12 +232,132 @@ class InputController extends Controller
         ]);
     }
 
+    private function theme($model,$data){
+        $model::create([
+            'judul'              => $data['judul'],
+            'jml_post'           => $data['jml_post'],
+            'jml_like'           => $data['jml_like'],
+            'jml_comment'        => $data['jml_comment'],
+            'uuid'               => $data['uuid']
+        ]);
+    }
+
+    private function videoTheme($model,$data){
+        $model::create([
+            'id_video'           => $data['id_video'],
+            'id_theme'           => $data['id_theme'],
+            'uuid'               => $data['uuid']
+        ]);
+    }
+
+    private function post($model,$data){
+        $model::create([
+            'id_user'             => $data['id_user'],
+            'id_theme'            => $data['id_theme'],
+            'judul'               => $data['judul'],
+            'jenis'               => $data['jenis'],
+            'deskripsi'           => $data['deskripsi'],
+            'jml_like'            => $data['jml_like'],
+            'jml_komen'           => $data['jml_komen'],
+            'stat_post'           => $data['stat_post'],
+            'uuid'                => $data['uuid']
+        ]);
+    }
+
+    private function postImage($model,$data){
+        $model::create([
+            'id_post'           => $data['id_post'],
+            'url_gambar'        => $data['url_gambar'],
+            'gambar_id'         => $data['gambar_id'],
+            'uuid'              => $data['uuid']
+        ]);
+    }
+
+    private function comment($model,$data){
+        $model::create([
+            'id_user'           => $data['id_user'],
+            'id_post'           => $data['id_post'],
+            'comment'           => $data['comment'],
+            'stat_comment'      => $data['stat_comment'],
+            'uuid'              => $data['uuid']
+        ]);
+    }
+
+    private function postAlert($model,$data){
+        $model::create([
+            'id_user'           => $data['id_user'],
+            'id_post'           => $data['id_post'],
+            'komentar'          => $data['komentar'],
+            'alert_status'      => $data['alert_status'],
+            'uuid'              => $data['uuid']
+        ]);
+    }
+
+    private function postLike($model,$data){
+        $model::create([
+            'id_user'           => $data['id_user'],
+            'id_post'           => $data['id_post'],
+            'uuid'              => $data['uuid']
+        ]);
+    }
+
+    private function commentAlert($model,$data){
+        $model::create([
+            'id_user'           => $data['id_user'],
+            'id_comment'        => $data['id_comment'],
+            'komentar'          => $data['komentar'],
+            'alert_status'      => $data['alert_status'],
+            'uuid'              => $data['uuid']
+        ]);
+    }
+
     private function testimoni($model,$data){
         $model::create([
             'id_class'            => $data['id_class'],
             'id_user'             => $data['id_user'],
             'tgl_testimoni'       => $data['tgl_testimoni'],
             'testimoni'           => $data['testimoni'],
+            'uuid'                => $data['uuid']
+        ]);
+    }
+
+    private function student($model,$data){
+        $model::create([
+            'id_user'            => $data['id_class'],
+            'id_class'             => $data['id_user'],
+            'register_date'       => $data['tgl_testimoni'],
+            'jml_pengerjaan'           => $data['testimoni'],
+            'uuid'                => $data['uuid']
+        ]);
+    }
+
+
+    private function studentVideo($model,$data){
+        $model::create([
+            'id_student'            => $data['id_class'],
+            'id_video'             => $data['id_user'],
+            'register_date'       => $data['tgl_testimoni'],
+            'uuid'                => $data['uuid']
+        ]);
+    }
+
+
+    private function studentQuiz($model,$data){
+        $model::create([
+            'id_student'            => $data['id_class'],
+            'id_quiz'             => $data['id_user'],
+            'register_date'       => $data['tgl_testimoni'],
+            'nilai'       => $data['tgl_testimoni'],
+            'uuid'                => $data['uuid']
+        ]);
+    }
+
+
+    private function studentAnswer($model,$data){
+        $model::create([
+            'id_student'            => $data['id_class'],
+            'id_question'             => $data['id_user'],
+            'jawaban'       => $data['tgl_testimoni'],
             'uuid'                => $data['uuid']
         ]);
     }
