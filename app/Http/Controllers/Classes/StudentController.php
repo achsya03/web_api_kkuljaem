@@ -36,13 +36,7 @@ class StudentController extends Controller
         $siswa = Models\Student::where('id_class',$video[0]->content->id_class)
                 ->where('id_user',$request->user()->id)->get();
 
-        if(count($sisVid = Models\StudentVideo::where('id_student',$siswa[0]->id)
-                ->where('id_video',$video[0]->id)->get())>0){
-            return response()->json([
-                'message' => 'Failed',
-                'error' => 'Video Siswa Telah Terdaftar'
-            ]);
-        }
+        
 
 
         if($video[0]->content->number == 1 || count($siswa)==0){
@@ -61,6 +55,14 @@ class StudentController extends Controller
             $input = new Helper\InputController('student',$data);
 
             $siswa = Models\Student::where('uuid',$uuid1)->get();
+
+            if(count($sisVid = Models\StudentVideo::where('id_student',$siswa[0]->id)
+                ->where('id_video',$video[0]->id)->get())>0){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Video Siswa Telah Terdaftar'
+            ]);
+        }
         }
 
 
@@ -114,13 +116,6 @@ class StudentController extends Controller
         $siswa = Models\Student::where('id_class',$quiz[0]->content->id_class)
                 ->where('id_user',$request->user()->id)->get();
 
-        if(count($sisVid = Models\StudentQuiz::where('id_student',$siswa[0]->id)
-                ->where('id_quiz',$quiz[0]->id)->get())>0){
-            return response()->json([
-                'message' => 'Failed',
-                'error' => 'Quiz Siswa Telah Terdaftar'
-            ]);
-        }
 
         $validation3 = new Helper\ValidationController('studentAnswer');
         $this->rules = $validation3->rules;
@@ -160,6 +155,15 @@ class StudentController extends Controller
             $input = new Helper\InputController('student',$data);
 
             $siswa = Models\Student::where('uuid',$uuid1)->get();
+
+
+            if(count($sisVid = Models\StudentQuiz::where('id_student',$siswa[0]->id)
+                    ->where('id_quiz',$quiz[0]->id)->get())>0){
+                return response()->json([
+                    'message' => 'Failed',
+                    'error' => 'Quiz Siswa Telah Terdaftar'
+                ]);
+            }
         }
 
 
