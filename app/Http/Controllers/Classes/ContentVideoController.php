@@ -21,7 +21,7 @@ class ContentVideoController extends Controller
             return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);
         }
         $content = Models\Content::where('id_class',$classes[0]->id)
-                ->where('type','video')->get();
+                ->get();
         $result['nomor_materi'] = count($content)+1;
     
         return response()->json(['message'=>'Success','data'
