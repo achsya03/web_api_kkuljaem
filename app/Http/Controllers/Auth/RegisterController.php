@@ -30,7 +30,9 @@ class RegisterController extends Controller
             // $return_data=$request->all();
             // unset($return_data['password']);
             // unset($return_data['password_confirmation']);
-            return response()->json(['message'=>'Failed','info'=>$validator->errors()]);#,'input'=>$return_data
+            $result = "Operasi Gagal";
+
+            return response()->json(['message'=>'Failed','info'=>$result]);#,'input'=>$return_data
         }
 
         $web_token = $validation->data['web_token'];
@@ -65,7 +67,7 @@ class RegisterController extends Controller
         $input = new Helper\InputController('authUser',$data);
         
         return response()->json(['message'=>'Success',
-        'info'=> $kirim_email]);
+        'info'=> $kirim_email[0]]);
     }
     /*public function apiRequest(Request $request){
         

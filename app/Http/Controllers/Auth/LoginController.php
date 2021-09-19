@@ -32,7 +32,9 @@ class LoginController extends Controller
         if($validator->fails()){
             // $return_data=$request->all();
             // unset($return_data['password']);
-            return response()->json(['message'=>'Failed','info'=>$validator->errors()]);
+            $result = "Operasi Gagal";
+
+            return response()->json(['message'=>'Failed','info'=>$result]);#,'input'=>$return_data
         }
 
         if(!$token = auth()->attempt($request->only('email','password'))){

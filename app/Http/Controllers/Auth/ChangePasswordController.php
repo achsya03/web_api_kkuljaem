@@ -22,7 +22,9 @@ class ChangePasswordController extends Controller
         $validator = Validator::make($request->all(), $this->rules, $this->messages);
 
         if($validator->fails()){
-            return response()->json(['message'=>'Failed','info'=>$validator->errors()]);
+            $result = "Operasi Gagal";
+
+            return response()->json(['message'=>'Failed','info'=>$result]);#,'input'=>$return_data
         }
 
         $user = User::where('web_token',$request->token)->get();
