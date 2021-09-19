@@ -22,7 +22,7 @@ class ContentVideoController extends Controller
         }
         $content = Models\Content::where('id_class',$classes[0]->id)
                 ->where('type','video')->get();
-        $result['nomor_soal'] = count($content)+1;
+        $result['nomor_materi'] = count($content)+1;
     
         return response()->json(['message'=>'Success','data'
         => $result]);
