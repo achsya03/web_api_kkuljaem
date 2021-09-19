@@ -24,7 +24,7 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'lokasi',
         'url_foto',
-        'foto_id',
+        //'foto_id',
         'device_id',
         'web_token',
         'tgl_langganan_akhir',

@@ -74,6 +74,34 @@ class ClassCategoryController extends Controller
         => 'Proses Update Berhasil']);
     }
 
+    public function deleteData(Request $request){
+        $result = [];
+        if(!$uuid = $request->token){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+        
+        $post = Models\Classescategory::where('uuid',$uuid)->get();
+        if(count($post)==0){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+
+        #delete comment
+        $delete = Models\Classescategory::where('uuid',$uuid)->delete();
+    
+
+        return response()->json([
+            'message' => 'Success',
+            //'account' => $this->statUser($request->user()),
+            'info'    => 'Proses Hapus Category Kelas Berhasil'
+        ]);
+    }
+
     public function allData(Request $request){
 
         $class_cat = ClassesCategory::all();

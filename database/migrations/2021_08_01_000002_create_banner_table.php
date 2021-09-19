@@ -16,10 +16,10 @@ class CreateBannerTable extends Migration
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
             $table->string('judul_banner');
-            $table->string('url_web')->nullable();
-            $table->string('web_id')->nullable();
-            $table->string('url_mobile')->nullable();
-            $table->string('mobile_id')->nullable();
+            $table->text('url_web')->nullable();
+            //$table->string('web_id')->nullable();
+            $table->text('url_mobile')->nullable();
+            //$table->string('mobile_id')->nullable();
             $table->text('deskripsi')->nullable();
             $table->string('label')->nullable();
             $table->string('link')->nullable();

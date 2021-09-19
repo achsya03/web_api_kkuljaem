@@ -136,6 +136,7 @@ Route::group(['prefix' => 'api/admin/classroom-group'], function () {
     Route::post('update',   [Classes\ClassCategoryController::class,'updateData']);
     Route::get('/',         [Classes\ClassCategoryController::class,'allData']);
     Route::get('/detail',   [Classes\ClassCategoryController::class,'detailData']);
+    Route::delete('/delete',   [Classes\ClassCategoryController::class,'deleteData']);
 });
 
 Route::group(['prefix' => 'api/admin/classroom'], function () {

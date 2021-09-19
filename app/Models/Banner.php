@@ -29,9 +29,9 @@ class Banner extends Model
     protected $fillable = [
         'judul_banner',
         'url_web',
-        'web_id',
+        //'web_id',
         'url_mobile',
-        'mobile_id',
+        //'mobile_id',
         'deskripsi',
         'label',
         'link',

@@ -12,7 +12,7 @@ class Question extends Model
     protected $fillable = [
         'pertanyaan_teks',
         'url_gambar',
-        'gambar_id',
+        //'gambar_id',
         'url_file',
         //'file_id',
         'jawaban',

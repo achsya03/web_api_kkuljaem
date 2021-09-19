@@ -16,8 +16,8 @@ class CreatePostImageTable extends Migration
         Schema::create('post_image', function (Blueprint $table) {
             $table->id();
             $table->BigInteger('id_post')->unsigned()->nullable();
-            $table->string('url_gambar')->nullable();
-            $table->string('gambar_id')->nullable();
+            $table->text('url_gambar')->nullable();
+            //$table->string('gambar_id')->nullable();
             #$table->string('jenis_jawaban')->nullable();
             $table->string('uuid');
             $table->index(['uuid']);
