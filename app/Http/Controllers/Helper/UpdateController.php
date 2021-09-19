@@ -56,6 +56,8 @@ class UpdateController extends Controller
             $this->postAlert(Models\PostAlert::class,$data);
         }elseif($pos=='commentAlert'){
             $this->commentAlert(Models\CommentAlert::class,$data);
+        }elseif($pos=='student'){
+            $this->student(Models\Student::class,$data);
         }elseif($pos=='testimoni'){
             $this->testimoni(Models\Testimoni::class,$data);
         }
@@ -376,6 +378,25 @@ class UpdateController extends Controller
             'id_comment',
             'komentar',
             'alert_status',
+            'uuid',
+        ];
+        for($i=0;$i<count($field)-1;$i++){
+            if(isset($data[$field[$i]])){
+                $model::where('uuid',$data['uuid'])
+                ->update([
+                    $field[$i]            => $data[$field[$i]]
+                ]);
+            }
+        }
+    }
+
+    private function student($model,$data){
+        $field = [
+            //'id_question',
+            'id_user',
+            'id_class',
+            'register_date',
+            'jml_pengerjaan',
             'uuid',
         ];
         for($i=0;$i<count($field)-1;$i++){

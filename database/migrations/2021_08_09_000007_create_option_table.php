@@ -19,7 +19,7 @@ class CreateOptionTable extends Migration
             $table->string('jawaban_id')->nullable();
             $table->text('jawaban_teks')->nullable();
             $table->text('url_gambar')->nullable();
-            //$table->string('gambar_id')->nullable();
+            $table->string('gambar_id')->nullable();
             $table->text('url_file')->nullable();
             //$table->string('file_id')->nullable();
             $table->string('uuid');

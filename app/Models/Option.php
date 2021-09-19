@@ -14,7 +14,7 @@ class Option extends Model
         'jawaban_id',
         'jawaban_teks',
         'url_gambar',
-        //'gambar_id',
+        'gambar_id',
         'url_file',
         //'file_id',
         'uuid',

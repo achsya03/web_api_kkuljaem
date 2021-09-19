@@ -17,7 +17,7 @@ class CreatePostImageTable extends Migration
             $table->id();
             $table->BigInteger('id_post')->unsigned()->nullable();
             $table->text('url_gambar')->nullable();
-            //$table->string('gambar_id')->nullable();
+            $table->string('gambar_id')->nullable();
             #$table->string('jenis_jawaban')->nullable();
             $table->string('uuid');
             $table->index(['uuid']);

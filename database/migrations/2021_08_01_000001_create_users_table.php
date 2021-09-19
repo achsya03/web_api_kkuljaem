@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->text('url_foto')->nullable();
-            //$table->string('foto_id')->nullable();
+            $table->string('foto_id')->nullable();
             $table->string('lokasi')->nullable();
             $table->string('device_id')->nullable();
             $table->string('web_token')->nullable();

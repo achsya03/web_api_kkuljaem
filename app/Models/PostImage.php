@@ -13,7 +13,7 @@ class PostImage extends Model
     protected $fillable = [
         'id_post',
         'url_gambar',
-        //'gambar_id',
+        'gambar_id',
         'uuid',
     ];
 

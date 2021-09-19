@@ -20,9 +20,9 @@ class CreateClassesTable extends Migration
             $table->string('nama')->nullable();
             $table->text('deskripsi')->nullable();
             $table->text('url_web')->nullable();
-            //$table->string('web_id')->nullable();
+            $table->string('web_id')->nullable();
             $table->text('url_mobile')->nullable();
-            //$table->string('mobile_id')->nullable();
+            $table->string('mobile_id')->nullable();
             $table->integer('jml_video')->nullable();
             $table->integer('jml_kuis')->nullable();
             $table->char('status_tersedia',1)->nullable();

@@ -60,13 +60,13 @@ class InputController extends Controller
         }elseif($pos=='testimoni'){
             $this->testimoni(Models\Testimoni::class,$data);
         }elseif($pos=='student'){
-            $this->student(Models\Testimoni::class,$data);
+            $this->student(Models\Student::class,$data);
         }elseif($pos=='studentVideo'){
-            $this->studentVideo(Models\Testimoni::class,$data);
+            $this->studentVideo(Models\StudentVideo::class,$data);
         }elseif($pos=='studentQuiz'){
-            $this->studentQuiz(Models\Testimoni::class,$data);
+            $this->studentQuiz(Models\StudentQuiz::class,$data);
         }elseif($pos=='studentAnswer'){
-            $this->studentAnswer(Models\Testimoni::class,$data);
+            $this->studentAnswer(Models\StudentAnswer::class,$data);
         }
     }
 
@@ -323,41 +323,41 @@ class InputController extends Controller
 
     private function student($model,$data){
         $model::create([
-            'id_user'            => $data['id_class'],
-            'id_class'             => $data['id_user'],
-            'register_date'       => $data['tgl_testimoni'],
-            'jml_pengerjaan'           => $data['testimoni'],
-            'uuid'                => $data['uuid']
+            'id_user'               => $data['id_user'],
+            'id_class'              => $data['id_class'],
+            'register_date'         => $data['register_date'],
+            'jml_pengerjaan'        => $data['jml_pengerjaan'],
+            'uuid'                  => $data['uuid']
         ]);
     }
 
 
     private function studentVideo($model,$data){
         $model::create([
-            'id_student'            => $data['id_class'],
-            'id_video'             => $data['id_user'],
-            'register_date'       => $data['tgl_testimoni'],
-            'uuid'                => $data['uuid']
+            'id_student'            => $data['id_student'],
+            'id_video'              => $data['id_video'],
+            'register_date'         => $data['register_date'],
+            'uuid'                  => $data['uuid']
         ]);
     }
 
 
     private function studentQuiz($model,$data){
         $model::create([
-            'id_student'            => $data['id_class'],
-            'id_quiz'             => $data['id_user'],
-            'register_date'       => $data['tgl_testimoni'],
-            'nilai'       => $data['tgl_testimoni'],
-            'uuid'                => $data['uuid']
+            'id_student'            => $data['id_student'],
+            'id_quiz'               => $data['id_quiz'],
+            'register_date'         => $data['register_date'],
+            'nilai'                 => $data['nilai'],
+            'uuid'                  => $data['uuid']
         ]);
     }
 
 
     private function studentAnswer($model,$data){
         $model::create([
-            'id_student'            => $data['id_class'],
-            'id_question'             => $data['id_user'],
-            'jawaban'       => $data['tgl_testimoni'],
+            'id_student_quiz'          => $data['id_student_quiz'],
+            //'id_question'         => $data['id_question'],
+            'jawaban'             => $data['jawaban'],
             'uuid'                => $data['uuid']
         ]);
     }

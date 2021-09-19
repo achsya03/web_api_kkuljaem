@@ -167,7 +167,7 @@ class ValidationController extends Controller
                 'uuid'      => $this->getUuid(Models\StudentVideo::class)
             ];
         }elseif($pos=='studentQuiz'){
-            //$this->commentAlert();
+            $this->studentQuiz();
             $this->data = [
                 'uuid'      => $this->getUuid(Models\StudentQuiz::class)
             ];
@@ -571,6 +571,15 @@ class ValidationController extends Controller
         ];
     }
 
+    private function studentQuiz(){
+        $this->rules = [
+            'nilai'                               => 'required',
+        ];
+    
+        $this->messages = [
+            'nilai.required'                      => 'Nilai wajib diisi'
+        ];
+    }
     #============================================================
 
     private function getUuid($model){
