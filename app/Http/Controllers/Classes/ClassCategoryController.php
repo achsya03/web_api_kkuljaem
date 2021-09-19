@@ -83,7 +83,7 @@ class ClassCategoryController extends Controller
             ]);
         }
         
-        $post = Models\Classescategory::where('uuid',$uuid)->get();
+        $post = Models\ClassesCategory::where('uuid',$uuid)->get();
         if(count($post)==0){
             return response()->json([
                 'message' => 'Failed',
@@ -92,7 +92,7 @@ class ClassCategoryController extends Controller
         }
 
         #delete comment
-        $delete = Models\Classescategory::where('uuid',$uuid)->delete();
+        $delete = Models\ClassesCategory::where('uuid',$uuid)->delete();
     
 
         return response()->json([
