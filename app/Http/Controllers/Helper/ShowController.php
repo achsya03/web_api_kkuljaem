@@ -467,8 +467,8 @@ class ShowController extends Controller
                 $usr = Models\User::where('id',$class->teacher[0]->id_user)->first();
             }
             $arr0['class_nama'] = $class->nama;
-            $arr0['class_url-web'] = $class->url_web;
-            $arr0['class_url-mobile'] = $class->url_mobile;
+            $arr0['class_url_web'] = $class->url_web;
+            $arr0['class_url_mobile'] = $class->url_mobile;
             if($usr->nama != null){
                 $arr0['mentor_nama'] = $usr->nama;
             }
