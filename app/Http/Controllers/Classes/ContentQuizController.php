@@ -173,6 +173,37 @@ class ContentQuizController extends Controller
         => 'Proses Update Berhasil']);
     }
 
+    public function deleteData(Request $request)
+    {
+        $result = [];
+        if(!$uuid = $request->token){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+        
+        $quiz = Models\Quiz::where('uuid',$uuid)->get();
+        if(count($quiz)==0){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+
+        #delete content
+        $delete = Models\Content::where('id',$quiz->id_content)->delete();
+
+        #delete content quiz
+        $delete = Models\ContentQuiz::where('uuid',$uuid)->delete();
+        
+        return response()->json([
+            'message' => 'Success',
+            //'account' => $this->statUser($request->user()),
+            'info'    => 'Proses Hapus Content Quiz Berhasil'
+        ]);
+    }
+
     public function detailData(Request $request){
         if(!$uuid=$request->token){
             return response()->json(['message'=>'Failed','info'=>"Token Tidak Sesuai"]);

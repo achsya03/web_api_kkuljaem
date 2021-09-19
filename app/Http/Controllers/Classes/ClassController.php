@@ -228,6 +228,34 @@ class ClassController extends Controller
         => 'Proses Update Berhasil']);
     }
 
+    public function deleteData(Request $request)
+    {
+        $result = [];
+        if(!$uuid = $request->token){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+        
+        $classes = Models\Classes::where('uuid',$uuid)->get();
+        if(count($post)==0){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+
+        #delete classes
+        $delete = Models\Classes::where('uuid',$uuid)->delete();
+        
+        return response()->json([
+            'message' => 'Success',
+            //'account' => $this->statUser($request->user()),
+            'info'    => 'Proses Hapus Kelas Berhasil'
+        ]);
+    }
+
     #testing
     public function allData(Request $request){
 

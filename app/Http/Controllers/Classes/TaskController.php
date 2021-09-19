@@ -281,4 +281,35 @@ class TaskController extends Controller
         return response()->json(['message'=>'Success','info'
         => 'Proses Update Berhasil']);
     }
+
+    public function deleteData(Request $request)
+    {
+        $result = [];
+        if(!$uuid = $request->token){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+        
+        $task = Models\Task::where('uuid',$uuid)->get();
+        if(count($task)==0){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+
+        #delete question
+        $delete = Models\Question::where('id',$task->id_question)->delete();
+
+        #delete task
+        $delete = Models\Task::where('uuid',$uuid)->delete();
+        
+        return response()->json([
+            'message' => 'Success',
+            //'account' => $this->statUser($request->user()),
+            'info'    => 'Proses Hapus Content Quiz Berhasil'
+        ]);
+    }
 }

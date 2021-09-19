@@ -291,4 +291,35 @@ class ExamController extends Controller
         return response()->json(['message'=>'Success','info'
         => 'Proses Update Berhasil']);
     }
+
+    public function deleteData(Request $request)
+    {
+        $result = [];
+        if(!$uuid = $request->token){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+        
+        $exam = Models\Exam::where('uuid',$uuid)->get();
+        if(count($exam)==0){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+
+        #delete question
+        $delete = Models\Question::where('id',$exam->id_question)->delete();
+
+        #delete exam
+        $delete = Models\Exam::where('uuid',$uuid)->delete();
+        
+        return response()->json([
+            'message' => 'Success',
+            //'account' => $this->statUser($request->user()),
+            'info'    => 'Proses Hapus Content Quiz Berhasil'
+        ]);
+    }
 }

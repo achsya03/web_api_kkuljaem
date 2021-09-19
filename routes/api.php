@@ -141,7 +141,8 @@ Route::group(['prefix' => 'api/admin/classroom-group'], function () {
 
 Route::group(['prefix' => 'api/admin/classroom'], function () {
     Route::post('/',        [Classes\ClassController::class,'addData']);
-    Route::post('update',   [Classes\ClassController::class,'updateData']);
+    Route::delete('/',      [Classes\ClassController::class,'deleteData']);##
+    Route::post('/update',  [Classes\ClassController::class,'updateData']);
     Route::get('/',         [Classes\ClassController::class,'allData']);
     Route::get('/category', [Classes\ClassController::class,'detailDataForClass']);
     Route::get('/add',      [Classes\ClassController::class,'getForAddData']);
@@ -156,11 +157,13 @@ Route::group(['prefix' => 'api/admin/classroom/content'], function () {
     Route::get('/quiz/all',     [Classes\ContentQuizController::class,'getData']);
     Route::get('/quiz',         [Classes\ContentQuizController::class,'checkData']);
     Route::post('/quiz',        [Classes\ContentQuizController::class,'addData']);
+    Route::delete('/quiz',      [Classes\ContentQuizController::class,'deleteData']);#
     Route::get('/quiz/detail',  [Classes\ContentQuizController::class,'detailData']);
     Route::post('/quiz/update', [Classes\ContentQuizController::class,'updateData']);
     Route::get('/video/all',    [Classes\ContentVideoController::class,'getData']);
     Route::get('/video',        [Classes\ContentVideoController::class,'checkData']);
     Route::post('/video',       [Classes\ContentVideoController::class,'addData']);
+    Route::delete('/video',     [Classes\ContentVideoController::class,'deleteData']);#
     Route::get('/video/detail', [Classes\ContentVideoController::class,'detailData']);
     Route::post('/video/update',[Classes\ContentVideoController::class,'updateData']);
 });
@@ -168,6 +171,7 @@ Route::group(['prefix' => 'api/admin/classroom/content'], function () {
 Route::group(['prefix' => 'api/admin/classroom/content/video'], function () {
     Route::get('/task',         [Classes\TaskController::class,'checkData']);
     Route::post('/task',        [Classes\TaskController::class,'addData']);
+    Route::delete('/task',      [Classes\TaskController::class,'deleteData']);##
     Route::get('/task/detail',  [Classes\TaskController::class,'detailData']);
     Route::post('/task/update', [Classes\TaskController::class,'updateData']);
 });
@@ -176,6 +180,7 @@ Route::post('/test', [TestController::class,'test']);
 Route::group(['prefix' => 'api/admin/classroom/content/video'], function () {
     Route::get('/shadowing',            [Classes\ShadowingController::class,'checkData']);
     Route::post('/shadowing',           [Classes\ShadowingController::class,'addData']);
+    Route::delete('/shadowing',        [Classes\ShadowingController::class,'deleteData']);##
     Route::get('/shadowing/detail',     [Classes\ShadowingController::class,'detailData']);
     Route::post('/shadowing/update',    [Classes\ShadowingController::class,'updateData']);
 });
@@ -184,6 +189,7 @@ Route::group(['prefix' => 'api/admin/classroom/content/video'], function () {
 Route::group(['prefix' => 'api/admin/classroom/content/quiz'], function () {
     Route::get('/exam',         [Classes\ExamController::class,'checkData']);
     Route::post('/exam',        [Classes\ExamController::class,'addData']);
+    Route::delete('/exam',        [Classes\ExamController::class,'deleteData']);##
     Route::get('/exam/detail',  [Classes\ExamController::class,'detailData']);
     Route::post('/exam/update', [Classes\ExamController::class,'updateData']);
 });

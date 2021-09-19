@@ -167,4 +167,35 @@ class ShadowingController extends Controller
         return response()->json(['message'=>'Success','info'
         => 'Proses Update Berhasil']);
     }
+
+    public function deleteData(Request $request)
+    {
+        $result = [];
+        if(!$uuid = $request->token){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+        
+        $shadowing = Models\Shadowing::where('uuid',$uuid)->get();
+        if(count($shadowing)==0){
+            return response()->json([
+                'message' => 'Failed',
+                'error' => 'Token tidak sesuai'
+            ]);
+        }
+
+        #delete words
+        $delete = Models\Words::where('id',$shadowing->id_word)->delete();
+
+        #delete task
+        $delete = Models\Shadowing::where('uuid',$uuid)->delete();
+        
+        return response()->json([
+            'message' => 'Success',
+            //'account' => $this->statUser($request->user()),
+            'info'    => 'Proses Hapus Content Quiz Berhasil'
+        ]);
+    }
 }
