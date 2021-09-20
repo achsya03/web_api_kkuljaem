@@ -18,7 +18,7 @@ class CreateStudentVideoTable extends Migration
             $table->BigInteger('id_student')->unsigned()->nullable();
             $table->BigInteger('id_video')->unsigned()->nullable();
             $table->date('register_date')->nullable();
-            $table->integer('nilai')->nullable();
+            //$table->integer('nilai')->nullable();
             $table->string('uuid')->nullable();            
             $table->index(['uuid']);
             $table->foreign('id_student')->references('id')->on('students')->onDelete('cascade');

@@ -865,6 +865,15 @@ class ShowController extends Controller
 
         $arr = [];
 
+        #check
+        if(count($idTheme = $video[0]->videoTheme)==0){
+
+            return response()->json([
+                'message' => 'Success',
+                'account' => $this->statUser($request->user()),
+                'data'    => $result
+            ]);
+        }
         $idTheme = $video[0]->videoTheme[0]->id_theme;
         $post = Models\Post::where('id_theme',$idTheme)->where('jenis','qna')
         ->orderBy('created_at','DESC')->get();
