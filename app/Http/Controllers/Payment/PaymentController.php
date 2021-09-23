@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Payment;
 use App\Models;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Services\Midtrans\CreateSnapTokenService; // => letakkan pada bagian atas class
 
 class PaymentController extends Controller
@@ -16,7 +17,7 @@ class PaymentController extends Controller
         //$snapToken = $subs->payment->snap_token;
         //if (empty($snapToken)) {
             // Jika snap token masih NULL, buat token snap dan simpan ke database
-        $uuid = '00005';
+        $uuid = 'INV/'.date('Ymd').
         $data = [
             'order_id' => $uuid,
             'gross_amount' => $subs->harga - (($subs->diskon/100)*$subs->harga),

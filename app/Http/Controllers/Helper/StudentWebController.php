@@ -34,6 +34,7 @@ class StudentWebController extends Controller
                 'judul_banner' => $banner[$i]->judul_banner,
                 'url_web' => $banner[$i]->url_web,
                 'url_mobile' => $banner[$i]->url_mobile,
+                'deskripsi' => $banner[$i]->deskripsi,
                 'banner_uuid' => $banner[$i]->uuid
             ];
         }
