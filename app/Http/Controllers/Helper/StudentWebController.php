@@ -52,6 +52,7 @@ class StudentWebController extends Controller
             $wor[$i] = [
                 'hangeul' => $words[$i]->hangeul,
                 'pelafalan' => $words[$i]->pelafalan,
+                'penjelasan' => $words[$i]->penjelasan,
                 'kata_uuid' => $words[$i]->uuid
             ];
         }
