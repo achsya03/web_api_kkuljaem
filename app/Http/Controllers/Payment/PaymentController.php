@@ -12,15 +12,19 @@ use App\Services\Midtrans; // => letakkan pada bagian atas class
 class PaymentController extends Controller
 {
     
-    public function show()
+    public function show(Request $request)
     {
         $subs = Models\Subs::first();
         //$snapToken = $subs->payment->snap_token;
         //if (empty($snapToken)) {
             // Jika snap token masih NULL, buat token snap dan simpan ke database
-        $uuid = 'INV/'.date('Ymd').'/'.$this->numberToRomanRepresentation(date('m')).'/'.$this->numberToRomanRepresentation(date('d')).'/123';
+        $uuid = 'INV/'.date('Ymd').'/'.$this->numberToRomanRepresentation(date('m')).'/'.$this->numberToRomanRepresentation(date('d')).'/'.$request->token;
 
         $params = array(
+            'enable_payments' => ["credit_card", "cimb_clicks",
+            "bca_klikbca", "bca_klikpay", "bri_epay", "echannel", "permata_va",
+            "bca_va", "bni_va", "bri_va", "other_va", "gopay", "indomaret",
+            "danamon_online", "akulaku", "shopeepay"],
             'transaction_details' => array(
                 'order_id' => $uuid,
                 'gross_amount' => $subs->harga - (($subs->diskon/100)*$subs->harga),
@@ -33,7 +37,7 @@ class PaymentController extends Controller
             )
         );
         // Set your Merchant Server Key
-        \Midtrans\Config::$serverKey = 'SB-Mid-server-I7XCuioKg5hO8TsSX57LgjZx';
+        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
         // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
         \Midtrans\Config::$isProduction = false;
         // Set sanitization on (default)

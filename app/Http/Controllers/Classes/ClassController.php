@@ -484,10 +484,10 @@ class ClassController extends Controller
             for($j=0;$j<count($users);$j++){
                 $arr = [];
                 $arr['nama_mentor'] = $users[$j]->nama;
-                $arr['mentor_terpilih'] = 'Tidak Terpilih';
+                //$arr['mentor_terpilih'] = 'Tidak Terpilih';
                 for($k=0;$k<count($classes[$i]->teacher);$k++){
                     if($classes[$i]->teacher[$k]->id_user == $users[$j]->id){
-                        $arr['mentor_terpilih'] = 'Terpilih';
+                        //$arr['mentor_terpilih'] = 'Terpilih';
                         break;
                     }
                 }
