@@ -298,7 +298,7 @@ class ClassController extends Controller
         }       
 
         $result = [
-            'category' => $category,
+            //'category' => $category,
             'mentor' => $arrMentor
         ];
 
