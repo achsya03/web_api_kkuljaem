@@ -210,11 +210,12 @@ class ClassController extends Controller
 
         $input = new Helper\UpdateController('classes',$data);
 
-        $classes = Models\Classes::where('uuid',$uuid)->first();
+        $classes = Models\Classes::where('uuid',$uuid)->first();            
+        $tc = Models\Teacher::where('id_class',$classes->id)->forceDelete();
+
         $validation1 = new Helper\ValidationController('teacher');
         for($i=0;$i<count($request->id_user);$i++){
             $user = Models\User::where('uuid',$request->id_user[$i])->first();
-            $tc = Models\Teacher::where('id_class',$classes->id)->forceDelete();
             $uuid2 = $validation1->data['uuid'];
             $data = [
                 'id_user'                => $user->id,
