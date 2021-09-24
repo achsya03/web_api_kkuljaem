@@ -477,6 +477,7 @@ class ClassController extends Controller
                 $idMentor[$j] = $classes[$i]->teacher[$j]->id_user;
                 $arr['nama_mentor'] = $classes[$i]->teacher[$j]->user->nama;
                 $arr['mentor_uuid'] = $classes[$i]->teacher[$j]->uuid;
+                $arr['user_uuid'] = $classes[$i]->teacher[$j]->user->uuid;
                 $mentor[$j] = $arr;
             }
             $users = Models\User::where('jenis_pengguna','!=',0)->get();
