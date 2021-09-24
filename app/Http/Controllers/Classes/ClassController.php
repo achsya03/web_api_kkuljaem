@@ -317,7 +317,7 @@ class ClassController extends Controller
         $result = $this->classesValue($classes);
         for ($i=0;$i<count($result);$i++){
             unset($result[$i]['group']);
-            unset($result[$i]['mentor']);
+            //unset($result[$i]['mentor']);
             // unset($result[$i]['group_all']);
         }
 
