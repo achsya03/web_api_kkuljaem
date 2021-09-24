@@ -493,7 +493,7 @@ class ClassController extends Controller
                         break;
                     }
                 }
-                $arr['mentor_uuid'] = $users[$j]->uuid;
+                $arr['user_uuid'] = $users[$j]->uuid;
                 $arr0[$j] = $arr;
             }
             $cat = Models\ClassesCategory::all();
