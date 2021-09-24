@@ -269,7 +269,7 @@ class ClassController extends Controller
         $result = $this->classesValue($classes);
         for ($i=0;$i<count($result);$i++){
             unset($result[$i]['mentor_not_reg']);
-            //unset($result[$i]['mentor_all']);
+            unset($result[$i]['mentor_all']);
             unset($result[$i]['group_all']);
         }
 
@@ -317,7 +317,7 @@ class ClassController extends Controller
         $result = $this->classesValue($classes);
         for ($i=0;$i<count($result);$i++){
             // unset($result[$i]['mentor_not_reg']);
-            // unset($result[$i]['mentor_all']);
+            unset($result[$i]['mentor']);
             // unset($result[$i]['group_all']);
         }
 
@@ -379,7 +379,7 @@ class ClassController extends Controller
             unset($result[$i]['group_all']);
             unset($result[$i]['group']);
             unset($result[$i]['mentor_not_reg']);
-            //unset($result[$i]['mentor_all']);
+            unset($result[$i]['mentor_all']);
             unset($result[$i]['dibuat']);
             unset($result[$i]['diubah']);
         }
@@ -515,7 +515,7 @@ class ClassController extends Controller
                 'judul_class' => $classes[$i]->nama,
                 'deskripsi_class' => $classes[$i]->deskripsi,
                 'mentor' => $mentor,
-                //'mentor_all' => $arr0,
+                'mentor_all' => $arr0,
                 'url_web' => $classes[$i]->url_web,
                 'url_mobile' => $classes[$i]->url_mobile,
                 'jml_video' => $classes[$i]->jml_video,
