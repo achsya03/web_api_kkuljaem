@@ -18,7 +18,7 @@ class CreateVideosTable extends Migration
             #$table->string('judul_video')->nullable();
             $table->date('jadwal')->nullable();
             $table->string('url_video')->nullable();
-            $table->string('url_video_web')->nullable();
+            //$table->string('url_video_web')->nullable();
             #$table->string('video_id')->nullable();
             #$table->string('durasi_video')->nullable();
             $table->string('uuid');

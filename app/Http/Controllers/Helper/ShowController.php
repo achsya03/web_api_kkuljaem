@@ -62,7 +62,7 @@ class ShowController extends Controller
         for($i = 0;$i < count($videos); $i++){
             $vid[$i] = [
                 'url_video' => $videos[$i]->url_video,
-                'url_video_web' => $videos[$i]->url_video_web,
+                //'url_video_web' => $videos[$i]->url_video_web,
                 'video_uuid' => $videos[$i]->uuid
             ];
         }
@@ -545,7 +545,7 @@ class ShowController extends Controller
             'judul' => $video[0]->judul,
             'keterangan' => $video[0]->keterangan,
             'url_video' => $video[0]->url_video,
-            'url_video_web' => $video[0]->url_video_web,
+            //'url_video_web' => $video[0]->url_video_web,
             'video_uuid' => $video[0]->uuid,
         ];
 
