@@ -565,7 +565,7 @@ class ShowController extends Controller
                 //$arr1['jml_latihan'] = $content_video[0]->jml_latihan;
                 $arr1['jml_latihan'] = count(Models\Task::where('id_video',$content_video[0]->id)->get());
                 //$arr1['jml_shadowing'] = $content_video[0]->jml_shadowing;
-                $arr1['jml_latijml_shadowinghan'] = count(Models\Shadowing::where('id_video',$content_video[0]->id)->get());
+                $arr1['jml_shadowing'] = count(Models\Shadowing::where('id_video',$content_video[0]->id)->get());
 
                 $stat = 'Belum';
                 if(count($studentVideo = Models\StudentVideo::where('id_video',$content_video[0]->id)->get())!=0){
