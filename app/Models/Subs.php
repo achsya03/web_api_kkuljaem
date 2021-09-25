@@ -15,7 +15,11 @@ class Subs extends Model
         'id_packet',
         'harga',
         'diskon',
+        'snap_token',
+        'snap_url',
+        'subs_status',
         'tgl_subs',
+        'tgl_akhir_bayar',
         'uuid'
     ];
     public function payment()

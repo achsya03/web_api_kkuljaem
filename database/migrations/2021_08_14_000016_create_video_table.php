@@ -23,6 +23,7 @@ class CreateVideoTable extends Migration
             $table->integer('jml_latihan')->nullable();
             $table->integer('jml_shadowing')->nullable();
             $table->string('url_video')->nullable();
+            $table->string('url_video_web')->nullable();
             $table->string('uuid');
             $table->index(['uuid']);
             $table->foreign('id_content')->references('id')->on('content')->onDelete('cascade');

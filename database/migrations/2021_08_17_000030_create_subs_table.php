@@ -20,7 +20,11 @@ class CreateSubsTable extends Migration
             $table->integer('harga')->nullable();
             $table->integer('diskon')->nullable();
             $table->datetime('tgl_subs')->nullable();
+            $table->datetime('tgl_akhir_bayar');
             #$table->string('jenis_jawaban')->nullable();
+            $table->string('snap_token');
+            $table->string('snap_url');
+            $table->string('subs_status');
             $table->string('uuid');
             $table->index(['uuid']);
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
