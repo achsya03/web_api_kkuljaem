@@ -43,6 +43,7 @@ class StudentWebController extends Controller
         for($i = 0;$i < count($videos); $i++){
             $vid[$i] = [
                 'url_video' => $videos[$i]->url_video,
+                'url_video_web' => $videos[$i]->url_video_web,
                 'video_uuid' => $videos[$i]->uuid
             ];
         }
