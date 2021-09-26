@@ -41,7 +41,7 @@ class WordController extends Controller
             'pelafalan'         => request('pelafalan'),
             'penjelasan'        => request('penjelasan'),
             'url_pengucapan'    => $uploadedFileUrl1['getSecurePath'],
-            //'pengucapan_id'     => $uploadedFileUrl1['getPublicId'],
+            'pengucapan_id'     => $uploadedFileUrl1['getPublicId'],
             'uuid'              => $uuid
         ];
 

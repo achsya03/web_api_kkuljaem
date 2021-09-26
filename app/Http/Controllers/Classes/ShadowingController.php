@@ -56,6 +56,8 @@ class ShadowingController extends Controller
         }
 
         $uuid1 = $validation1->data['uuid'];
+        $gambar1 = $request->url_pengucapan;
+        $uploadedFileUrl1 = $validation->UUidCheck($gambar1,'Word');
     
         if($request->url_pertanyaan != null){
             $url_pertanyaan = $request->url_pertanyaan;
@@ -65,8 +67,8 @@ class ShadowingController extends Controller
             'hangeul'                  => $request->hangeul,
             'pelafalan'                => $request->pelafalan,
             'penjelasan'               => $request->penjelasan,
-            'url_pengucapan'           => $request->url_pengucapan,
-            //'file_id'                => $uploadedFileUrl2['getPublicId'],
+            'url_pengucapan'           => $uploadedFileUrl1['getSecurePath'],
+            'file_id'                  => $uploadedFileUrl1['getPublicId'],
             'uuid'                     => $uuid1
         ];
 
@@ -151,14 +153,18 @@ class ShadowingController extends Controller
         }
 
         $uuid1 = $shadowing[0]->word->uuid;
+        $gambar1 = $request->url_pengucapan;
+        $uploadedFileUrl1 = $validation->UUidCheck($gambar1,'Word');
+
+        $validation->deleteImage($word->pengucapan_id);
 
         $data = [
             'jadwal'                   => '2002/02/02',
             'hangeul'                  => $request->hangeul,
             'pelafalan'                => $request->pelafalan,
             'penjelasan'               => $request->penjelasan,
-            'url_pengucapan'           => $request->url_pengucapan,
-            //'file_id'                => $uploadedFileUrl2['getPublicId'],
+            'url_pengucapan'           => $uploadedFileUrl1['getSecurePath'],
+            'file_id'                  => $uploadedFileUrl1['getPublicId'],
             'uuid'                     => $uuid1
         ];
 
