@@ -196,6 +196,7 @@ Route::group(['prefix' => 'api/admin/classroom/content/quiz'], function () {
 
 Route::get('/test', [TestController::class,'test']);
 Route::get('/payment', [Payment\PaymentController::class,'show']);
+Route::get('/payment', [Payment\PaymentController::class,'show']);
 #==========================Admin/Mentor================================
 
 

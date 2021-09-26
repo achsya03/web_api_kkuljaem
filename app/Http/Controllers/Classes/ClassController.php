@@ -127,8 +127,8 @@ class ClassController extends Controller
         
         $data = [
             'id_class_category'          => $id_class_category->id,
-            'nama'                       => request('nama'),
-            'deskripsi'                  => request('deskripsi'),
+            'nama'                       => $request('nama'),
+            'deskripsi'                  => $request('deskripsi'),
             'url_web'                    => $uploadedFileUrl1['getSecurePath'],
             'web_id'                     => $uploadedFileUrl1['getPublicId'],
             'url_mobile'                 => $uploadedFileUrl2['getSecurePath'],
