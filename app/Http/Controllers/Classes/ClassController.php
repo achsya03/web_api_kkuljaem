@@ -240,7 +240,7 @@ class ClassController extends Controller
         }
         
         $classes = Models\Classes::where('uuid',$uuid)->get();
-        if(count($post)==0){
+        if(count($classes)==0){
             return response()->json([
                 'message' => 'Failed',
                 'error' => 'Token tidak sesuai'
