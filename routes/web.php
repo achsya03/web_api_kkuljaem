@@ -23,8 +23,8 @@ use App\Http\Controllers\Auth\ChangePasswordController;
     return view('Public/home');
 })->name('home');
 */
-Route::get('app/failed-verify', function () {
-    return view('Template/failed-verify');
+Route::get('/', function () {
+    return view('dumy');
 })->name('failed-verify');
 
 Route::get('app/success-verify', function () {
