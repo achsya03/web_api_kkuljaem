@@ -314,7 +314,7 @@ class ValidationController extends Controller
         $this->rules = [
             //'id_class_category'                  => 'required',
             //'id_user'                            => 'required',
-            'nama'                               => 'required',
+            'judul'                               => 'required',
             'deskripsi'                          => 'required',
             'url_web'                            => 'required|image',
             'url_mobile'                         => 'required|image',
@@ -324,7 +324,7 @@ class ValidationController extends Controller
         $this->messages = [
             //'id_class_category.required'         => 'ID Kategori wajib diisi',
             //'id_user.required'                   => 'ID User wajib diisi',
-            'nama.required'                      => 'Nama wajib diisi',
+            'judul.required'                      => 'Judul wajib diisi',
             'deskripsi.required'                 => 'Deskripsi wajib diisi',
             'url_web.required'                   => 'Banner Web wajib diisi',
             'url_web.image'                      => 'Ekstensi file yang didukung jpeg dan png',
