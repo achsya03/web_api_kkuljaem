@@ -61,9 +61,9 @@ class AdminController extends Controller
             $arr1 = [];
             $idTheme = $qna[$i]->theme->id;
             $videoTheme = Models\VideoTheme::where('id_theme',$idTheme)->first();
-            if(!$videoTheme){
-                continue;
-            }
+            // if(!$videoTheme){
+            //     continue;
+            // }
             $classes = $videoTheme->video->content->classes->nama;
             $arr1 = [
                 'nama' => $qna[$i]->user->nama,
