@@ -17,7 +17,7 @@ class RedirectVideoController extends Controller
     }
 
     public static function getVideo(Request $request){
-        return Session::get($uuid_user);
+        return Session::get($request->id);
         if(!$uuid_video = $request->token){
             return response()->json([
                 'message' => 'Failed',
