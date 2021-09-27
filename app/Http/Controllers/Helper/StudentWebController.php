@@ -35,15 +35,19 @@ class StudentWebController extends Controller
                 'url_web' => $banner[$i]->url_web,
                 'url_mobile' => $banner[$i]->url_mobile,
                 'deskripsi' => $banner[$i]->deskripsi,
+                'label' => $banner[$i]->label,
+                'link' => $banner[$i]->link,
                 'banner_uuid' => $banner[$i]->uuid
             ];
         }
+
+        $video_session = Helper\RedirectVideoController::generateSession($request->user()->uuid);
 
         $vid = [];
         for($i = 0;$i < count($videos); $i++){
             $vid[$i] = [
                 'url_video' => $videos[$i]->url_video,
-                'url_video_web' => $videos[$i]->url_video_web,
+                //'url_video_web' => $videos[$i]->url_video_web,
                 'video_uuid' => $videos[$i]->uuid
             ];
         }
@@ -54,6 +58,7 @@ class StudentWebController extends Controller
                 'hangeul' => $words[$i]->hangeul,
                 'pelafalan' => $words[$i]->pelafalan,
                 'penjelasan' => $words[$i]->penjelasan,
+                'url_pengucapan' => $words[$i]->url_pengucapan,
                 'kata_uuid' => $words[$i]->uuid
             ];
         }

@@ -124,6 +124,10 @@ Route::group(['prefix' => 'api/qna'], function () {
     Route::get('/posting',          [Helper\ShowController::class,'qnaByUser']);
     Route::get('/detail',           [Helper\ShowController::class,'qnaDetail']);
 });
+
+Route::group(['prefix' => 'video/redirect'], function () {
+    Route::get('/', [Helper\RedirectVideoController::class,'getVideo']);
+});
 #==========================Student================================
 
 #==========================Admin/Mentor================================

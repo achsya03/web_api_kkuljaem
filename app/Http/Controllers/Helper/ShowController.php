@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Helper;
 use App\Models;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers;
+use App\Http\Controllers\Helper;
 use Illuminate\Http\Request;
 
 class ShowController extends Controller
@@ -54,9 +55,14 @@ class ShowController extends Controller
                 'judul_banner' => $banner[$i]->judul_banner,
                 'url_web' => $banner[$i]->url_web,
                 'url_mobile' => $banner[$i]->url_mobile,
+                'deskripsi' => $banner[$i]->deskripsi,
+                'label' => $banner[$i]->label,
+                'link' => $banner[$i]->link,
                 'banner_uuid' => $banner[$i]->uuid
             ];
         }
+
+        $video_session = Helper\RedirectVideoController::generateSession($request->user()->uuid);
 
         $vid = [];
         for($i = 0;$i < count($videos); $i++){
@@ -72,6 +78,8 @@ class ShowController extends Controller
             $wor[$i] = [
                 'hangeul' => $words[$i]->hangeul,
                 'pelafalan' => $words[$i]->pelafalan,
+                'penjelasan' => $words[$i]->penjelasan,
+                'url_pengucapan' => $words[$i]->url_pengucapan,
                 'kata_uuid' => $words[$i]->uuid
             ];
         }
