@@ -127,7 +127,7 @@ class InputController extends Controller
     private function classes($model,$data){
         $model::create([
             'id_class_category'            => $data['id_class_category'],
-            'nama'                         => $data['nama'],
+            'nama'                          => $data['nama'],
             'deskripsi'                    => $data['deskripsi'],
             'url_web'                      => $data['url_web'],
             'web_id'                       => $data['web_id'],
