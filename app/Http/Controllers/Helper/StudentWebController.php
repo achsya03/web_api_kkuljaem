@@ -41,7 +41,7 @@ class StudentWebController extends Controller
             ];
         }
 
-        $video_session = Helper\RedirectVideoController::generateSession($request->user()->uuid);
+        //$video_session = Helper\RedirectVideoController::generateSession($request->user()->uuid);
 
         $vid = [];
         for($i = 0;$i < count($videos); $i++){
