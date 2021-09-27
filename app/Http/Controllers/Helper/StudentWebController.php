@@ -43,7 +43,7 @@ class StudentWebController extends Controller
         }
 
         $token = bin2hex(random_bytes(32));
-        Session::put($token, $token);
+        Session::put('test', $token);
         Session::save();
         
         //return Session::get('aa');
