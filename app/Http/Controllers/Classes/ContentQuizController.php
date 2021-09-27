@@ -192,7 +192,7 @@ class ContentQuizController extends Controller
         }
 
         #delete content
-        $delete = Models\Content::where('id',$quiz->id_content)->delete();
+        $delete = Models\Content::where('id',$quiz[0]->id_content)->delete();
 
         #delete content quiz
         $delete = Models\ContentQuiz::where('uuid',$uuid)->delete();

@@ -213,7 +213,7 @@ class ContentVideoController extends Controller
         }
 
         #delete content
-        $delete = Models\Content::where('id',$video->id_content)->delete();
+        $delete = Models\Content::where('id',$video[0]->id_content)->delete();
 
         #delete content quiz
         $delete = Models\Video::where('uuid',$uuid)->delete();
