@@ -38,7 +38,7 @@ class RedirectVideoController extends Controller
                 ]);
             }
             //unset($_SESSION[$uuid_user]);Session::forget('key');
-            Session::forget($uuid_user);
+            //Session::forget($uuid_user);
             $ctype = "video/mp4";
             header("Content-Type: ".$ctype);
             $id = "12kB1Y3UxFl5BeKr1FlpXqXl-6avGoNAf";
