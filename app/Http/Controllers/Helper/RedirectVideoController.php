@@ -21,20 +21,20 @@ class RedirectVideoController extends Controller
         if(!$uuid_video = $request->token){
             return response()->json([
                 'message' => 'Failed',
-                'error' => 'Token tidak sesuai'
+                'error' => 'Token tidak sesuai token'
             ]);
         }
         $uuid_user = $request->id;
         if($uuid_user != Session::get($uuid_user)){
             return response()->json([
                 'message' => 'Failed',
-                'error' => 'Token tidak sesuai'
+                'error' => 'Token tidak sesuai session'
             ]);
         }else{
             if(!$video = Models\Videos::where('uuid',$uuid_video)->first()){
                 return response()->json([
                     'message' => 'Failed',
-                    'error' => 'Token tidak sesuai'
+                    'error' => 'Token tidak sesuai video'
                 ]);
             }
             //unset($_SESSION[$uuid_user]);Session::forget('key');
