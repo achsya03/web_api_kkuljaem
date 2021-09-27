@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Helper;
 use App\Models;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Session;
 
 class StudentWebController extends Controller
 {
@@ -41,12 +42,17 @@ class StudentWebController extends Controller
             ];
         }
 
-        //$video_session = Helper\RedirectVideoController::generateSession($request->user()->uuid);
-
+        $token = bin2hex(random_bytes(32));
+        Session::put($token, $token);
+        Session::save();
+        
+        //return Session::get('aa');
+        //$video_session = RedirectVideoController::generateSession($token);
+        //return Session::get('uuid_user');
         $vid = [];
         for($i = 0;$i < count($videos); $i++){
             $vid[$i] = [
-                'url_video' => $videos[$i]->url_video,
+                'url_video' => env('APP_URL').'/video/redirect?token='.$videos[$i]->uuid.'&id='.$token,
                 //'url_video_web' => $videos[$i]->url_video_web,
                 'video_uuid' => $videos[$i]->uuid
             ];
