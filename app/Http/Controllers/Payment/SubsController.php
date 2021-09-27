@@ -60,38 +60,45 @@ class SubsController extends Controller
 	 *
 	 * @return void
 	 */
-	private function _generatePaymentToken($order)
+	private function _generatePaymentToken(Request $request)
 	{
 		$this->initPaymentGateway();
+        //$snapToken = $subs->payment->snap_token;
+        //if (empty($snapToken)) {
+            // Jika snap token masih NULL, buat token snap dan simpan ke database
+        $uuid = 'INV/'.date('Ymd').'/'.$this->numberToRomanRepresentation(date('m')).'/'.$this->numberToRomanRepresentation(date('d')).'/'.$request->token;
 
-		$customerDetails = [
-			'first_name' => $order->customer_first_name,
-			'last_name' => $order->customer_last_name,
-			'email' => $order->customer_email,
-			'phone' => $order->customer_phone,
-		];
-
-		$params = [
-			'enable_payments' => \App\Models\Payment::PAYMENT_CHANNELS,
-			'transaction_details' => [
-				'order_id' => $order->code,
-				'gross_amount' => $order->grand_total,
+        $params = [
+            'enable_payments' => ["credit_card", "cimb_clicks",
+            "bca_klikbca", "bca_klikpay", "bri_epay", "echannel", "permata_va",
+            "bca_va", "bni_va", "bri_va", "other_va", "gopay", "indomaret",
+            "danamon_online", "akulaku", "shopeepay"],
+            'transaction_details' => [
+                'order_id' => $uuid,
+                'gross_amount' => $subs->harga - (($subs->diskon/100)*$subs->harga),
+                'id' => $subs->id_packet,
+                'price' => $subs->harga,
+                'quantity' => 1,
+                'name' => $subs->packet->nama,
 			],
-			'customer_details' => $customerDetails,
-			'expiry' => [
-				'start_time' => date('Y-m-d H:i:s T'),
-				'unit' => \App\Models\Payment::EXPIRY_UNIT,
-				'duration' => \App\Models\Payment::EXPIRY_DURATION,
-			],
-		];
+			'customer_details' => [
+				'first_name' => $order->customer_first_name,
+				'last_name' => $order->customer_last_name,
+				'email' => $order->customer_email,
+			]
+        ];
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
 
-		$snap = \Midtrans\Snap::createTransaction($params);
+        $midtrans = \Midtrans\Snap::createTransaction($params);
+
 		
-		if ($snap->token) {
-			$order->payment_token = $snap->token;
-			$order->payment_url = $snap->redirect_url;
-			$order->save();
-		}
 	}
 
 	/**
@@ -123,11 +130,12 @@ class SubsController extends Controller
 			'id_packet' => \Auth::user()->id,
 			'harga' => Order::generateCode(),
 			'diskon' => Order::generateCode(),
-			'tgl_subs' => $orderDate,
-			'tgl_akhir_bayar' => $paymentDue,
-			'subs_status' => Order::UNPAID,
 			'snap_token' => $baseTotalPrice,
 			'snap_url' => $taxAmount,
+			'subs_status' => Order::UNPAID,
+			'tgl_subs' => $orderDate,
+			'tgl_akhir_bayar' => $paymentDue,
+			'uuid' => $paymentDue,
 		];
 
 		return Order::create($orderParams);
