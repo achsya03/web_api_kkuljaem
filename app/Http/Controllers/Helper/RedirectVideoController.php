@@ -56,7 +56,7 @@ class RedirectVideoController extends Controller
             curl_close($ch);
             $header['content'] = $out;
             
-            return $header;
+            echo $header;
         }
     }
 }
